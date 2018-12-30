@@ -1,6 +1,8 @@
 <?php
 namespace Itxiao6\Framework;
 use Illuminate\Container\Container;
+use Itxiao6\Framework\Facade\Databases\DatabaseInterface;
+
 /**
  * Class Kernel
  * @package Itxiao6\Framework
@@ -22,6 +24,14 @@ class Kernel
         }
         /**
          * 注入框架入口
+         */
+        $container -> bind(Framework::class);
+        /**
+         * 设置别名
+         */
+        $container -> alias(Framework::class,'framework');
+        /**
+         * 返回容器
          */
         return $container;
     }

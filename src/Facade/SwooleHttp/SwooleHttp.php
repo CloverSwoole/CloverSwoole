@@ -1,11 +1,11 @@
 <?php
 namespace Itxiao6\Framework\Facade;
 /**
- *
- * Class Database
+ * Swoole Http 组件
+ * Class SwooleHttp
  * @package Itxiao6\Framework\Facade
  */
-class Database
+class SwooleHttp
 {
 
 }
