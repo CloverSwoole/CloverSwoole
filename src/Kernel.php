@@ -1,6 +1,7 @@
 <?php
 namespace Itxiao6\Framework;
 use Illuminate\Container\Container;
+use Itxiao6\Framework\Facade\Databases\Database;
 use Itxiao6\Framework\Facade\Databases\DatabaseInterface;
 
 /**
@@ -22,6 +23,18 @@ class Kernel
         if(!($container instanceof Container)){
             $container = new Container();
         }
+        /**
+         * 初始化配置
+         */
+        $container -> instance('config',new \Illuminate\Support\Fluent());
+        /**
+         * 数据库组件
+         */
+        $container -> bind(DatabaseInterface::class,Database::class);
+        /**
+         * 设置别名
+         */
+        $container -> alias(DatabaseInterface::class,'db');
         /**
          * 注入框架入口
          */

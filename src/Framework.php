@@ -11,6 +11,9 @@ class Framework
 {
     public function start(?Container $container = null)
     {
+        if(!($container instanceof Container)){
+            $container = new Container;
+        }
         echo "Framework Started\n";
     }
 }
