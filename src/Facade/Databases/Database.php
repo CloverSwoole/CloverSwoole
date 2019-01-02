@@ -8,7 +8,7 @@ use Illuminate\Database\Capsule\Manager;
  * Class Database
  * @package Itxiao6\Framework\Facade\Databases
  */
-class Database
+class Database implements DatabaseInterface
 {
     /**
      * 启动服务
