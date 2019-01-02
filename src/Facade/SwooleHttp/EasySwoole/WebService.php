@@ -8,10 +8,10 @@ use Illuminate\Container\Container;
 class WebService
 {
     private $dispatcher;
-    function __construct($controllerNameSpace = 'App\\HttpController\\',$depth = 5,$maxPoolNum = 100,?Container $container = null)
+    function __construct($controllerNameSpace = 'App\\HttpController\\',$depth = 5,$maxPoolNum = 100)
     {
 
-        $this->dispatcher = new Dispatcher($controllerNameSpace,$depth,$maxPoolNum,$container);
+        $this->dispatcher = new Dispatcher($controllerNameSpace,$depth,$maxPoolNum);
     }
 
     function setExceptionHandler(callable $handler)

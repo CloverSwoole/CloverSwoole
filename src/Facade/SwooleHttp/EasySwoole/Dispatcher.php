@@ -18,7 +18,6 @@ class Dispatcher extends \EasySwoole\Http\Dispatcher
     private $router = null;
     private $routerRegister = null;
     private $controllerNameSpacePrefix;
-    protected $container = null;
     private $maxDepth;
     private $maxPoolNum;
     private $controllerPoolCreateNum = [];
@@ -28,9 +27,8 @@ class Dispatcher extends \EasySwoole\Http\Dispatcher
     /*
      * 默认每个进程15个控制器，若每个控制器一个持久连接，那么8 worker  就是120连接了
      */
-    function __construct(string $controllerNameSpace,int $maxDepth = 5,int $maxPoolNum = 15,?Container $container = null)
+    function __construct(string $controllerNameSpace,int $maxDepth = 5,int $maxPoolNum = 15)
     {
-        $this -> container = $container;
         $this->controllerNameSpacePrefix = trim($controllerNameSpace,'\\');
         $this->maxPoolNum = $maxPoolNum;
         $this->maxDepth = $maxDepth;
@@ -167,7 +165,7 @@ class Dispatcher extends \EasySwoole\Http\Dispatcher
             }
             if($c instanceof Controller){
                 try{
-                    $c->__hook($actionName,$request,$response,$this -> container);
+                    $c->__hook($actionName,$request,$response);
                 }catch (\Throwable $throwable){
                     $this->hookThrowable($throwable,$request,$response);
                 }finally {
