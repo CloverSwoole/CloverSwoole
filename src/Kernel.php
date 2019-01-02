@@ -30,7 +30,24 @@ class Kernel
         /**
          * 数据库组件
          */
-        $container -> bind(DatabaseInterface::class,Database::class);
+        $container -> bind(DatabaseInterface::class,function($container){
+            /**
+             * 实例化组件
+             */
+            $Manager = new Database($container);
+            /**
+             * 注入配置
+             */
+            $Manager -> addConnection($container['config']['database']);
+            /**
+             * 设置全局访问
+             */
+            $Manager -> setAsGlobal();
+            /**
+             * 启动组件
+             */
+            $Manager -> bootEloquent();
+        });
         /**
          * 设置别名
          */
