@@ -9,11 +9,24 @@ use Illuminate\Container\Container;
  */
 class Framework
 {
+    /**
+     * @var null|Container
+     */
+    public static $container = null;
     public function start(?Container $container = null)
     {
         if(!($container instanceof Container)){
             $container = new Container;
         }
+        self::$container = $container;
         echo "Framework Started\n";
+    }
+
+    /**
+     * @return Container|null
+     */
+    public static function getContainerInterface()
+    {
+        return self::$container;
     }
 }
