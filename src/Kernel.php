@@ -3,6 +3,8 @@ namespace Itxiao6\Framework;
 use Illuminate\Container\Container;
 use Itxiao6\Framework\Facade\Databases\Database;
 use Itxiao6\Framework\Facade\Databases\DatabaseInterface;
+use Itxiao6\Framework\Facade\Environment\Environment;
+use Itxiao6\Framework\Facade\Environment\EnvironmentInsterface;
 use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttp;
 use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttpInterface;
 
@@ -37,6 +39,14 @@ class Kernel
          * 设置别名
          */
         $container -> alias(DatabaseInterface::class,'db');
+        /**
+         * 绑定默认的环境自适应
+         */
+        $container -> bind(EnvironmentInsterface::class,Environment::class);
+        /**
+         * 环境自适应
+         */
+        $container -> alias(EnvironmentInsterface::class,'environment');
         /**
          * swoole http
          */

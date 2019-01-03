@@ -11,7 +11,8 @@ interface EnvironmentInsterface
 {
     /**
      * @param Container|null $container
+     * @param string|null $base_dir
      * @return mixed
      */
-    public function boot(?Container $container = null);
+    public function boot(?Container $container = null,$base_dir = null);
 }
