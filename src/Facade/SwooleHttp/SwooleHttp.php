@@ -24,14 +24,19 @@ class SwooleHttp implements SwooleHttpInterface
          */
         $http = new \swoole_http_server($container['config']['swoole_http']['host'], $container['config']['swoole_http']['port']);
         /**
-         * 设置参数
+         * 判断参数是否存在
          */
-        $http->set($container['config']['swoole_http']['server']);
+        if(is_array($container['config']['swoole_http']['server']) && count($container['config']['swoole_http']['server']) > 0){
+            /**
+             * 设置参数
+             */
+            $http->set($container['config']['swoole_http']['server']);
+        }
         /**
          * 监听启动事件
          */
-        $http->on("start", function ($server) {
-            echo "Swoole http server is started at http://127.0.0.1:9501\n";
+        $http->on("start", function ($server) use($container){
+            echo "Swoole http server is started at http://127.0.0.1:{$container['config']['swoole_socket']['port']}\n";
         });
         /**
          * 实例化WebServer
