@@ -7,6 +7,8 @@ use Itxiao6\Framework\Facade\Environment\Environment;
 use Itxiao6\Framework\Facade\Environment\EnvironmentInsterface;
 use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttp;
 use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttpInterface;
+use Itxiao6\Framework\Facade\SwooleSocket\SwooleSocket;
+use Itxiao6\Framework\Facade\SwooleSocket\SwooleSocketInterface;
 
 /**
  * Class Kernel
@@ -55,6 +57,14 @@ class Kernel
          * 设置别名
          */
         $container -> alias(SwooleHttpInterface::class,'swoole_http');
+        /**
+         * swoole socket
+         */
+        $container -> bind(SwooleSocketInterface::class,SwooleSocket::class);
+        /**
+         * 设置别名
+         */
+        $container -> alias(SwooleSocketInterface::class,'swoole_socket');
         /**
          * 注入框架入口
          */

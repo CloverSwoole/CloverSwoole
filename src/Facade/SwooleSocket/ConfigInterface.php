@@ -3,11 +3,10 @@ namespace Itxiao6\Framework\Facade\SwooleSocket;
 use Illuminate\Container\Container;
 
 /**
- * SWOOLE Socket 接口
- * Interface SwooleSocketInterface
+ * Interface ConfigInterface
  * @package Itxiao6\Framework\Facade\SwooleSocket
  */
-interface SwooleSocketInterface
+interface ConfigInterface
 {
     /**
      * @param Container|null $container
