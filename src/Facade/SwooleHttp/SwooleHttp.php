@@ -17,7 +17,7 @@ class SwooleHttp implements SwooleHttpInterface
      */
     protected $container = null;
     /**
-     * Swoole 组件
+     * Swoole Http 组件
      * @param Container|null $container
      */
     public function boot(?Container $container = null)
@@ -65,10 +65,6 @@ class SwooleHttp implements SwooleHttpInterface
                 $this -> help($options);
                 break;
         }
-//        $res = new \Swoole\Process(function()use($container){
-
-//        });
-//        dump($res -> start());die();
     }
 
     /**
@@ -90,30 +86,35 @@ class SwooleHttp implements SwooleHttpInterface
              */
             $http->set($this -> container['config']['swoole_http']['server']);
         }
-        $container = $this -> container;
         /**
-         * 监听启动事件
+         * 获取socket 事件模型
          */
-        $http->on("start", function ($server) use($container){
-            echo "Swoole http server is started at http://127.0.0.1:{$container['config']['swoole_socket']['port']}\n";
-        });
+        $socket_event = $this -> container -> make(ServerEventInterface::class);
+        /**
+         * 监听服务 启动事件
+         */
+        $http->on("start", [$socket_event,'onStart']);
+        /**
+         * 监听服务 启动事件
+         */
+        $http->on("request", [$socket_event,'onRequest']);
         /**
          * 实例化WebServer
          */
-        $service = new WebService('App\\Http\\Controller\\',5,100,$this -> container);
+//        $service = new WebService('App\\Http\\Controller\\',5,100,$this -> container);
         /**
          * 设置异常处理程序
          */
-        $service->setExceptionHandler(function (\Throwable $throwable,\EasySwoole\Http\Request $request,\EasySwoole\Http\Response $response){
-            $response->write('msg:'.$throwable->getMessage().'file:'.$throwable->getFile().'line:'.$throwable->getLine());
-        });
-        /**
-         * 监听请求到达 事件
-         */
-        $http->on("request", function ($request, $response)use($service) {
-            $req = new \EasySwoole\Http\Request($request);
-            $service->onRequest($req,new \EasySwoole\Http\Response($response));
-        });
+//        $service->setExceptionHandler(function (\Throwable $throwable,\EasySwoole\Http\Request $request,\EasySwoole\Http\Response $response){
+//            $response->write('msg:'.$throwable->getMessage().'file:'.$throwable->getFile().'line:'.$throwable->getLine());
+//        });
+//        /**
+//         * 监听请求到达 事件
+//         */
+//        $http->on("request", function ($request, $response)use($service) {
+//            $req = new \EasySwoole\Http\Request($request);
+//            $service->onRequest($req,new \EasySwoole\Http\Response($response));
+//        });
         /**
          * 启动服务
          */
