@@ -9,5 +9,5 @@ use Illuminate\Container\Container;
  */
 interface DatabaseInterface
 {
-    public static function boot(?Container $container = null);
+    public function boot(?Container $container = null);
 }

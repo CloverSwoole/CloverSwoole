@@ -13,5 +13,5 @@ interface ConfigInterface
      * @param Container|null $container
      * @return mixed
      */
-    public static function boot(?Container $container = null);
+    public function boot(?Container $container = null);
 }

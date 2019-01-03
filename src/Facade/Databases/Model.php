@@ -22,7 +22,7 @@ class Model extends \Illuminate\Database\Eloquent\Model
     public static function __check_db_connection()
     {
         if(!self::$db_connection_status){
-            Framework::getContainerInterface() -> make('db');
+            Framework::getContainerInterface() -> make('db') -> boot(Framework::getContainerInterface());
             self::$db_connection_status = true;
         }
     }

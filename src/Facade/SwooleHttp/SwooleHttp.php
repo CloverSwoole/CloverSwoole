@@ -13,7 +13,7 @@ class SwooleHttp implements SwooleHttpInterface
     /**
      * @param Container|null $container
      */
-    public static function boot(?Container $container = null)
+    public function boot(?Container $container = null)
     {
         /**
          * 获取配置
@@ -41,7 +41,7 @@ class SwooleHttp implements SwooleHttpInterface
          * 设置异常处理程序
          */
         $service->setExceptionHandler(function (\Throwable $throwable,\EasySwoole\Http\Request $request,\EasySwoole\Http\Response $response){
-            $response->write('error:'.$throwable->getMessage());
+            $response->write('msg:'.$throwable->getMessage().'file:'.$throwable->getFile().'line:'.$throwable->getLine());
         });
         /**
          * 监听请求到达 事件

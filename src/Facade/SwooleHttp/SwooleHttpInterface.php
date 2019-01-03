@@ -9,5 +9,5 @@ use Illuminate\Container\Container;
  */
 interface SwooleHttpInterface
 {
-    public static function boot(?Container $container = null);
+    public function boot(?Container $container = null);
 }

@@ -10,7 +10,7 @@ use Illuminate\Container\Container;
 class Config implements ConfigInterface
 {
 
-    public static function boot(?Container $container = null)
+    public function boot(?Container $container = null)
     {
         if(!($container instanceof Container)){
             $container = new Container();

@@ -32,7 +32,7 @@ class Kernel
         /**
          * 数据库组件
          */
-        $container -> bind(DatabaseInterface::class,function($container){ return Database::boot($container); });
+        $container -> bind(DatabaseInterface::class,Database::class);
         /**
          * 设置别名
          */
@@ -40,7 +40,7 @@ class Kernel
         /**
          * swoole http
          */
-        $container -> bind(SwooleHttpInterface::class,function($container){ return SwooleHttp::boot($container); });
+        $container -> bind(SwooleHttpInterface::class,SwooleHttp::class);
         /**
          * 设置别名
          */

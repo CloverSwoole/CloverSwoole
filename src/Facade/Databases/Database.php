@@ -14,8 +14,11 @@ class Database implements DatabaseInterface
      * 启动服务
      * @param Container|null $container
      */
-    public static function boot(?Container $container = null)
+    public function boot(?Container $container = null)
     {
+        if(!($container instanceof Container)){
+            $container = new Container();
+        }
         /**
          * 获取配置
          */
