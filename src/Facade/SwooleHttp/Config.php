@@ -21,6 +21,7 @@ class Config implements ConfigInterface
             'server'=>[
                 'worker_num'=>50,
                 'daemonize'=>false,
+                'pid_file'=>'',
             ],
         ];
     }
