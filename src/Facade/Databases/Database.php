@@ -17,6 +17,10 @@ class Database implements DatabaseInterface
     public static function boot(?Container $container = null)
     {
         /**
+         * 获取配置
+         */
+        $container -> make(\Itxiao6\Framework\Facade\Databases\ConfigInterface::class) -> boot($container);
+        /**
          * 实例化组件
          */
         $Manager = new Manager($container);
