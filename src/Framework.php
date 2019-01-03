@@ -12,21 +12,16 @@ class Framework
     /**
      * @var null|Container
      */
-    public static $container = null;
-    public function start(?Container $container = null)
-    {
-        if(!($container instanceof Container)){
-            $container = new Container;
-        }
-        self::$container = $container;
-        echo "Framework Started\n";
-    }
-
+    protected static $container = null;
     /**
      * @return Container|null
      */
     public static function getContainerInterface()
     {
+        if(!(self::$container instanceof Container)){
+            self::$container = new Container;
+        }
         return self::$container;
     }
+
 }

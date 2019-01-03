@@ -10,10 +10,14 @@ use Illuminate\Container\Container;
 class SwooleSocket
 {
     /**
+     * 启动服务
      * @param Container|null $container
      */
     public function boot(?Container $container = null)
     {
+        if(!($container instanceof Container)){
+            $container = new Container();
+        }
         /**
          * 获取配置
          */
@@ -65,5 +69,27 @@ class SwooleSocket
          * 启动服务
          */
         $http->start();
+    }
+    /**
+     * 重启服务
+     * @param Container|null $container
+     */
+    public function restart(?Container $container = null)
+    {
+        if(!($container instanceof Container)){
+            $container = new Container();
+        }
+    }
+    /**
+     * 重载服务
+     * @param Container|null $container
+     */
+    public function reload(?Container $container = null)
+    {
+        if(!($container instanceof Container)){
+            $container = new Container();
+        }
+        echo "Socket and Server Reloaded at ".date('Y-m-d H:i:s')."\n";
+        \Swoole\Process::kill(8103,SIGUSR1);
     }
 }

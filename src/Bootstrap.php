@@ -11,17 +11,22 @@ use Itxiao6\Framework\Facade\SwooleSocket\SwooleSocket;
 use Itxiao6\Framework\Facade\SwooleSocket\SwooleSocketInterface;
 
 /**
- * Class Kernel
+ * 框架默认启动器
+ * Class Bootstrap
  * @package Itxiao6\Framework
  */
-class Kernel
+class Bootstrap
 {
+    public function __construct()
+    {
+    }
+
     /**
      * 初始化框架
      * @param Container|null $container
      * @return Container|null
      */
-    public static function getInterface(?Container $container = null)
+    public function init(?Container $container = null)
     {
         /**
          * 判断是否传入了服务容器
