@@ -23,6 +23,7 @@ class Model extends \Illuminate\Database\Eloquent\Model
     {
         if(!self::$db_connection_status){
             Framework::getContainerInterface() -> make('db');
+            self::$db_connection_status = true;
         }
     }
     public static function __callStatic($method, $parameters)
