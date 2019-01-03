@@ -22,7 +22,7 @@ class SwooleHttp implements SwooleHttpInterface
         /**
          * 获取server
          */
-        $http = new \swoole_http_server($container['config']['swoole_http']['host'], $container['config']['swoole_http']['port']);
+        $http = new \Swoole\Http\Server($container['config']['swoole_http']['host'], $container['config']['swoole_http']['port']);
         /**
          * 判断参数是否存在
          */
