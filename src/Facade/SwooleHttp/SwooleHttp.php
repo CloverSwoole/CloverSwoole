@@ -2,6 +2,7 @@
 namespace Itxiao6\Framework\Facade\SwooleHttp;
 use Illuminate\Container\Container;
 use Itxiao6\Framework\Facade\Command\Command;
+use Itxiao6\Framework\Facade\Route\HttpServer;
 use Itxiao6\Framework\Facade\SwooleHttp\EasySwoole\WebService;
 
 /**
@@ -98,23 +99,6 @@ class SwooleHttp implements SwooleHttpInterface
          * 监听服务 启动事件
          */
         $http->on("request", [$socket_event,'onRequest']);
-        /**
-         * 实例化WebServer
-         */
-//        $service = new WebService('App\\Http\\Controller\\',5,100,$this -> container);
-        /**
-         * 设置异常处理程序
-         */
-//        $service->setExceptionHandler(function (\Throwable $throwable,\EasySwoole\Http\Request $request,\EasySwoole\Http\Response $response){
-//            $response->write('msg:'.$throwable->getMessage().'file:'.$throwable->getFile().'line:'.$throwable->getLine());
-//        });
-//        /**
-//         * 监听请求到达 事件
-//         */
-//        $http->on("request", function ($request, $response)use($service) {
-//            $req = new \EasySwoole\Http\Request($request);
-//            $service->onRequest($req,new \EasySwoole\Http\Response($response));
-//        });
         /**
          * 启动服务
          */

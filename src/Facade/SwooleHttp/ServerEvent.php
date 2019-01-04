@@ -1,13 +1,32 @@
 <?php
 namespace Itxiao6\Framework\Facade\SwooleHttp;
 
+use Illuminate\Container\Container;
+use Itxiao6\Framework\Framework;
+
 /**
  * 服务事件模型
  * Class ServerEvent
  * @package Itxiao6\Framework\Facade\SwooleHttp
  */
-class ServerEvent
+class ServerEvent implements ServerEventInterface
 {
+    /**
+     * 服务容器
+     * @var null|Container
+     */
+    protected $container = null;
+
+    public function __construct(?Container $container = null)
+    {
+        /**
+         * 判断容器是否有效
+         */
+        if(!($container instanceof Container)){
+            $this -> container = $container;
+        }
+    }
+
     /**
      * 服务启动
      * @param \Swoole\Http\Server $server
@@ -25,7 +44,7 @@ class ServerEvent
      */
     public function onRequest(\swoole_http_request $request, \swoole_http_response $response)
     {
-        echo "onRequestEd\n";
+        echo "onRequest\n";
     }
 
     /**
