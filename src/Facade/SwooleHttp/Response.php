@@ -94,8 +94,9 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
                 foreach ($item as $sub){
                     $this -> getRawResponse() -> header($key,$sub);
                 }
+            }else{
+                $this -> getRawResponse() -> header($key,$item);
             }
-            $this -> getRawResponse() -> header($key,$item);
         }
     }
 
@@ -157,7 +158,7 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
         /**
          * 结束请求
          */
-        return $this -> response -> end(2);
+        return $this -> response -> end();
     }
 
     /**
