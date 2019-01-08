@@ -9,5 +9,9 @@ use Illuminate\Container\Container;
  */
 interface SwooleHttpInterface
 {
+    /**
+     * @param Container|null $container
+     * @return mixed
+     */
     public function boot(?Container $container = null);
 }

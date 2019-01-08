@@ -90,7 +90,7 @@ class SwooleHttp implements SwooleHttpInterface
         /**
          * 获取socket 事件模型
          */
-        $socket_event = $this -> container -> make(ServerEventInterface::class);
+        $socket_event = $this -> container -> make(ServerEventInterface::class) -> boot($this -> container);
         /**
          * 监听服务 启动事件
          */

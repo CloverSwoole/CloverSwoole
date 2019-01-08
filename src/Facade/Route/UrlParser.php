@@ -18,6 +18,7 @@ class UrlParser
                 $basePath = $basePath.'/'.$info['filename'];
             }
         }
+        return $path;
         return $basePath;
     }
 }

@@ -5,6 +5,10 @@ use Itxiao6\Framework\Facade\Databases\Database;
 use Itxiao6\Framework\Facade\Databases\DatabaseInterface;
 use Itxiao6\Framework\Facade\Environment\Environment;
 use Itxiao6\Framework\Facade\Environment\EnvironmentInsterface;
+use Itxiao6\Framework\Facade\Route\Config;
+use Itxiao6\Framework\Facade\Route\ConfigInterface;
+use Itxiao6\Framework\Facade\SwooleHttp\HttpServer;
+use Itxiao6\Framework\Facade\SwooleHttp\HttpServerInterface;
 use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttp;
 use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttpInterface;
 use Itxiao6\Framework\Facade\SwooleSocket\SwooleSocket;
@@ -78,6 +82,14 @@ class Bootstrap
          * 设置别名
          */
         $container -> alias(Framework::class,'framework');
+        /**
+         * 注入路由配置
+         */
+        $container -> bind(ConfigInterface::class,Config::class);
+        /**
+         * HttpServer 启动器注入
+         */
+        $container -> bind(HttpServerInterface::class,HttpServer::class);
         /**
          * 返回容器
          */

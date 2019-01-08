@@ -17,7 +17,12 @@ class ServerEvent implements ServerEventInterface
      */
     protected $container = null;
 
-    public function __construct(?Container $container = null)
+    /**
+     * 注入容器
+     * @param Container|null $container
+     * @return $this
+     */
+    public function boot(?Container $container = null)
     {
         /**
          * 判断容器是否有效
@@ -25,6 +30,7 @@ class ServerEvent implements ServerEventInterface
         if(!($container instanceof Container)){
             $this -> container = $container;
         }
+        return $this;
     }
 
     /**

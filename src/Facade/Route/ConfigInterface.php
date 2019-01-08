@@ -1,6 +1,8 @@
 <?php
 namespace Itxiao6\Framework\Facade\Route;
 
+use Illuminate\Container\Container;
+
 /**
  * 路由配置
  * Interface ConfigInterface
