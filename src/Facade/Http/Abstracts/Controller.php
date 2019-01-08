@@ -168,6 +168,10 @@ abstract class Controller
             $this -> response -> withHeader($this -> responseHeaders);
         }
         /**
+         * 结束请求
+         */
+        $this -> response -> endResponse();
+        /**
          * 恢复默认值
          */
         foreach ($this->defaultProperties as $property => $value){
@@ -204,15 +208,15 @@ abstract class Controller
         /**
          * 允许跨域访问的来源域名
          */
-        $this -> responseHeaders -> addHeader('Access-Control-Allow-Origin','*');
+//        $this -> responseHeaders -> addHeader('Access-Control-Allow-Origin','*');
         /**
          * 允许跨域的方法
          */
-        $this -> responseHeaders -> addHeader('Access-Control-Allow-Method','POST');
+//        $this -> responseHeaders -> addHeader('Access-Control-Allow-Method','POST');
         /**
          * 允许修改的协议头
          */
-        $this -> responseHeaders -> addHeader('Access-Control-Allow-Headers','accept, content-type');
+//        $this -> responseHeaders -> addHeader('Access-Control-Allow-Headers','accept, content-type');
         /**
          * 响应码
          */
