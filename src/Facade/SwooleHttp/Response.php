@@ -92,10 +92,10 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
         foreach ($headers as $key=>$item){
             if(is_array($item)){
                 foreach ($item as $sub){
-                    $this -> getRawResponse() -> header($key,$sub);
+                    $this -> getRawResponse() -> header($key,$sub,false);
                 }
             }else{
-                $this -> getRawResponse() -> header($key,$item);
+                $this -> getRawResponse() -> header($key,$item,false);
             }
         }
     }
@@ -154,11 +154,11 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
         /**
          * 发送状态码
          */
-        $this -> response -> status($this -> http_code);
+        $this -> getRawResponse() -> status($this -> http_code);
         /**
          * 结束请求
          */
-        return $this -> response -> end();
+        return $this -> getRawResponse() -> end();
     }
 
     /**
