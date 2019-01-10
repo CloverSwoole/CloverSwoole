@@ -204,19 +204,19 @@ abstract class Controller
         /**
          * 内容类型
          */
-        $this -> responseHeaders -> addHeader('Content-type','application/json;charset=utf-8');
+        $this -> responseHeaders -> addHeader('Content-Type','application/json;charset=utf-8');
         /**
          * 允许跨域访问的来源域名
          */
-//        $this -> responseHeaders -> addHeader('Access-Control-Allow-Origin','*');
+        $this -> responseHeaders -> addHeader('Access-Control-Allow-Origin','*');
         /**
          * 允许跨域的方法
          */
-//        $this -> responseHeaders -> addHeader('Access-Control-Allow-Method','POST');
+        $this -> responseHeaders -> addHeader('Access-Control-Allow-Method','POST');
         /**
          * 允许修改的协议头
          */
-//        $this -> responseHeaders -> addHeader('Access-Control-Allow-Headers','accept, content-type');
+        $this -> responseHeaders -> addHeader('Access-Control-Allow-Headers','accept, content-type');
         /**
          * 响应码
          */
