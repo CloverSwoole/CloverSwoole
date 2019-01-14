@@ -75,7 +75,17 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
      */
     public function writeContent($content)
     {
-        return $this -> response -> write(strval($content));
+        return $this -> getRawResponse() -> write(strval($content));
+    }
+
+    /**
+     * 响应一个重定向 302
+     * @param $url
+     * @return mixed|void
+     */
+    public function redirect($url)
+    {
+        $this -> getRawResponse() -> redirect($url,302);
     }
     /**
      * 结束响应

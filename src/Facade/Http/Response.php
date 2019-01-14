@@ -59,6 +59,12 @@ abstract class Response
         $this -> response_headers[] = $headers;
     }
     /**
+     * 响应重定向 302
+     * @param $url
+     * @return mixed
+     */
+    abstract public function redirect($url);
+    /**
      * 向客户端写入内容
      * @param $content
      * @return mixed
