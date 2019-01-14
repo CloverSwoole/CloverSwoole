@@ -32,6 +32,22 @@ class Statics implements StaticInterface
         return $this -> route -> getContainer()['config']['route']['controllerNameSpace'];
     }
     /**
+     * 获取默认控制器的名称
+     * @return mixed
+     */
+    protected function getDefaultControllerName()
+    {
+        return $this -> route -> getContainer()['config']['route']['defaultControllerName'];
+    }
+    /**
+     * 获取默认操作的名称
+     * @return mixed
+     */
+    protected function getDefaultActionName()
+    {
+        return $this -> route -> getContainer()['config']['route']['defaultActionName'];
+    }
+    /**
      * 开始处理静态路由
      * @param Route $route
      */
@@ -85,8 +101,11 @@ class Statics implements StaticInterface
          * 判断控制器是否存在
          */
         if(!class_exists($controller_name)){
-            // 抛出异常
-            throw new NotFoundController("找不到:{$controller_name} 控制器。");
+            $controller_name = rtrim($controller_name,'\\').$this -> getDefaultControllerName();
+            if(!class_exists($controller_name)){
+                // 抛出异常
+                throw new NotFoundController("找不到:{$controller_name} 控制器。");
+            }
         }
         return $controller_name;
     }

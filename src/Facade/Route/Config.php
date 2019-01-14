@@ -39,6 +39,10 @@ class Config implements ConfigInterface
             'route_dynamic_lists'=>[],
             // 控制器的记录路径
             'controllerNameSpace'=>'App\\Http\\Controller\\',
+            // 默认控制器名称
+            'defaultControllerName'=>'Index',
+            // 默认操作名称
+            'defaultActionName'=>'index',
             // 进程控制器数量
             'maxPoolNum'=>15,
             // 最大深度
