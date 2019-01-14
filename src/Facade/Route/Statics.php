@@ -104,7 +104,7 @@ class Statics implements StaticInterface
          * 判断控制器是否存在
          */
         if(!class_exists($controller_name)){
-            $controller_name = rtrim($controller_name,'\\').$this -> getDefaultControllerName();
+            $controller_name = rtrim($controller_name,'\\').'\\'.$this -> getDefaultControllerName();
             if(!class_exists($controller_name)){
                 // 抛出异常
                 throw new NotFoundController("找不到:{$controller_name} 控制器。");
