@@ -7,6 +7,10 @@ use Itxiao6\Framework\Facade\Environment\Environment;
 use Itxiao6\Framework\Facade\Environment\EnvironmentInsterface;
 use Itxiao6\Framework\Facade\Route\Config;
 use Itxiao6\Framework\Facade\Route\ConfigInterface;
+use Itxiao6\Framework\Facade\Route\Dynamic;
+use Itxiao6\Framework\Facade\Route\DynamicInterface;
+use Itxiao6\Framework\Facade\Route\StaticInterface;
+use Itxiao6\Framework\Facade\Route\Statics;
 use Itxiao6\Framework\Facade\SwooleHttp\HttpServer;
 use Itxiao6\Framework\Facade\SwooleHttp\HttpServerInterface;
 use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttp;
@@ -90,6 +94,14 @@ class Bootstrap
          * HttpServer 启动器注入
          */
         $container -> bind(HttpServerInterface::class,HttpServer::class);
+        /**
+         * 注入静态路由处理方法
+         */
+        $container -> bind(StaticInterface::class,Statics::class);
+        /**
+         * 注入动态路由处理方法
+         */
+        $container -> bind(DynamicInterface::class,Dynamic::class);
         /**
          * 返回容器
          */
