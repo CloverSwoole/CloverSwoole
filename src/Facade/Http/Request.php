@@ -1,43 +1,85 @@
 <?php
 namespace Itxiao6\Framework\Facade\Http;
 
+use Itxiao6\Framework\Framework;
+
 /**
- * 请求模型
+ * Http 请求基类
  * Class Request
  * @package Itxiao6\Framework\Facade\Http
  */
 abstract class Request
 {
     /**
+     * 请求头部信息
+     * @var null | array
+     */
+    protected $headers = null;
+    /**
+     * 请求的cookie
+     * @var null | array
+     */
+    protected $cookies = null;
+    /**
+     * POST 参数
+     * @var null | array
+     */
+    protected $post = null;
+    /**
+     * GET 参数
+     * @var null |array
+     */
+    protected $get = null;
+    /**
+     * 请求方法
+     * @var null | string
+     */
+    protected $request_method = null;
+    /**
+     * @var null |mixed
+     */
+    protected $request = null;
+    /**
+     * 获取原生请求
+     * @return mixed|void|mixed
+     */
+    public function getRawRequest()
+    {
+        return $this -> request;
+    }
+    /**
+     * 获取GET 参数
+     * @return mixed|void
+     */
+    public function getGETParam()
+    {
+        if(!($this -> get instanceof GET)){
+            $this -> get = Framework::getContainerInterface() -> make(GET::class) -> boot(is_array($this -> request  -> get)?$this -> request -> get:[]);
+        }
+        return $this -> get;
+    }
+
+    /**
+     * 获取POST 参数
+     * @return POST|mixed|null
+     */
+    public function getPOSTParam()
+    {
+        if(!($this -> post instanceof POST)){
+            $this -> post = Framework::getContainerInterface() -> make(POST::class) -> boot(is_array($this -> request -> request -> post)?$this -> request -> post:[]);
+        }
+        return $this -> post;
+    }
+    /**
      * 获取请求头
      * @return mixed
      */
     abstract public function getHeaders();
-
     /**
      * 获取Cookie
      * @return mixed
      */
     abstract public function getCookie();
-
-    /**
-     * 获取请求时间
-     * @return mixed
-     */
-    abstract public function getRawRequest();
-
-    /**
-     * 获取GET 参数
-     * @return mixed
-     */
-    abstract public function getGETParam();
-
-    /**
-     * 获取POST 参数
-     * @return mixed
-     */
-    abstract public function getPOSTParam();
-
     /**
      * 获取请求方法
      * @return mixed
