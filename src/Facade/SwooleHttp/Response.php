@@ -1,47 +1,39 @@
 <?php
 namespace Itxiao6\Framework\Facade\SwooleHttp;
+use EasySwoole\Http\Message\Stream;
+use Itxiao6\Framework\Facade\Http\CookieItem;
 use Itxiao6\Framework\Facade\Http\Cookies;
+use Itxiao6\Framework\Facade\Http\HeaderItem;
 use Itxiao6\Framework\Facade\Http\Headers;
 use Itxiao6\Framework\Facade\Http\Status;
 
 /**
- * 响应
+ * Response 响应类
  * Class Response
  * @package Itxiao6\Framework\Facade\SwooleHttp
  */
 class Response extends \Itxiao6\Framework\Facade\Http\Response
 {
     /**
-     * @var null|\swoole_http_response
-     */
-    protected $response = null;
-    /**
-     * @var null | Headers
-     */
-    protected $headers = null;
-    /**
-     * @var null | Cookies
-     */
-    protected $cookies = null;
-    /**
-     * @var bool
-     */
-    protected $is_end = false;
-    /**
-     * 默认的Http 状态码
-     * @var int
-     */
-    protected $http_code = Status::CODE_OK;
-
-    /**
      * 构造方法
      * Response constructor.
+     * @param array|null $headers
+     * @param Stream|null $body
+     * @param string $protocolVersion
      */
     public function __construct()
     {
-
+        $this -> withHeader(new HeaderItem('Server','Minkernel'));
     }
-
+    /**
+     * @param int $code
+     * @param string $reasonPhrase
+     * @return mixed|void
+     */
+    public function withStatus($code, $reasonPhrase = '')
+    {
+        $this -> getRawResponse() -> status($code);
+    }
     /**
      * 启动组件
      * @param $response
@@ -52,60 +44,29 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
         $this -> response = $response;
         return $this;
     }
-
-    /**
-     * 注入 Headers
-     * @param Headers $headers
-     * @return $this|mixed
-     */
-    public function withHeader(Headers $headers)
-    {
-        $this -> headers = $headers;
-        return $this;
-    }
-    /**
-     * 响应状态码
-     * @param $code
-     * @return $this|mixed
-     */
-    public function withStatus($code)
-    {
-        $this -> http_code = $code;
-        return $this;
-    }
-
-    /**
-     * 注入 Cookie
-     * @param $cookie
-     * @return mixed|void
-     */
-    public function withCookie(Cookies $cookies)
-    {
-        $this -> cookies = $cookies;
-    }
     /**
      * 发送响应头部信息
      */
     protected function sendHeaders()
     {
-        $headers = $this -> headers -> getHeaders();
-        foreach ($headers as $key=>$item){
-            if(is_array($item)){
-                foreach ($item as $sub){
-                    $this -> getRawResponse() -> header($key,$sub,false);
-                }
-            }else{
-                $this -> getRawResponse() -> header($key,$item,false);
-            }
+        if(!(is_array($this -> response_headers) && count($this -> response_headers) > 0 )){
+            return ;
+        }
+        foreach ($this -> response_headers as $header_item){
+            $this -> getRawResponse() -> header($header_item -> getName(),$header_item -> getValue());
         }
     }
-
     /**
-     * 发送cookie
+     * 设置请求cookie
      */
     protected function sendCookie()
     {
-        $cookies = $this -> cookies -> getCookies();
+        if(!(is_array($this -> response_cookies) && count($this -> response_cookies) > 0 )){
+            return ;
+        }
+        foreach ($this -> response_cookies as $cookie_item){
+            $this -> getRawResponse() -> cookie($cookie_item -> getName(),$cookie_item -> getValue(),$cookie_item -> getExpire(),$cookie_item -> getPath(),$cookie_item -> getDemain(),$cookie_item -> getSecure(),$cookie_item -> getHttpoly());
+        }
     }
     /**
      * 发送内容到客户端
@@ -136,31 +97,22 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
             $this -> writeContent($content);
         }
         /**
-         * 发送响应头信息
+         * 发送协议头
          */
-        if($this -> headers instanceof Headers){
-            $this -> sendHeaders();
-        }
+        $this -> sendHeaders();
         /**
          * 发送Cookie
          */
-        if($this -> cookies instanceof Cookies){
-            $this -> sendCookie();
-        }
+        $this -> sendCookie();
         /**
          * 标识响应已经结束
          */
         $this -> is_end = true;
         /**
-         * 发送状态码
-         */
-        $this -> getRawResponse() -> status($this -> http_code);
-        /**
          * 结束请求
          */
         return $this -> getRawResponse() -> end();
     }
-
     /**
      * 获取原生的响应句柄
      * @return mixed|null|\swoole_http_response
@@ -168,14 +120,5 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
     public function getRawResponse()
     {
         return $this -> response;
-    }
-
-    /**
-     * 请求是否已经结束
-     * @return bool|mixed
-     */
-    public function ResponseIsEnd()
-    {
-        return $this -> is_end;
     }
 }
