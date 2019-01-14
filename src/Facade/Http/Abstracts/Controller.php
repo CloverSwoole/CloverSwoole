@@ -100,7 +100,7 @@ abstract class Controller
      */
     protected function __actionNotFound()
     {
-        $this -> response -> writeContent('找不到操作:'.$this -> actionName);
+        $this -> __getResponse() -> writeContent('找不到操作:'.$this -> actionName);
     }
 
     /**
@@ -109,7 +109,7 @@ abstract class Controller
      */
     protected function __onException(\Throwable $throwable)
     {
-        $this -> response -> writeContent('异常:'.$throwable -> getMessage());
+        $this -> __getResponse() -> writeContent('异常:'.$throwable -> getMessage());
     }
 
     /**
