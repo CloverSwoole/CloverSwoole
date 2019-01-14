@@ -35,6 +35,11 @@ class Route
      * @var null|Response
      */
     protected $response = null;
+    /**
+     * 路由是否 已经处理完毕
+     * @var bool
+     */
+    protected $is_end = false;
 
     /**
      * 动态路由表
@@ -52,87 +57,89 @@ class Route
     }
 
     /**
-     * 设置容器
-     * @param Container|null $container
-     * @return $this
+     * 获取响应
+     * @return Response|null
      */
-    public function container(?Container $container = null)
+    public function getResponse()
     {
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
-        $this -> container = $container;
-        return $this;
+        return $this -> response;
     }
 
     /**
-     * 设置响应 句柄
-     * @param Response $response
-     * @return $this
+     * 获取请求
+     * @return Request|null
      */
-    public function response(Response $response)
+    public function getRequest()
     {
-        $this -> response = $response;
-        return $this;
+        return $this -> request;
     }
 
     /**
-     * 设置请求 句柄
-     * @param Request $request
-     * @return $this
+     * 结束路由处理
      */
-    public function request(Request $request)
+    public function endRoute()
     {
-        $this -> request = $request;
-        return $this;
+        $this -> is_end = true;
+    }
+
+    /**
+     * 路由处理是否已经处理完毕
+     * @return bool
+     */
+    public function routeIsEnd()
+    {
+        return $this -> is_end;
     }
 
     /**
      * 启动组件
-     * @param $path
-     * @param $method
+     * @param Request $request
+     * @param Response $response
+     * @param Container|null $container
      */
-    public function boot($path,$method)
+    public function boot(Request $request,Response $response,?Container $container)
     {
+        if(!($container instanceof Container) ){
+            $container = new Container();
+        }
         /**
-         * 注入路由配置
+         * 注入容器
          */
-        $this -> container -> bind(ConfigInterface::class,Config::class);
+        $this -> container = $container;
+        /**
+         * 注入请求
+         */
+        $this -> request = $request;
+        /**
+         * 注入响应
+         */
+        $this -> response = $response;
         /**
          * 获取路由配置
          */
         $this -> container -> make(ConfigInterface::class) -> boot($this -> container);
-
         /**
          * 获取动态路由
          */
-        $this -> route_dynamic_lists = $this -> container['config']['route']['route_dynamic_lists'];
-        $this -> path = $path;
-        $this -> method = $method;
-        $controllerNameSpace = $this -> container['config']['route']['controllerNameSpace'];
+        $this -> container -> make(DynamicInterface::class) -> boot($this);
         /**
-         * 静态(隐式)路由
+         * 判断路由是否已经结束
          */
-        if($this -> container['config']['route']['routeType'] == Config::ROUTE_TYPE_STATIC || $this -> container['config']['route']['routeType'] == Config::ROUTE_TYPE_STATIC_AND_DYNAMIC){
-            // 控制器名称
-            $controller_name = $controllerNameSpace.$this -> getControllerName($this -> path);
-            if(!class_exists($controller_name)){
-                echo "控制器不存在\n";
-                return;
-            }
-            // 操作名称
-            $action_name = pathinfo($this -> path)['filename'];
-            $controller = (new $controller_name()) -> __container($this -> container) -> __request($this -> request) -> __response($this -> response) -> __hook($action_name);
+        if(!$this -> routeIsEnd()){
+            return ;
         }
         /**
-         * 动态路由表
+         * 静态路由
          */
-        if($this -> container['config']['route']['routeType'] == Config::ROUTE_TYPE_DYNAMIC || $this -> container['config']['route']['routeType'] == Config::ROUTE_TYPE_STATIC_AND_DYNAMIC){
-
-        }
+        $this -> container -> make(StaticInterface::class) -> boot($this);
     }
-    protected function getControllerName($path)
+
+    /**
+     * 获取容器
+     * @return Container|null
+     */
+    public function getContainer()
     {
-        return ltrim(str_replace('/','\\',pathinfo($path)['dirname']),'\\');
+        return $this -> container;
     }
 }
