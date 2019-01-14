@@ -37,7 +37,7 @@ interface RouteInterface
      * @param Response $response
      * @param Container|null $container
      */
-    public function boot();
+    public function boot(Request $request,Response $response,?Container $container);
     /**
      * 获取容器
      * @return Container|null
