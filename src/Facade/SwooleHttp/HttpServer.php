@@ -76,7 +76,7 @@ class HttpServer implements HttpServerInterface
         /**
          * 启动路由组件
          */
-        $this -> container -> make(RouteInterface::class) -> request($request) -> response($response) -> container($this -> container) -> boot($path,$request -> getRequestMethod());
+        $this -> container -> make(RouteInterface::class) -> boot($request,$response,$this -> container);
         /**
          * 如果没有结束响应则 后置结束
          */
