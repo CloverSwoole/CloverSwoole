@@ -1,10 +1,13 @@
 <?php
 namespace Itxiao6\Framework\Facade\Http\Abstracts;
 use Illuminate\Container\Container;
+use Itxiao6\Framework\Facade\Http\HeaderItem;
 use Itxiao6\Framework\Facade\Http\Headers;
 use Itxiao6\Framework\Facade\Http\Request;
 use Itxiao6\Framework\Facade\Http\Response;
 use Itxiao6\Framework\Facade\Http\Status;
+use Itxiao6\Framework\Facade\Route\Route;
+use Itxiao6\Framework\Facade\Route\RouteInterface;
 
 /**
  * 控制器基础类
@@ -13,18 +16,6 @@ use Itxiao6\Framework\Facade\Http\Status;
  */
 abstract class Controller
 {
-    /**
-     * @var null | Request
-     */
-    protected $request = null;
-    /**
-     * @var null | Response
-     */
-    protected $response = null;
-    /**
-     * @var null | Container
-     */
-    protected $container = null;
     /**
      * @var null | string
      */
@@ -37,19 +28,19 @@ abstract class Controller
      * @var array
      */
     protected $defaultProperties = [];
+
     /**
-     * 响应头信息
-     * @var array
+     * @var null | RouteInterface|Route
      */
-    protected $responseHeaders = [];
+    protected $route = null;
 
     /**
      * 初始化
      * Controller constructor.
      */
-    public function __construct()
+    public function __construct(RouteInterface $route)
     {
-        $this -> responseHeaders = (new Headers()) -> boot([]);
+        $this -> route = $route;
         //支持在子类控制器中以private，protected来修饰某个方法不可见
         $list = [];
         $ref = new \ReflectionClass(static::class);
@@ -125,35 +116,27 @@ abstract class Controller
      * 注入容器
      * @param Container $container
      */
-    public function __container(Container $container)
+    public function __getContainer()
     {
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
-        $this -> container = $container;
-        return $this;
+        return $this -> route -> getContainer();
     }
 
     /**
-     * 注入请求
-     * @param Request $request
-     * @return $this
+     * 获取请求实例
+     * @return Request|null
      */
-    public function __request(Request $request)
+    public function __getRequest()
     {
-        $this -> request = $request;
-        return $this;
+        return $this -> route -> getRequest();
     }
 
     /**
-     * 注入响应
-     * @param Response $response
-     * @return $this
+     * 获取响应
+     * @return Response|null
      */
-    public function __response(Response $response)
+    public function __getResponse()
     {
-        $this -> response = $response;
-        return $this;
+        return $this -> route -> getResponse();
     }
 
     /**
@@ -162,15 +145,9 @@ abstract class Controller
     protected function __gc()
     {
         /**
-         * 响应头设置
-         */
-        if($this -> responseHeaders instanceof Headers){
-            $this -> response -> withHeader($this -> responseHeaders);
-        }
-        /**
          * 结束请求
          */
-        $this -> response -> endResponse();
+        $this -> __getResponse() -> endResponse();
         /**
          * 恢复默认值
          */
@@ -196,34 +173,34 @@ abstract class Controller
         /**
          * 判断请求是否已经结束
          */
-        if($this -> response -> ResponseIsEnd()){return ;}
+        if($this -> __getResponse() -> ResponseIsEnd()){return ;}
         /**
          * 响应数据
          */
-        $this->response->writeContent(json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        $this->__getResponse()->writeContent(json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
         /**
          * 内容类型
          */
-        $this -> responseHeaders -> addHeader('Content-Type','application/json;charset=utf-8');
+        $this -> __getResponse() -> withHeader(new HeaderItem('Content-Type','application/json;charset=utf-8'));
         /**
          * 允许跨域访问的来源域名
          */
-        $this -> responseHeaders -> addHeader('Access-Control-Allow-Origin','*');
+        $this -> __getResponse() -> withHeader(new HeaderItem('Access-Control-Allow-Origin','*'));
         /**
          * 允许跨域的方法
          */
-        $this -> responseHeaders -> addHeader('Access-Control-Allow-Method','POST');
+        $this -> __getResponse() -> withHeader(new HeaderItem('Access-Control-Allow-Method','POST'));
         /**
          * 允许修改的协议头
          */
-        $this -> responseHeaders -> addHeader('Access-Control-Allow-Headers','accept, content-type');
+        $this -> __getResponse() -> withHeader(new HeaderItem('Access-Control-Allow-Headers','accept, content-type'));
         /**
          * 响应码
          */
-        $this->response->withStatus(Status::CODE_OK);
+        $this->__getResponse()->withStatus(Status::CODE_OK);
         /**
          * 判断是否要结束请求
          */
-        if($is_end){$this -> response -> endResponse();}
+        if($is_end){$this -> __getResponse() -> endResponse();}
     }
 }
