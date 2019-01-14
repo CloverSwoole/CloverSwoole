@@ -6,5 +6,5 @@ namespace Itxiao6\Framework\Facade\Route;
  */
 interface StaticInterface
 {
-
+    public function boot(Route $route);
 }
