@@ -10,7 +10,7 @@ use Itxiao6\Framework\Facade\Http\Response;
  * Class Route
  * @package Itxiao6\Framework\Facade\Route
  */
-class Route
+class Route implements RouteInterface
 {
     /**
      * 请求路径
@@ -40,13 +40,11 @@ class Route
      * @var bool
      */
     protected $is_end = false;
-
     /**
      * 动态路由表
      * @var array
      */
     protected $route_dynamic_lists = [];
-
     /**
      * 构造器
      * Route constructor.
@@ -55,7 +53,6 @@ class Route
     {
 
     }
-
     /**
      * 获取响应
      * @return Response|null
@@ -64,7 +61,6 @@ class Route
     {
         return $this -> response;
     }
-
     /**
      * 获取请求
      * @return Request|null
@@ -73,7 +69,6 @@ class Route
     {
         return $this -> request;
     }
-
     /**
      * 结束路由处理
      */
@@ -81,7 +76,6 @@ class Route
     {
         $this -> is_end = true;
     }
-
     /**
      * 路由处理是否已经处理完毕
      * @return bool
@@ -90,7 +84,6 @@ class Route
     {
         return $this -> is_end;
     }
-
     /**
      * 启动组件
      * @param Request $request
@@ -125,7 +118,7 @@ class Route
         /**
          * 判断路由是否已经结束
          */
-        if(!$this -> routeIsEnd()){
+        if($this -> routeIsEnd()){
             return ;
         }
         /**
@@ -133,7 +126,6 @@ class Route
          */
         $this -> container -> make(StaticInterface::class) -> boot($this);
     }
-
     /**
      * 获取容器
      * @return Container|null
