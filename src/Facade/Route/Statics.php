@@ -81,6 +81,9 @@ class Statics implements StaticInterface
     protected function getActionName()
     {
         $action_name = pathinfo($this -> path)['filename'];
+        if($action_name == ''){
+            return $this -> getDefaultActionName();
+        }
         return $action_name;
     }
     /**
