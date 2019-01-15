@@ -21,12 +21,12 @@ class Whoops implements WhoopsInterface
     }
 
     /**
-     * 请求异常处理
+     * Swoole 请求异常处理
      * @param \Throwable $exception
-     * @param Request $request
-     * @param Response $response
+     * @param \Swoole\Http\Request $request
+     * @param \Swoole\Http\Response $response
      */
-    public function onRequestException(\Throwable $exception,Request $request,Response $response)
+    public function swooleOnRequestException(\Throwable $exception,\Swoole\Http\Request $request,\Swoole\Http\Response $response)
     {
 //        try{
 //            $response -> writeContent('异常:'.$exception -> getMessage());
