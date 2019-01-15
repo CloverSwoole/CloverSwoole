@@ -15,7 +15,18 @@ class Whoops implements WhoopsInterface
      */
     protected $exception = null;
 
-    public function boot(\Throwable $exception,Request $request,Response $response)
+    public function boot(\Throwable $exception)
+    {
+
+    }
+
+    /**
+     * 请求异常处理
+     * @param \Throwable $exception
+     * @param Request $request
+     * @param Response $response
+     */
+    public function onRequestException(\Throwable $exception,Request $request,Response $response)
     {
 //        try{
 //            $response -> writeContent('异常:'.$exception -> getMessage());

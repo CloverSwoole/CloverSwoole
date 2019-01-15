@@ -78,6 +78,7 @@ class HttpServer implements HttpServerInterface
         }catch (\Throwable $throwable){
             $this -> onRequestException($throwable,$request,$response);
         }
+
     }
 
     /**
@@ -86,6 +87,6 @@ class HttpServer implements HttpServerInterface
      */
     protected function onRequestException(\Throwable $throwable,\Itxiao6\Framework\Facade\Http\Request $request,\Itxiao6\Framework\Facade\Http\Response $response)
     {
-        $this -> container -> make(WhoopsInterface::class) -> boot($throwable,$request,$response);
+        $this -> container -> make(WhoopsInterface::class) -> onRequestException($throwable,$request,$response);
     }
 }
