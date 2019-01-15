@@ -23,16 +23,6 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
      */
     public function __construct()
     {
-        $this -> withHeader(new HeaderItem('Server','Minkernel'));
-    }
-    /**
-     * @param int $code
-     * @param string $reasonPhrase
-     * @return mixed|void
-     */
-    public function withStatus($code, $reasonPhrase = '')
-    {
-        $this -> getRawResponse() -> status($code);
     }
     /**
      * 启动组件
@@ -42,31 +32,8 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
     public function boot($response)
     {
         $this -> response = $response;
+        $this -> withHeader(new HeaderItem('Server','Minkernel'));
         return $this;
-    }
-    /**
-     * 发送响应头部信息
-     */
-    protected function sendHeaders()
-    {
-        if(!(is_array($this -> response_headers) && count($this -> response_headers) > 0 )){
-            return ;
-        }
-        foreach ($this -> response_headers as $header_item){
-            $this -> getRawResponse() -> header($header_item -> getName(),$header_item -> getValue());
-        }
-    }
-    /**
-     * 设置请求cookie
-     */
-    protected function sendCookie()
-    {
-        if(!(is_array($this -> response_cookies) && count($this -> response_cookies) > 0 )){
-            return ;
-        }
-        foreach ($this -> response_cookies as $cookie_item){
-            $this -> getRawResponse() -> cookie($cookie_item -> getName(),$cookie_item -> getValue(),$cookie_item -> getExpire(),$cookie_item -> getPath(),$cookie_item -> getDemain(),$cookie_item -> getSecure(),$cookie_item -> getHttpoly());
-        }
     }
     /**
      * 发送内容到客户端
@@ -75,9 +42,8 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
      */
     public function writeContent($content)
     {
-        return $this -> getRawResponse() -> write(strval($content));
+        $this -> response_contents .= $content;
     }
-
     /**
      * 响应一个重定向 302
      * @param $url
@@ -115,9 +81,17 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
          */
         $this -> sendCookie();
         /**
+         * 响应状态码
+         */
+        $this -> getRawResponse() -> status($this -> response_http_code);
+        /**
          * 标识响应已经结束
          */
         $this -> is_end = true;
+        /**
+         * 响应内容
+         */
+        $this -> getRawResponse() -> write(strval($this -> response_contents));
         /**
          * 结束请求
          */
@@ -130,5 +104,29 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
     public function getRawResponse()
     {
         return $this -> response;
+    }
+    /**
+     * 发送响应头部信息
+     */
+    protected function sendHeaders()
+    {
+        if(!(is_array($this -> response_headers) && count($this -> response_headers) > 0 )){
+            return ;
+        }
+        foreach ($this -> response_headers as $header_item){
+            $this -> getRawResponse() -> header($header_item -> getName(),$header_item -> getValue());
+        }
+    }
+    /**
+     * 设置请求cookie
+     */
+    protected function sendCookie()
+    {
+        if(!(is_array($this -> response_cookies) && count($this -> response_cookies) > 0 )){
+            return ;
+        }
+        foreach ($this -> response_cookies as $cookie_item){
+            $this -> getRawResponse() -> cookie($cookie_item -> getName(),$cookie_item -> getValue(),$cookie_item -> getExpire(),$cookie_item -> getPath(),$cookie_item -> getDemain(),$cookie_item -> getSecure(),$cookie_item -> getHttpoly());
+        }
     }
 }
