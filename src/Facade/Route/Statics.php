@@ -70,8 +70,9 @@ class Statics implements StaticInterface
         $this -> method = $this -> route -> getRequest() -> getRequestMethod();
         try{
             $this -> makeController() -> __hook($this -> getActionName());
+            $this -> route -> endRoute();
         }catch (\Throwable $throwable){
-            dump($throwable);
+            throw $throwable;
         }
     }
     /**
