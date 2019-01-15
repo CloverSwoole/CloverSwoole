@@ -4,6 +4,7 @@ namespace Itxiao6\Framework\Facade\Route;
 use Illuminate\Container\Container;
 use Itxiao6\Framework\Facade\Http\Request;
 use Itxiao6\Framework\Facade\Http\Response;
+use Itxiao6\Framework\Facade\Route\Exception\NotFoundRequest;
 
 /**
  * 路由组件实例
@@ -125,6 +126,12 @@ class Route implements RouteInterface
          * 静态路由
          */
         $this -> container -> make(StaticInterface::class) -> boot($this);
+        /**
+         * 判断路由是否找到了
+         */
+        if(!$this -> routeIsEnd()){
+            throw new NotFoundRequest('找不到指定路由',404,null,$this -> request,$this -> response);
+        }
     }
     /**
      * 获取容器
