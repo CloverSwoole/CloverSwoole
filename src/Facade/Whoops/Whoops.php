@@ -17,11 +17,11 @@ class Whoops implements WhoopsInterface
 
     public function boot(\Throwable $exception,Request $request,Response $response)
     {
-        try{
-            $response -> writeContent('异常:'.$exception -> getMessage());
-            $response -> endResponse();
-        }catch (\Throwable $throwable){
-            dump($throwable);
-        }
+//        try{
+//            $response -> writeContent('异常:'.$exception -> getMessage());
+//            $response -> endResponse();
+//        }catch (\Throwable $throwable){
+//            dump($throwable);
+//        }
     }
 }
