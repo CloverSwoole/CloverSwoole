@@ -145,9 +145,22 @@ abstract class Controller
      */
     protected function __onException(\Throwable $throwable)
     {
+        /**
+         * 异常消息
+         */
         $this -> __getResponse() -> writeContent('异常:'.$throwable -> getMessage()."<br />\n");
+        /**
+         * 抛出文件
+         */
         $this -> __getResponse() -> writeContent('文件:'.$throwable -> getFile()."<br />\n");
+        /**
+         * 抛出位置
+         */
         $this -> __getResponse() -> writeContent('位置:'.$throwable -> getLine()."<br />\n");
+        /**
+         * 内容类型
+         */
+        $this -> __getResponse() -> withHeader(new HeaderItem('Content-Type','text/html;charset=utf-8'));
         $this -> __getResponse() -> endResponse();
     }
     /**
