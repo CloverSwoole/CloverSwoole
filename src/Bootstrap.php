@@ -109,15 +109,15 @@ class Bootstrap
         /**
          * 注入请求依赖
          */
-        $this -> container -> bind(\Itxiao6\Framework\Facade\Http\Request::class,Request::class);
+        $container -> bind(\Itxiao6\Framework\Facade\Http\Request::class,Request::class);
         /**
          * 注入响应依赖
          */
-        $this -> container -> bind(\Itxiao6\Framework\Facade\Http\Response::class,Response::class);
+        $container -> bind(\Itxiao6\Framework\Facade\Http\Response::class,Response::class);
         /**
          * 注入路由组件
          */
-        $this -> container -> bind(RouteInterface::class,Route::class);
+        $container -> bind(RouteInterface::class,Route::class);
         /**
          * 返回容器
          */
