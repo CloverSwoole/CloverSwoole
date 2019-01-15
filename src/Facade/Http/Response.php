@@ -22,6 +22,16 @@ abstract class Response
      */
     protected $response_cookies = null;
     /**
+     * 响应内容
+     * @var string
+     */
+    protected $response_contents = '';
+    /**
+     * 默认为成功
+     * @var int
+     */
+    protected $response_http_code = Status::CODE_OK;
+    /**
      * @var bool
      */
     protected $is_end = false;
@@ -71,12 +81,14 @@ abstract class Response
      */
     abstract public function writeContent($content);
     /**
-     * 响应状态码
      * @param int $code
      * @param string $reasonPhrase
-     * @return mixed
+     * @return mixed|void
      */
-    abstract public function withStatus($code, $reasonPhrase = '');
+    public function withStatus($code, $reasonPhrase = '')
+    {
+        $this -> response_http_code = $code;
+    }
     /**
      * 结束请求
      * @return mixed
