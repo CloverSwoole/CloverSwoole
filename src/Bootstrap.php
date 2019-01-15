@@ -21,6 +21,8 @@ use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttp;
 use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttpInterface;
 use Itxiao6\Framework\Facade\SwooleSocket\SwooleSocket;
 use Itxiao6\Framework\Facade\SwooleSocket\SwooleSocketInterface;
+use Itxiao6\Framework\Facade\Whoops\Whoops;
+use Itxiao6\Framework\Facade\Whoops\WhoopsInterface;
 
 /**
  * 框架默认启动器
@@ -118,6 +120,10 @@ class Bootstrap
          * 注入路由组件
          */
         $container -> bind(RouteInterface::class,Route::class);
+        /**
+         * 注入异常处理组件
+         */
+        $container -> bind(WhoopsInterface::class,Whoops::class);
         /**
          * 返回容器
          */
