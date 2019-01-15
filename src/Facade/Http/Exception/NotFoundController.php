@@ -6,7 +6,7 @@ namespace Itxiao6\Framework\Facade\Http\Exception;
  * Class NotFoundController
  * @package Itxiao6\Framework\Facade\Http\Exception
  */
-class NotFoundController extends RouteBaseException
+class NotFoundController extends HttpBaseException
 {
 
 }
