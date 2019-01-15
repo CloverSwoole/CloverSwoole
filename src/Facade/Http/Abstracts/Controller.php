@@ -28,12 +28,10 @@ abstract class Controller
      * @var array
      */
     protected $defaultProperties = [];
-
     /**
      * @var null | RouteInterface|Route
      */
     protected $route = null;
-
     /**
      * 初始化
      * Controller constructor.
@@ -64,7 +62,6 @@ abstract class Controller
                 '__set_state','__clone','__debugInfo'
             ]
         );
-
         //获取，生成属性默认值
         $ref = new \ReflectionClass(static::class);
         $properties = $ref->getProperties();
@@ -76,7 +73,6 @@ abstract class Controller
             }
         }
     }
-
     /**
      * 系统钩子
      * @param $actionName
@@ -94,74 +90,12 @@ abstract class Controller
             $this -> __onException($throwable);
         }
     }
-
     /**
      * 找不到指定的操作
      */
     protected function __actionNotFound()
     {
         $this -> __getResponse() -> writeContent('找不到操作:'.$this -> actionName);
-    }
-
-    /**
-     * 异常处理
-     * @param \Throwable $throwable
-     */
-    protected function __onException(\Throwable $throwable)
-    {
-        $this -> __getResponse() -> writeContent('异常:'.$throwable -> getMessage());
-    }
-
-    /**
-     * 注入容器
-     * @param Container $container
-     */
-    public function __getContainer()
-    {
-        return $this -> route -> getContainer();
-    }
-
-    /**
-     * 获取请求实例
-     * @return Request|null
-     */
-    public function __getRequest()
-    {
-        return $this -> route -> getRequest();
-    }
-
-    /**
-     * 获取响应
-     * @return Response|null
-     */
-    public function __getResponse()
-    {
-        return $this -> route -> getResponse();
-    }
-
-    /**
-     * 回收机制
-     */
-    protected function __gc()
-    {
-        /**
-         * 结束请求
-         */
-        $this -> __getResponse() -> endResponse();
-        /**
-         * 恢复默认值
-         */
-        foreach ($this->defaultProperties as $property => $value){
-            $this->{$property} = $value;
-        }
-    }
-
-    /**
-     * 析构方法
-     */
-    public function __destruct()
-    {
-        $this -> __gc();
     }
     /**
      * 返回JSON数据
@@ -174,10 +108,6 @@ abstract class Controller
          * 判断请求是否已经结束
          */
         if($this -> __getResponse() -> ResponseIsEnd()){return ;}
-        /**
-         * 响应数据
-         */
-        $this->__getResponse()->writeContent(json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
         /**
          * 内容类型
          */
@@ -199,8 +129,67 @@ abstract class Controller
          */
         $this->__getResponse()->withStatus(Status::CODE_OK);
         /**
+         * 响应数据
+         */
+        $this->__getResponse()->writeContent(json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        /**
          * 判断是否要结束请求
          */
         if($is_end){$this -> __getResponse() -> endResponse();}
+    }
+    /**
+     * 异常处理
+     * @param \Throwable $throwable
+     */
+    protected function __onException(\Throwable $throwable)
+    {
+        $this -> __getResponse() -> writeContent('异常:'.$throwable -> getMessage());
+    }
+    /**
+     * 注入容器
+     * @param Container $container
+     */
+    public function __getContainer()
+    {
+        return $this -> route -> getContainer();
+    }
+    /**
+     * 获取请求实例
+     * @return Request|null
+     */
+    public function __getRequest()
+    {
+        return $this -> route -> getRequest();
+    }
+    /**
+     * 获取响应
+     * @return Response|null
+     */
+    public function __getResponse()
+    {
+        return $this -> route -> getResponse();
+    }
+    /**
+     * 析构方法
+     */
+    public function __destruct()
+    {
+        $this -> __gc();
+    }
+    /**
+     * 回收机制
+     */
+    protected function __gc()
+    {
+        /**
+         * 结束请求
+         */
+        $this -> __getResponse() -> endResponse();
+        /**
+         * 恢复默认值
+         */
+        foreach ($this->defaultProperties as $property => $value){
+            $this->{$property} = $value;
+        }
     }
 }
