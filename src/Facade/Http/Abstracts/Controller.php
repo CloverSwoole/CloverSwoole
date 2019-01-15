@@ -137,13 +137,15 @@ abstract class Controller
          */
         if($is_end){$this -> __getResponse() -> endResponse();}
     }
+
     /**
      * 异常处理
      * @param \Throwable $throwable
+     * @throws \Throwable
      */
     protected function __onException(\Throwable $throwable)
     {
-        $this -> __getResponse() -> writeContent('异常:'.$throwable -> getMessage());
+        throw $throwable;
     }
     /**
      * 注入容器
