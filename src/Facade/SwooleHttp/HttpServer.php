@@ -4,8 +4,10 @@ use Illuminate\Container\Container;
 use Itxiao6\Framework\Facade\Route\Route;
 use Itxiao6\Framework\Facade\Route\RouteInterface;
 use Itxiao6\Framework\Facade\Route\UrlParser;
+use Itxiao6\Framework\Facade\Whoops\WhoopsInterface;
 use Swoole\Http\Response;
 use Swoole\Http\Request;
+use Whoops\Handler\PrettyPageHandler;
 
 /**
  * Http Swoole
@@ -50,27 +52,40 @@ class HttpServer implements HttpServerInterface
      */
     public function onRequest(Request $request_raw, Response $response_raw)
     {
-        /**
-         * 获取 request
-         */
-        $request = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Request::class) -> boot($request_raw);
-        /**
-         * 获取 response
-         */
-        $response = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Response::class) -> boot($response_raw);
-        /**
-         * 解析Url
-         */
-        $path = UrlParser::pathInfo($request -> getUri());
-        /**
-         * 启动路由组件
-         */
-        $this -> container -> make(RouteInterface::class) -> boot($request,$response,$this -> container);
-        /**
-         * 如果没有结束响应则 后置结束
-         */
-        if(!$response->ResponseIsEnd()){
-            $response->endResponse();
+        try{
+            /**
+             * 获取 request
+             */
+            $request = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Request::class) -> boot($request_raw);
+            /**
+             * 获取 response
+             */
+            $response = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Response::class) -> boot($response_raw);
+            /**
+             * 解析Url
+             */
+            $path = UrlParser::pathInfo($request -> getUri());
+            /**
+             * 启动路由组件
+             */
+            $this -> container -> make(RouteInterface::class) -> boot($request,$response,$this -> container);
+            /**
+             * 如果没有结束响应则 后置结束
+             */
+            if(!$response->ResponseIsEnd()){
+                $response->endResponse();
+            }
+        }catch (\Throwable $throwable){
+            $this -> onRequestException($throwable,$request,$response);
         }
+    }
+
+    /**
+     * 处理请求异常
+     * @param \Throwable $throwable
+     */
+    protected function onRequestException(\Throwable $throwable,\Itxiao6\Framework\Facade\Http\Request $request,\Itxiao6\Framework\Facade\Http\Response $response)
+    {
+        $this -> container -> make(WhoopsInterface::class) -> boot($throwable,$request,$response);
     }
 }
