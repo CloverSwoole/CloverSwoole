@@ -9,10 +9,14 @@ use Itxiao6\Framework\Facade\Route\Config;
 use Itxiao6\Framework\Facade\Route\ConfigInterface;
 use Itxiao6\Framework\Facade\Route\Dynamic;
 use Itxiao6\Framework\Facade\Route\DynamicInterface;
+use Itxiao6\Framework\Facade\Route\Route;
+use Itxiao6\Framework\Facade\Route\RouteInterface;
 use Itxiao6\Framework\Facade\Route\StaticInterface;
 use Itxiao6\Framework\Facade\Route\Statics;
 use Itxiao6\Framework\Facade\SwooleHttp\HttpServer;
 use Itxiao6\Framework\Facade\SwooleHttp\HttpServerInterface;
+use Itxiao6\Framework\Facade\SwooleHttp\Request;
+use Itxiao6\Framework\Facade\SwooleHttp\Response;
 use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttp;
 use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttpInterface;
 use Itxiao6\Framework\Facade\SwooleSocket\SwooleSocket;
@@ -102,6 +106,18 @@ class Bootstrap
          * 注入动态路由处理方法
          */
         $container -> bind(DynamicInterface::class,Dynamic::class);
+        /**
+         * 注入请求依赖
+         */
+        $this -> container -> bind(\Itxiao6\Framework\Facade\Http\Request::class,Request::class);
+        /**
+         * 注入响应依赖
+         */
+        $this -> container -> bind(\Itxiao6\Framework\Facade\Http\Response::class,Response::class);
+        /**
+         * 注入路由组件
+         */
+        $this -> container -> bind(RouteInterface::class,Route::class);
         /**
          * 返回容器
          */
