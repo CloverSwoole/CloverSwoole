@@ -10,8 +10,7 @@
     "symfony/var-dumper": "^4.2",
     "illuminate/config": "^5.7",
     "vlucas/phpdotenv": "^2.5",
-    "illuminate/filesystem": "^5.7",
-    "easyswoole/http": "^1.2"
+    "illuminate/filesystem": "^5.7"
   },
   "authors": [
     {
