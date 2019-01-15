@@ -91,7 +91,9 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
         /**
          * 响应内容
          */
-        $this -> getRawResponse() -> write(strval($this -> response_contents));
+        if(strlen(strval($this -> response_contents)) > 0){
+            $this -> getRawResponse() -> write(strval($this -> response_contents));
+        }
         /**
          * 结束请求
          */
