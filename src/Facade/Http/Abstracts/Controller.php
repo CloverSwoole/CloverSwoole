@@ -145,7 +145,10 @@ abstract class Controller
      */
     protected function __onException(\Throwable $throwable)
     {
-        throw $throwable;
+        $this -> __getResponse() -> writeContent('异常:'.$throwable -> getMessage().'<br />\n');
+        $this -> __getResponse() -> writeContent('文件:'.$throwable -> getFile().'<br />\n');
+        $this -> __getResponse() -> writeContent('位置:'.$throwable -> getLine().'<br />\n');
+        $this -> __getResponse() -> endResponse();
     }
     /**
      * 注入容器
