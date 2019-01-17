@@ -51,7 +51,7 @@ abstract class Request
      * 获取GET 参数
      * @return mixed|void
      */
-    public function getGETParam()
+    public function getGetParam()
     {
         if(!($this -> get instanceof GET)){
             $this -> get = Framework::getContainerInterface() -> make(GET::class) -> boot(is_array($this -> request  -> get)?$this -> request -> get:[]);
@@ -63,7 +63,7 @@ abstract class Request
      * 获取POST 参数
      * @return POST|mixed|null
      */
-    public function getPOSTParam()
+    public function getPostParam()
     {
         if(!($this -> post instanceof POST)){
             $this -> post = Framework::getContainerInterface() -> make(POST::class) -> boot(is_array($this -> request -> request -> post)?$this -> request -> post:[]);
