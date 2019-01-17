@@ -51,6 +51,13 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
      */
     public function redirect($url)
     {
+        /**
+         * 内置处理
+         */
+        parent::redirect($url);
+        /**
+         * Swoole 内置重定向
+         */
         $this -> getRawResponse() -> redirect($url,302);
     }
     /**

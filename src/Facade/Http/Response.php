@@ -73,7 +73,10 @@ abstract class Response
      * @param $url
      * @return mixed
      */
-    abstract public function redirect($url);
+    public function redirect($url)
+    {
+        $this -> is_end = true;
+    }
     /**
      * 向客户端写入内容
      * @param $content
