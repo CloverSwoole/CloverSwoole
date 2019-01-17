@@ -99,6 +99,28 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
          */
         return $this -> getRawResponse() -> end();
     }
+
+    /**
+     * 发送文件
+     * @param $filename
+     * @param int $offset
+     * @param int $length
+     * @return mixed|void
+     */
+    public function sendFile($filename,$offset = 0,$length = 0)
+    {
+        /**
+         * 响应句柄内部处理
+         */
+        if($offset == 0){
+            parent::sendFile($filename,$offset,$length);
+        }
+        /**
+         * 发送文件到客户端
+         */
+        $this -> getRawResponse() -> sendfile($filename,$offset,$length);
+    }
+
     /**
      * 获取原生的响应句柄
      * @return mixed|null|\swoole_http_response

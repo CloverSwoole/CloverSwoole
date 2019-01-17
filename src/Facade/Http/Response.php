@@ -94,4 +94,27 @@ abstract class Response
      * @return mixed
      */
     abstract public function endResponse();
+    /**
+     * 发送文件
+     * @return mixed
+     */
+    public function sendFile($filename,$offset = 0,$length = 0)
+    {
+        /**
+         * 标识响应已经结束
+         */
+        $this -> is_end = true;
+        /**
+         * 发送协议头
+         */
+        $this -> sendHeaders();
+        /**
+         * 发送Cookie
+         */
+        $this -> sendCookie();
+        /**
+         * 响应状态码
+         */
+        $this -> getRawResponse() -> status($this -> response_http_code);
+    }
 }
