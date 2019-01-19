@@ -1,5 +1,7 @@
 <?php
 namespace Itxiao6\Framework\Facade\Http;
+use Symfony\Component\VarDumper\VarDumper;
+
 /**
  * Http 响应基类
  * Class Response
@@ -143,5 +145,29 @@ abstract class Response
          * 响应状态码
          */
         $this -> getRawResponse() -> status($this -> response_http_code);
+    }
+
+    /**
+     * 打印内容
+     * @param $var
+     * @param mixed ...$moreVars
+     * @return array
+     */
+    public static function dump($var, ...$moreVars)
+    {
+        $old_var_dump_foramt_value = isset($_SERVER['VAR_DUMPER_FORMAT'])?$_SERVER['VAR_DUMPER_FORMAT']:null;
+        $_SERVER['VAR_DUMPER_FORMAT'] = 'html';
+        ob_start();
+        VarDumper::dump($var);
+        foreach ($moreVars as $v) {
+            VarDumper::dump($v);
+        }
+        if (1 < func_num_args()) {
+            return func_get_args();
+        }
+        $content = ob_get_contents();
+        ob_clean();
+        $_SERVER['VAR_DUMPER_FORMAT'] = $old_var_dump_foramt_value;
+        Response::getInterface() -> writeContent($content);
     }
 }
