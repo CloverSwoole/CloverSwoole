@@ -40,6 +40,30 @@ abstract class Request
      */
     protected $request = null;
     /**
+     * @var null | Request
+     */
+    protected static $global_request = null;
+    /**
+     * 设置全局访问
+     * @param $bool
+     */
+    public function setAsGlobal($bool = true)
+    {
+        if($bool){
+            static::$global_request = $this;
+        }else{
+            static::$global_request = null;
+        }
+    }
+    /**
+     * 获取响应句柄
+     * @return Request|null
+     */
+    public static function getInterface()
+    {
+        return static::$global_request;
+    }
+    /**
      * 获取原生请求
      * @return mixed|void|mixed
      */

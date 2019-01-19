@@ -36,6 +36,30 @@ abstract class Response
      */
     protected $is_end = false;
     /**
+     * @var null | Response
+     */
+    protected static $global_response = null;
+    /**
+     * 设置全局访问
+     * @param $bool
+     */
+    public function setAsGlobal($bool = true)
+    {
+        if($bool){
+            static::$global_response = $this;
+        }else{
+            static::$global_response = null;
+        }
+    }
+    /**
+     * 获取响应句柄
+     * @return Response|null
+     */
+    public static function getInterface()
+    {
+        return static::$global_response;
+    }
+    /**
      * 注入 Cookie
      * @param $cookie
      * @return mixed|void

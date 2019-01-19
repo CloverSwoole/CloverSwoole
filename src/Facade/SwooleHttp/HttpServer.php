@@ -57,9 +57,17 @@ class HttpServer implements HttpServerInterface
          */
         $request = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Request::class) -> boot($request_raw);
         /**
+         * 设置全局访问
+         */
+        $request -> setAsGlobal();
+        /**
          * 获取 response
          */
         $response = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Response::class) -> boot($response_raw);
+        /**
+         * 设置全局访问
+         */
+        $response -> setAsGlobal();
         /**
          * 解析Url
          */
