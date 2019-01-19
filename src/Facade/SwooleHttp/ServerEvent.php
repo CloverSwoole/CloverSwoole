@@ -1,9 +1,8 @@
 <?php
 namespace Itxiao6\Framework\Facade\SwooleHttp;
-
 use Illuminate\Container\Container;
+use Itxiao6\Framework\Facade\Whoops\WhoopsInterface;
 use Itxiao6\Framework\Framework;
-
 /**
  * 服务事件模型
  * Class ServerEvent
@@ -18,7 +17,7 @@ class ServerEvent implements ServerEventInterface
     protected $container = null;
 
     /**
-     * 注入容器
+     * 获取容器
      * @param Container|null $container
      * @return $this
      */
@@ -28,11 +27,11 @@ class ServerEvent implements ServerEventInterface
          * 判断容器是否有效
          */
         if(!($container instanceof Container)){
-            $this -> container = $container;
+            $container = new Container();
         }
+        $this -> container = $container;
         return $this;
     }
-
     /**
      * 服务启动
      * @param \Swoole\Http\Server $server
@@ -40,7 +39,7 @@ class ServerEvent implements ServerEventInterface
      */
     public function onStart(\Swoole\Http\Server $server)
     {
-        echo "onStarted\n";
+        echo "WebServerOnStarted\n";
     }
     /**
      * 消息到达
@@ -50,7 +49,18 @@ class ServerEvent implements ServerEventInterface
      */
     public function onRequest(\swoole_http_request $request, \swoole_http_response $response)
     {
-        echo "onRequest\n";
+        try{
+            /**
+             * 实例化WebServer
+             */
+            $http_service = $this -> container -> make(HttpServerInterface::class) -> boot($this -> container);
+            /**
+             * 请求到达
+             */
+            $http_service -> onRequest($request,$response);
+        }catch (\Throwable $exception){
+            $this -> container -> make(WhoopsInterface::class) -> swooleOnRequestException($request,$response);
+        }
     }
 
     /**
@@ -60,7 +70,7 @@ class ServerEvent implements ServerEventInterface
      */
     public function onShutdown(\Swoole\Http\Server $server)
     {
-        echo "onShutdownEd\n";
+        echo "WebServerOnShutdownEd\n";
     }
     /**
      * 服务关闭
@@ -70,7 +80,7 @@ class ServerEvent implements ServerEventInterface
      */
     public function onClose(\Swoole\Http\Server $server,$fd)
     {
-        echo "Server Closed\n";
+        echo "WebServer Closed\n";
     }
 
     /**
@@ -81,6 +91,6 @@ class ServerEvent implements ServerEventInterface
      */
     public function onOpen(\Swoole\Http\Server $server, \Swoole\Http\Server $request)
     {
-        echo "opOpened\n";
+        echo "WebServerOpOpened\n";
     }
 }
