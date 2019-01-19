@@ -32,7 +32,14 @@ class Response extends \Itxiao6\Framework\Facade\Http\Response
     public function boot($response)
     {
         $this -> response = $response;
+        /**
+         * 默认Server 名称
+         */
         $this -> withHeader(new HeaderItem('Server','Minkernel'));
+        /**
+         * 默认页面内容类型及编码
+         */
+        $this -> withHeader(new HeaderItem('Content-Type','text/html;charset=utf-8'));
         return $this;
     }
     /**
