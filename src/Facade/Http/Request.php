@@ -73,7 +73,7 @@ abstract class Request
     }
     /**
      * 获取GET 参数
-     * @return mixed|void
+     * @return mixed|void|GET
      */
     public function getGetParam()
     {
