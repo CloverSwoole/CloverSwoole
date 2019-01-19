@@ -1,5 +1,7 @@
 <?php
 namespace Itxiao6\Framework\Facade\Http;
+use Itxiao6\Framework\Facade\VarDumper\HtmlDumper;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -158,13 +160,11 @@ abstract class Response
         $old_var_dump_foramt_value = isset($_SERVER['VAR_DUMPER_FORMAT'])?$_SERVER['VAR_DUMPER_FORMAT']:null;
         $_SERVER['VAR_DUMPER_FORMAT'] = 'html';
         ob_start();
-        VarDumper::dump($var);
-        foreach ($moreVars as $v) {
-            VarDumper::dump($v);
-        }
-        if (1 < func_num_args()) {
-            return func_get_args();
-        }
+        $cloner = new VarCloner();
+        $dumper = new HtmlDumper();
+        call_user_func(function ($var) use ($cloner, $dumper) {
+            $dumper->dump($cloner->cloneVar($var));
+        },$var);
         $content = ob_get_contents();
         ob_clean();
         $_SERVER['VAR_DUMPER_FORMAT'] = $old_var_dump_foramt_value;
