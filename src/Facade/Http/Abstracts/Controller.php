@@ -102,7 +102,7 @@ abstract class Controller
      * @param $data
      * @param bool $is_end
      */
-    protected function ReturnJosn($data,$is_end = false)
+    protected function returnJosn($data,$is_end = false)
     {
         /**
          * 判断请求是否已经结束

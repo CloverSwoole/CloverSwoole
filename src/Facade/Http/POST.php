@@ -19,6 +19,7 @@ class POST
     public function boot($post = [])
     {
         $this -> post = $post;
+        return $this;
     }
     public function getPosts()
     {

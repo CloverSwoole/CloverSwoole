@@ -66,7 +66,7 @@ abstract class Request
     public function getPostParam()
     {
         if(!($this -> post instanceof POST)){
-            $this -> post = Framework::getContainerInterface() -> make(POST::class) -> boot(is_array($this -> request -> getRawRequest() -> post)?$this -> getRawRequest() -> post:[]);
+            $this -> post = Framework::getContainerInterface() -> make(POST::class) -> boot(is_array($this -> getRawRequest() -> post)?$this -> getRawRequest() -> post:[]);
         }
         return $this -> post;
     }

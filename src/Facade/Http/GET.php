@@ -19,6 +19,7 @@ class GET
     public function boot($get = [])
     {
         $this -> get = $get;
+        return $this;
     }
     public function getGets()
     {
