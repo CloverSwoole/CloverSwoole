@@ -1,6 +1,10 @@
 <?php
 namespace Itxiao6\Framework\Facade\VarDumper;
-
+/**
+ * 每次打印都重置头部信息（重写父类方法dumpLine）
+ * Class HtmlDumper
+ * @package Itxiao6\Framework\Facade\VarDumper
+ */
 class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
 {
     public function dumpLine($depth, $endOfValue = false)
