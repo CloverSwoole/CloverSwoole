@@ -158,9 +158,8 @@ abstract class Controller
          */
         $this -> __getResponse() -> writeContent('位置:'.$throwable -> getLine()."<br />\n");
         /**
-         * 内容类型
+         * 结束请求
          */
-        $this -> __getResponse() -> withHeader(new HeaderItem('Content-Type','text/html;charset=utf-8'));
         $this -> __getResponse() -> endResponse();
     }
     /**

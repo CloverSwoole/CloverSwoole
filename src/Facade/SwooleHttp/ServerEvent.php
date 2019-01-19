@@ -47,7 +47,7 @@ class ServerEvent implements ServerEventInterface
      * @param \swoole_http_response $response
      * @return mixed|void
      */
-    public function onRequest(\swoole_http_request $request, \swoole_http_response $response)
+    public function onRequest(\swoole_http_request $request_raw, \swoole_http_response $response_raw)
     {
         try{
             /**
@@ -57,9 +57,20 @@ class ServerEvent implements ServerEventInterface
             /**
              * 请求到达
              */
-            $http_service -> onRequest($request,$response);
+            $http_service -> onRequest($request_raw,$response_raw);
         }catch (\Throwable $exception){
-            $this -> container -> make(WhoopsInterface::class) -> swooleOnRequestException($request,$response);
+            /**
+             * 获取 request
+             */
+            $request = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Request::class) -> boot($request_raw);
+            /**
+             * 获取 response
+             */
+            $response = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Response::class) -> boot($response_raw);
+            /**
+             * 处理异常
+             */
+            $this -> container -> make(WhoopsInterface::class) -> swooleOnRequestException($exception,$request,$response);
         }
     }
 
