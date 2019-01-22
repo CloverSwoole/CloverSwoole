@@ -1,8 +1,8 @@
 <?php
-namespace Itxiao6\Framework;
+namespace CloverSwoole\CloverSwoole;
 /**
  * Class Exception
- * @package Itxiao6\Framework
+ * @package CloverSwoole\CloverSwoole
  */
 class Exception extends \Exception
 {

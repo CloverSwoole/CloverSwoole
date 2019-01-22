@@ -1,11 +1,11 @@
 <?php
-namespace Itxiao6\Framework;
+namespace CloverSwoole\CloverSwoole;
 use Illuminate\Container\Container;
 
 /**
  * 框架启动器
  * Interface BootstrapInterface
- * @package Itxiao6\Framework
+ * @package CloverSwoole\CloverSwoole
  */
 interface BootstrapInterface
 {

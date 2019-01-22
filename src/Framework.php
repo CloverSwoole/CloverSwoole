@@ -1,11 +1,11 @@
 <?php
-namespace Itxiao6\Framework;
+namespace CloverSwoole\CloverSwoole;
 use Illuminate\Container\Container;
 
 /**
  * 框架入口
  * Class Framework
- * @package Itxiao6\Framework
+ * @package CloverSwoole\CloverSwoole
  */
 class Framework
 {

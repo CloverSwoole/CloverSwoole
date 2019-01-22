@@ -1,5 +1,5 @@
 <?php
-namespace Itxiao6\Framework;
+namespace CloverSwoole\CloverSwoole;
 use Illuminate\Container\Container;
 use CloverSwoole\CloverSwoole\Facade\Databases\Database;
 use CloverSwoole\CloverSwoole\Facade\Databases\DatabaseInterface;
@@ -27,7 +27,7 @@ use CloverSwoole\CloverSwoole\Facade\Whoops\WhoopsInterface;
 /**
  * 框架默认启动器
  * Class Bootstrap
- * @package Itxiao6\Framework
+ * @package CloverSwoole\CloverSwoole
  */
 class Bootstrap
 {
