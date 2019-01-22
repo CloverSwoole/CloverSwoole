@@ -1,20 +1,20 @@
 <?php
-namespace Itxiao6\Framework\Facade\SwooleHttp;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
 use Illuminate\Container\Container;
-use Itxiao6\Framework\Facade\Http\Cookies;
-use Itxiao6\Framework\Facade\Http\GET;
-use Itxiao6\Framework\Facade\Http\HeaderItem;
-use Itxiao6\Framework\Facade\Http\Headers;
-use Itxiao6\Framework\Facade\Http\POST;
-use Itxiao6\Framework\Facade\Http\RequestCookies;
-use Itxiao6\Framework\Facade\Http\RequestHeaders;
-use Itxiao6\Framework\Framework;
+use CloverSwoole\CloverSwoole\Facade\Http\Cookies;
+use CloverSwoole\CloverSwoole\Facade\Http\GET;
+use CloverSwoole\CloverSwoole\Facade\Http\HeaderItem;
+use CloverSwoole\CloverSwoole\Facade\Http\Headers;
+use CloverSwoole\CloverSwoole\Facade\Http\POST;
+use CloverSwoole\CloverSwoole\Facade\Http\RequestCookies;
+use CloverSwoole\CloverSwoole\Facade\Http\RequestHeaders;
+use CloverSwoole\CloverSwoole\Framework;
 /**
  * Swoole 请求具体类
  * Class Request
- * @package Itxiao6\Framework\Facade\SwooleHttp
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
  */
-class Request extends \Itxiao6\Framework\Facade\Http\Request
+class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
 {
     /**
      * 创建一个请求实例

@@ -1,13 +1,13 @@
 <?php
-namespace Itxiao6\Framework\Facade\Http;
-use Itxiao6\Framework\Facade\VarDumper\HtmlDumper;
+namespace CloverSwoole\CloverSwoole\Facade\Http;
+use CloverSwoole\CloverSwoole\Facade\VarDumper\HtmlDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Http 响应基类
  * Class Response
- * @package Itxiao6\Framework\Facade\Http
+ * @package CloverSwoole\CloverSwoole\Facade\Http
  */
 abstract class Response
 {

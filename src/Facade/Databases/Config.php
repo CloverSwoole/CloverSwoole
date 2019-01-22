@@ -1,10 +1,10 @@
 <?php
-namespace Itxiao6\Framework\Facade\Databases;
+namespace CloverSwoole\CloverSwoole\Facade\Databases;
 use Illuminate\Container\Container;
 
 /**
  * Class Config
- * @package Itxiao6\Framework\Facade\Databases
+ * @package CloverSwoole\CloverSwoole\Facade\Databases
  */
 class Config implements ConfigInterface
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Itxiao6\Framework\Facade\SwooleHttp\EasySwoole;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp\EasySwoole;
 
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;

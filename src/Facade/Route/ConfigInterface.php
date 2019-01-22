@@ -1,12 +1,12 @@
 <?php
-namespace Itxiao6\Framework\Facade\Route;
+namespace CloverSwoole\CloverSwoole\Facade\Route;
 
 use Illuminate\Container\Container;
 
 /**
  * 路由配置
  * Interface ConfigInterface
- * @package Itxiao6\Framework\Facade\Route
+ * @package CloverSwoole\CloverSwoole\Facade\Route
  */
 interface ConfigInterface
 {

@@ -1,15 +1,15 @@
 <?php
-namespace Itxiao6\Framework\Facade\Route;
+namespace CloverSwoole\CloverSwoole\Facade\Route;
 
 use Illuminate\Container\Container;
-use Itxiao6\Framework\Facade\Http\Request;
-use Itxiao6\Framework\Facade\Http\Response;
-use Itxiao6\Framework\Facade\Route\Exception\NotFoundRequest;
+use CloverSwoole\CloverSwoole\Facade\Http\Request;
+use CloverSwoole\CloverSwoole\Facade\Http\Response;
+use CloverSwoole\CloverSwoole\Facade\Route\Exception\NotFoundRequest;
 
 /**
  * 路由组件实例
  * Class Route
- * @package Itxiao6\Framework\Facade\Route
+ * @package CloverSwoole\CloverSwoole\Facade\Route
  */
 class Route implements RouteInterface
 {

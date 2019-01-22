@@ -1,28 +1,28 @@
 <?php
 namespace Itxiao6\Framework;
 use Illuminate\Container\Container;
-use Itxiao6\Framework\Facade\Databases\Database;
-use Itxiao6\Framework\Facade\Databases\DatabaseInterface;
-use Itxiao6\Framework\Facade\Environment\Environment;
-use Itxiao6\Framework\Facade\Environment\EnvironmentInsterface;
-use Itxiao6\Framework\Facade\Route\Config;
-use Itxiao6\Framework\Facade\Route\ConfigInterface;
-use Itxiao6\Framework\Facade\Route\Dynamic;
-use Itxiao6\Framework\Facade\Route\DynamicInterface;
-use Itxiao6\Framework\Facade\Route\Route;
-use Itxiao6\Framework\Facade\Route\RouteInterface;
-use Itxiao6\Framework\Facade\Route\StaticInterface;
-use Itxiao6\Framework\Facade\Route\Statics;
-use Itxiao6\Framework\Facade\SwooleHttp\HttpServer;
-use Itxiao6\Framework\Facade\SwooleHttp\HttpServerInterface;
-use Itxiao6\Framework\Facade\SwooleHttp\Request;
-use Itxiao6\Framework\Facade\SwooleHttp\Response;
-use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttp;
-use Itxiao6\Framework\Facade\SwooleHttp\SwooleHttpInterface;
-use Itxiao6\Framework\Facade\SwooleSocket\SwooleSocket;
-use Itxiao6\Framework\Facade\SwooleSocket\SwooleSocketInterface;
-use Itxiao6\Framework\Facade\Whoops\Whoops;
-use Itxiao6\Framework\Facade\Whoops\WhoopsInterface;
+use CloverSwoole\CloverSwoole\Facade\Databases\Database;
+use CloverSwoole\CloverSwoole\Facade\Databases\DatabaseInterface;
+use CloverSwoole\CloverSwoole\Facade\Environment\Environment;
+use CloverSwoole\CloverSwoole\Facade\Environment\EnvironmentInsterface;
+use CloverSwoole\CloverSwoole\Facade\Route\Config;
+use CloverSwoole\CloverSwoole\Facade\Route\ConfigInterface;
+use CloverSwoole\CloverSwoole\Facade\Route\Dynamic;
+use CloverSwoole\CloverSwoole\Facade\Route\DynamicInterface;
+use CloverSwoole\CloverSwoole\Facade\Route\Route;
+use CloverSwoole\CloverSwoole\Facade\Route\RouteInterface;
+use CloverSwoole\CloverSwoole\Facade\Route\StaticInterface;
+use CloverSwoole\CloverSwoole\Facade\Route\Statics;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\HttpServer;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\HttpServerInterface;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\Request;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\Response;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\SwooleHttp;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\SwooleHttpInterface;
+use CloverSwoole\CloverSwoole\Facade\SwooleSocket\SwooleSocket;
+use CloverSwoole\CloverSwoole\Facade\SwooleSocket\SwooleSocketInterface;
+use CloverSwoole\CloverSwoole\Facade\Whoops\Whoops;
+use CloverSwoole\CloverSwoole\Facade\Whoops\WhoopsInterface;
 
 /**
  * 框架默认启动器
@@ -111,11 +111,11 @@ class Bootstrap
         /**
          * 注入请求依赖
          */
-        $container -> bind(\Itxiao6\Framework\Facade\Http\Request::class,Request::class);
+        $container -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Request::class,Request::class);
         /**
          * 注入响应依赖
          */
-        $container -> bind(\Itxiao6\Framework\Facade\Http\Response::class,Response::class);
+        $container -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class,Response::class);
         /**
          * 注入路由组件
          */

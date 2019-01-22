@@ -1,9 +1,9 @@
 <?php
-namespace Itxiao6\Framework\Facade\SwooleSocket;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleSocket;
 /**
  * Server 事件模型
  * Class ServerEvent
- * @package Itxiao6\Framework\Facade\SwooleSocket
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleSocket
  */
 class ServerEvent implements ServerEventInterface
 {

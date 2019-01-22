@@ -1,12 +1,12 @@
 <?php
-namespace Itxiao6\Framework\Facade\Databases;
+namespace CloverSwoole\CloverSwoole\Facade\Databases;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
 
 /**
  * 数据库服务
  * Class Database
- * @package Itxiao6\Framework\Facade\Databases
+ * @package CloverSwoole\CloverSwoole\Facade\Databases
  */
 class Database implements DatabaseInterface
 {
@@ -22,7 +22,7 @@ class Database implements DatabaseInterface
         /**
          * 获取配置
          */
-        $container -> make(\Itxiao6\Framework\Facade\Databases\ConfigInterface::class) -> boot($container);
+        $container -> make(\CloverSwoole\CloverSwoole\Facade\Databases\ConfigInterface::class) -> boot($container);
         /**
          * 实例化组件
          */

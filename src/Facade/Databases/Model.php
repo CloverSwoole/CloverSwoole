@@ -1,7 +1,7 @@
 <?php
-namespace Itxiao6\Framework\Facade\Databases;
+namespace CloverSwoole\CloverSwoole\Facade\Databases;
 use Illuminate\Database\Query\Builder;
-use Itxiao6\Framework\Framework;
+use CloverSwoole\CloverSwoole\Framework;
 
 /**
  * 基础模型

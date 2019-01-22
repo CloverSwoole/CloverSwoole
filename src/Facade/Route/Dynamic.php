@@ -1,10 +1,10 @@
 <?php
-namespace Itxiao6\Framework\Facade\Route;
+namespace CloverSwoole\CloverSwoole\Facade\Route;
 
 /**
  * 动态路由
  * Class Dynamic
- * @package Itxiao6\Framework\Facade\Route
+ * @package CloverSwoole\CloverSwoole\Facade\Route
  */
 class Dynamic implements DynamicInterface
 {

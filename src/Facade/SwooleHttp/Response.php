@@ -1,18 +1,18 @@
 <?php
-namespace Itxiao6\Framework\Facade\SwooleHttp;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
 use EasySwoole\Http\Message\Stream;
-use Itxiao6\Framework\Facade\Http\CookieItem;
-use Itxiao6\Framework\Facade\Http\Cookies;
-use Itxiao6\Framework\Facade\Http\HeaderItem;
-use Itxiao6\Framework\Facade\Http\Headers;
-use Itxiao6\Framework\Facade\Http\Status;
+use CloverSwoole\CloverSwoole\Facade\Http\CookieItem;
+use CloverSwoole\CloverSwoole\Facade\Http\Cookies;
+use CloverSwoole\CloverSwoole\Facade\Http\HeaderItem;
+use CloverSwoole\CloverSwoole\Facade\Http\Headers;
+use CloverSwoole\CloverSwoole\Facade\Http\Status;
 
 /**
  * Response 响应类
  * Class Response
- * @package Itxiao6\Framework\Facade\SwooleHttp
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
  */
-class Response extends \Itxiao6\Framework\Facade\Http\Response
+class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
 {
     /**
      * 构造方法

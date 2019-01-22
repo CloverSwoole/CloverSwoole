@@ -1,9 +1,9 @@
 <?php
-namespace Itxiao6\Framework\Facade\Command;
+namespace CloverSwoole\CloverSwoole\Facade\Command;
 /**
  * 命令解析
  * Interface CommandInterface
- * @package Itxiao6\Framework\Facade\Command
+ * @package CloverSwoole\CloverSwoole\Facade\Command
  */
 interface CommandInterface
 {

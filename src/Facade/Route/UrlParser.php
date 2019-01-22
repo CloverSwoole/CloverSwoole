@@ -1,9 +1,9 @@
 <?php
-namespace Itxiao6\Framework\Facade\Route;
+namespace CloverSwoole\CloverSwoole\Facade\Route;
 /**
  * Url 解析
  * Class UrlParser
- * @package Itxiao6\Framework\Facade\Route
+ * @package CloverSwoole\CloverSwoole\Facade\Route
  */
 class UrlParser
 {

@@ -1,9 +1,9 @@
 <?php
-namespace Itxiao6\Framework\Facade\Http;
+namespace CloverSwoole\CloverSwoole\Facade\Http;
 /**
  * Header Item
  * Class HeaderItem
- * @package Itxiao6\Framework\Facade\Http
+ * @package CloverSwoole\CloverSwoole\Facade\Http
  */
 class HeaderItem
 {

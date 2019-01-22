@@ -1,11 +1,11 @@
 <?php
-namespace Itxiao6\Framework\Facade\Environment;
+namespace CloverSwoole\CloverSwoole\Facade\Environment;
 use Illuminate\Container\Container;
 
 /**
  * 环境自适应
  * Interface EnvironmentInsterface
- * @package Itxiao6\Framework\Facade\Environment
+ * @package CloverSwoole\CloverSwoole\Facade\Environment
  */
 interface EnvironmentInsterface
 {

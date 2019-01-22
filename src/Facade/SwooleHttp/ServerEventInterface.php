@@ -1,9 +1,9 @@
 <?php
-namespace Itxiao6\Framework\Facade\SwooleHttp;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
 /**
  * Swoole Http Event Model
  * Interface ServerEventInterface
- * @package Itxiao6\Framework\Facade\SwooleHttp
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
  */
 interface ServerEventInterface
 {

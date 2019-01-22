@@ -1,18 +1,18 @@
 <?php
-namespace Itxiao6\Framework\Facade\Http\Abstracts;
+namespace CloverSwoole\CloverSwoole\Facade\Http\Abstracts;
 use Illuminate\Container\Container;
-use Itxiao6\Framework\Facade\Http\HeaderItem;
-use Itxiao6\Framework\Facade\Http\Headers;
-use Itxiao6\Framework\Facade\Http\Request;
-use Itxiao6\Framework\Facade\Http\Response;
-use Itxiao6\Framework\Facade\Http\Status;
-use Itxiao6\Framework\Facade\Route\Route;
-use Itxiao6\Framework\Facade\Route\RouteInterface;
+use CloverSwoole\CloverSwoole\Facade\Http\HeaderItem;
+use CloverSwoole\CloverSwoole\Facade\Http\Headers;
+use CloverSwoole\CloverSwoole\Facade\Http\Request;
+use CloverSwoole\CloverSwoole\Facade\Http\Response;
+use CloverSwoole\CloverSwoole\Facade\Http\Status;
+use CloverSwoole\CloverSwoole\Facade\Route\Route;
+use CloverSwoole\CloverSwoole\Facade\Route\RouteInterface;
 
 /**
  * 控制器基础类
  * Class Controller
- * @package Itxiao6\Framework\Facade\Http\Abstracts
+ * @package CloverSwoole\CloverSwoole\Facade\Http\Abstracts
  */
 abstract class Controller
 {

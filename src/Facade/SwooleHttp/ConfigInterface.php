@@ -1,11 +1,11 @@
 <?php
-namespace Itxiao6\Framework\Facade\SwooleHttp;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
 use Illuminate\Container\Container;
 
 /**
  * SwooleHttp配置
  * Interface ConfigInterface
- * @package Itxiao6\Framework\Facade\SwooleHttp
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
  */
 interface ConfigInterface
 {

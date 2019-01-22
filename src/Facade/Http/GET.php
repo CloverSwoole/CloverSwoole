@@ -1,9 +1,9 @@
 <?php
-namespace Itxiao6\Framework\Facade\Http;
+namespace CloverSwoole\CloverSwoole\Facade\Http;
 /**
  * Request GET
  * Class GET
- * @package Itxiao6\Framework\Facade\Http
+ * @package CloverSwoole\CloverSwoole\Facade\Http
  */
 class GET
 {

@@ -1,9 +1,9 @@
 <?php
-namespace Itxiao6\Framework\Facade\Whoops;
+namespace CloverSwoole\CloverSwoole\Facade\Whoops;
 
 /**
  * Interface WhoopsInterface
- * @package Itxiao6\Framework\Facade\Whoops
+ * @package CloverSwoole\CloverSwoole\Facade\Whoops
  */
 interface WhoopsInterface
 {

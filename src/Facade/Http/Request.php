@@ -1,12 +1,12 @@
 <?php
-namespace Itxiao6\Framework\Facade\Http;
+namespace CloverSwoole\CloverSwoole\Facade\Http;
 
-use Itxiao6\Framework\Framework;
+use CloverSwoole\CloverSwoole\Framework;
 
 /**
  * Http 请求基类
  * Class Request
- * @package Itxiao6\Framework\Facade\Http
+ * @package CloverSwoole\CloverSwoole\Facade\Http
  */
 abstract class Request
 {

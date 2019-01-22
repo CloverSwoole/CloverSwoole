@@ -1,5 +1,5 @@
 {
-  "name":"itxiao6/framework",
+  "name":"clover-swoole/clover-swoole",
   "description":"基于PHP.Swoole 的组件式 框架",
   "keywords": ["framework","Swoole"],
   "license": "MIT",
@@ -21,7 +21,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Itxiao6\\Framework\\":"src/"
+      "CloverSwoole\\CloverSwoole\\":"src/"
     }
   },
   "require-dev": {

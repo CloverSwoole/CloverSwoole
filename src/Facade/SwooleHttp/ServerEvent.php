@@ -1,12 +1,12 @@
 <?php
-namespace Itxiao6\Framework\Facade\SwooleHttp;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
 use Illuminate\Container\Container;
-use Itxiao6\Framework\Facade\Whoops\WhoopsInterface;
-use Itxiao6\Framework\Framework;
+use CloverSwoole\CloverSwoole\Facade\Whoops\WhoopsInterface;
+use CloverSwoole\CloverSwoole\Framework;
 /**
  * 服务事件模型
  * Class ServerEvent
- * @package Itxiao6\Framework\Facade\SwooleHttp
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
  */
 class ServerEvent implements ServerEventInterface
 {
@@ -62,11 +62,11 @@ class ServerEvent implements ServerEventInterface
             /**
              * 获取 request
              */
-            $request = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Request::class) -> boot($request_raw);
+            $request = $this -> container -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw);
             /**
              * 获取 response
              */
-            $response = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Response::class) -> boot($response_raw);
+            $response = $this -> container -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw);
             /**
              * 处理异常
              */

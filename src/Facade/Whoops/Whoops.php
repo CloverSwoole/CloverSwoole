@@ -1,12 +1,12 @@
 <?php
-namespace Itxiao6\Framework\Facade\Whoops;
-use Itxiao6\Framework\Facade\Http\Request;
-use Itxiao6\Framework\Facade\Http\Response;
+namespace CloverSwoole\CloverSwoole\Facade\Whoops;
+use CloverSwoole\CloverSwoole\Facade\Http\Request;
+use CloverSwoole\CloverSwoole\Facade\Http\Response;
 use Whoops\Handler\HandlerInterface;
 
 /**
  * Class Whoops
- * @package Itxiao6\Framework\Facade\Whoops
+ * @package CloverSwoole\CloverSwoole\Facade\Whoops
  */
 class Whoops implements WhoopsInterface
 {

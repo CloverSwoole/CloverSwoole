@@ -1,10 +1,10 @@
 <?php
-namespace Itxiao6\Framework\Facade\SwooleSocket;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleSocket;
 use Illuminate\Container\Container;
 
 /**
  * Interface ConfigInterface
- * @package Itxiao6\Framework\Facade\SwooleSocket
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleSocket
  */
 interface ConfigInterface
 {

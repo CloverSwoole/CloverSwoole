@@ -1,13 +1,13 @@
 <?php
-namespace Itxiao6\Framework\Facade\Route\Exception;
-use Itxiao6\Framework\Facade\Http\Request;
-use Itxiao6\Framework\Facade\Http\Response;
+namespace CloverSwoole\CloverSwoole\Facade\Route\Exception;
+use CloverSwoole\CloverSwoole\Facade\Http\Request;
+use CloverSwoole\CloverSwoole\Facade\Http\Response;
 use Throwable;
 
 /**
  * 找不到指定的请求
  * Class NotFoundRequest
- * @package Itxiao6\Framework\Facade\Route\Exception
+ * @package CloverSwoole\CloverSwoole\Facade\Route\Exception
  */
 class NotFoundRequest extends RouteBaseException
 {

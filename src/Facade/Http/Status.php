@@ -1,10 +1,10 @@
 <?php
-namespace Itxiao6\Framework\Facade\Http;
+namespace CloverSwoole\CloverSwoole\Facade\Http;
 
 /**
  * Http 状态码
  * Class Status
- * @package Itxiao6\Framework\Facade\Http
+ * @package CloverSwoole\CloverSwoole\Facade\Http
  */
 class Status
 {

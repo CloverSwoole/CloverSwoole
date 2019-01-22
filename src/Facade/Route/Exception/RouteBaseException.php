@@ -1,12 +1,12 @@
 <?php
-namespace Itxiao6\Framework\Facade\Route\Exception;
+namespace CloverSwoole\CloverSwoole\Facade\Route\Exception;
 
-use Itxiao6\Framework\Exception;
+use CloverSwoole\CloverSwoole\Exception;
 
 /**
  * 路由组件基础异常
  * Class RouteBaseException
- * @package Itxiao6\Framework\Facade\Route\Exception
+ * @package CloverSwoole\CloverSwoole\Facade\Route\Exception
  */
 class RouteBaseException extends Exception
 {

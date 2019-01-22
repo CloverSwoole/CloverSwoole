@@ -1,14 +1,14 @@
 <?php
-namespace Itxiao6\Framework\Facade\SwooleHttp;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
 use Illuminate\Container\Container;
-use Itxiao6\Framework\Facade\Command\Command;
-use Itxiao6\Framework\Facade\Route\HttpServer;
-use Itxiao6\Framework\Facade\SwooleHttp\EasySwoole\WebService;
+use CloverSwoole\CloverSwoole\Facade\Command\Command;
+use CloverSwoole\CloverSwoole\Facade\Route\HttpServer;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\EasySwoole\WebService;
 
 /**
  * Swoole Http 组件
  * Class SwooleHttp
- * @package Itxiao6\Framework\Facade\SwooleHttp
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
  */
 class SwooleHttp implements SwooleHttpInterface
 {

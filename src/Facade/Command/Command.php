@@ -1,10 +1,10 @@
 <?php
-namespace Itxiao6\Framework\Facade\Command;
+namespace CloverSwoole\CloverSwoole\Facade\Command;
 
 /**
  * 命令行解析
  * Class Command
- * @package Itxiao6\Framework\Facade\Command
+ * @package CloverSwoole\CloverSwoole\Facade\Command
  */
 class Command
 {

@@ -1,13 +1,13 @@
 <?php
-namespace Itxiao6\Framework\Facade\Route;
+namespace CloverSwoole\CloverSwoole\Facade\Route;
 
 use EasySwoole\Http\AbstractInterface\Controller;
-use Itxiao6\Framework\Facade\Http\Exception\NotFoundController;
+use CloverSwoole\CloverSwoole\Facade\Http\Exception\NotFoundController;
 
 /**
  * 静态路由
  * Class Statics
- * @package Itxiao6\Framework\Facade\Route
+ * @package CloverSwoole\CloverSwoole\Facade\Route
  */
 class Statics implements StaticInterface
 {

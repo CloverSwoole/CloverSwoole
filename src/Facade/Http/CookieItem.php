@@ -1,9 +1,9 @@
 <?php
-namespace Itxiao6\Framework\Facade\Http;
+namespace CloverSwoole\CloverSwoole\Facade\Http;
 
 /**
  * Class CookieItem
- * @package Itxiao6\Framework\Facade\Http
+ * @package CloverSwoole\CloverSwoole\Facade\Http
  */
 class CookieItem
 {

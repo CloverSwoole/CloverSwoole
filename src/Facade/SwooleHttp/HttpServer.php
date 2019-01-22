@@ -1,10 +1,10 @@
 <?php
-namespace Itxiao6\Framework\Facade\SwooleHttp;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
 use Illuminate\Container\Container;
-use Itxiao6\Framework\Facade\Route\Route;
-use Itxiao6\Framework\Facade\Route\RouteInterface;
-use Itxiao6\Framework\Facade\Route\UrlParser;
-use Itxiao6\Framework\Facade\Whoops\WhoopsInterface;
+use CloverSwoole\CloverSwoole\Facade\Route\Route;
+use CloverSwoole\CloverSwoole\Facade\Route\RouteInterface;
+use CloverSwoole\CloverSwoole\Facade\Route\UrlParser;
+use CloverSwoole\CloverSwoole\Facade\Whoops\WhoopsInterface;
 use Swoole\Http\Response;
 use Swoole\Http\Request;
 use Whoops\Handler\PrettyPageHandler;
@@ -12,7 +12,7 @@ use Whoops\Handler\PrettyPageHandler;
 /**
  * Http Swoole
  * Class HttpServer
- * @package Itxiao6\Framework\Facade\SwooleHttp
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
  */
 class HttpServer implements HttpServerInterface
 {
@@ -55,7 +55,7 @@ class HttpServer implements HttpServerInterface
         /**
          * 获取 request
          */
-        $request = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Request::class) -> boot($request_raw);
+        $request = $this -> container -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw);
         /**
          * 设置全局访问
          */
@@ -63,7 +63,7 @@ class HttpServer implements HttpServerInterface
         /**
          * 获取 response
          */
-        $response = $this -> container -> make(\Itxiao6\Framework\Facade\Http\Response::class) -> boot($response_raw);
+        $response = $this -> container -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw);
         /**
          * 设置全局访问
          */
@@ -88,7 +88,7 @@ class HttpServer implements HttpServerInterface
      * 处理请求异常
      * @param \Throwable $throwable
      */
-    protected function onRequestException(\Throwable $throwable,\Itxiao6\Framework\Facade\Http\Request $request,\Itxiao6\Framework\Facade\Http\Response $response)
+    protected function onRequestException(\Throwable $throwable,\CloverSwoole\CloverSwoole\Facade\Http\Request $request,\CloverSwoole\CloverSwoole\Facade\Http\Response $response)
     {
         $this -> container -> make(WhoopsInterface::class) -> onRequestException($throwable,$request,$response);
     }

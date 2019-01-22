@@ -1,14 +1,14 @@
 <?php
-namespace Itxiao6\Framework\Facade\Route;
+namespace CloverSwoole\CloverSwoole\Facade\Route;
 
 use Illuminate\Container\Container;
-use Itxiao6\Framework\Facade\Http\Request;
-use Itxiao6\Framework\Facade\Http\Response;
+use CloverSwoole\CloverSwoole\Facade\Http\Request;
+use CloverSwoole\CloverSwoole\Facade\Http\Response;
 
 /**
  * 路由门面接口
  * Interface RouteInterface
- * @package Itxiao6\Framework\Facade\Route
+ * @package CloverSwoole\CloverSwoole\Facade\Route
  */
 interface RouteInterface
 {

@@ -1,11 +1,11 @@
 <?php
-namespace Itxiao6\Framework\Facade\VarDumper;
+namespace CloverSwoole\CloverSwoole\Facade\VarDumper;
 use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * 每次打印都重置头部信息（重写父类方法dump）
  * Class HtmlDumper
- * @package Itxiao6\Framework\Facade\VarDumper
+ * @package CloverSwoole\CloverSwoole\Facade\VarDumper
  */
 class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
 {
