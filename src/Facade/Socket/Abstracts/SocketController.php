@@ -2,6 +2,8 @@
 namespace CloverSwoole\CloverSwoole\Facade\Socket\Abstracts;
 
 use CloverSwoole\CloverSwoole\Facade\Route\RouteInterface;
+use CloverSwoole\CloverSwoole\Facade\SwooleSocket\SocketFrame;
+use CloverSwoole\CloverSwoole\Facade\SwooleSocket\SocketServer;
 
 /**
  * Socket Controller
@@ -23,18 +25,18 @@ abstract class SocketController
      */
     protected $actionName = 'index';
     /**
-     * @var null
+     * @var null| SocketServer
      */
     protected $server = null;
     /**
-     * @var null
+     * @var null | SocketFrame
      */
     protected $frame = null;
     /**
      * 初始化
      * Controller constructor.
      */
-    public function __construct($server,$frame)
+    public function __construct(SocketServer $server,SocketFrame $frame)
     {
         $this -> server = $server;
         $this -> frame = $frame;
