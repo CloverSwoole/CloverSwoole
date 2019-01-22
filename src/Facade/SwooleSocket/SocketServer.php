@@ -12,17 +12,12 @@ class SocketServer
      */
     protected static $interface = null;
     /**
-     * 是否开启全局访问
-     * @var null | bool
-     */
-    protected static $global_response = null;
-    /**
      * @var null | \swoole_websocket_server
      */
     protected $server = null;
     /**
      * 获取接口
-     * @return SocketClient|null
+     * @return SocketServer|null
      */
     public static function getInterface()
     {
@@ -35,9 +30,9 @@ class SocketServer
     public function setAsGlobal($bool = true)
     {
         if($bool){
-            static::$global_response = $this;
+            static::$interface = $this;
         }else{
-            static::$global_response = null;
+            static::$interface = null;
         }
     }
     /**
