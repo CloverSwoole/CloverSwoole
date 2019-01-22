@@ -24,7 +24,7 @@ class SocketServer
      * 获取接口
      * @return SocketClient|null
      */
-    protected static function getInterface()
+    public static function getInterface()
     {
         return self::$interface;
     }
@@ -48,5 +48,25 @@ class SocketServer
     {
         $this -> server = $server;
         return $this;
+    }
+    /**
+     * 推送数据
+     * @param int $fd
+     * @param mixed|string $data
+     * @param int $opcode
+     * @param bool $finish
+     */
+    public function push(int $fd, $data,int $opcode = 1, bool $finish = true)
+    {
+        $this -> server -> push(...func_get_args());
+    }
+    /**
+     * 客户端是否存在
+     * @param int $fd
+     * @return bool
+     */
+    public function exist(int $fd)
+    {
+        return $this -> server -> exist($fd);
     }
 }
