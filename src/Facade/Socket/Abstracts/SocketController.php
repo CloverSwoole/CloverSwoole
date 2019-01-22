@@ -101,7 +101,7 @@ abstract class SocketController
         /**
          * 响应数据
          */
-        $this->server->push($this -> frame -> fd,json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        SocketServer::getInterface()->push(SocketFrame::getInterface() -> getFd(),json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
     }
     protected function __actionNotFound($actionName)
     {
