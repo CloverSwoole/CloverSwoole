@@ -92,7 +92,7 @@ class SwooleSocket
         /**
          * 获取socket 事件模型
          */
-        $socket_event = $this -> container -> make(ServerEventInterface::class);
+        $socket_event = $this -> container -> make(ServerEventInterface::class) -> boot($this -> container);
         /**
          * 监听请求到达 事件
          */
