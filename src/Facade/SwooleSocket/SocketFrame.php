@@ -12,11 +12,6 @@ class SocketFrame
      */
     protected static $interface = null;
     /**
-     * 是否开启全局访问
-     * @var null | bool
-     */
-    protected static $global_response = null;
-    /**
      * @var null | \swoole_websocket_frame
      */
     protected $frame = null;
@@ -54,6 +49,15 @@ class SocketFrame
     {
         return $this -> frame -> data;
     }
+
+    /**
+     * 获取连接句柄
+     * @return mixed
+     */
+    public function getFd()
+    {
+        return $this -> frame -> fd;
+    }
     /**
      * 设置全局访问
      * @param $bool
@@ -61,9 +65,9 @@ class SocketFrame
     public function setAsGlobal($bool = true)
     {
         if($bool){
-            static::$global_response = $this;
+            static::$interface = $this;
         }else{
-            static::$global_response = null;
+            static::$interface = null;
         }
     }
     /**
