@@ -113,9 +113,9 @@ abstract class Request
             /**
              * 根据协议头进行数据合并
              */
-            if($this -> request -> header['content-type'] == 'application/json'){
+            if(isset($this -> request -> header['content-type']) && $this -> request -> header['content-type'] == 'application/json'){
                 $postData = array_merge($postData,json_decode($this -> request -> rawcontent(),1));
-            }else if($this -> request -> header['content-type'] == 'application/xml'){
+            }else if(isset($this -> request -> header['content-type']) && $this -> request -> header['content-type'] == 'application/xml'){
                 $postData = array_merge($postData,$this -> xmlToArray($this -> request -> rawcontent()));
             }
             $this -> post = Framework::getContainerInterface() -> make(POST::class) -> boot($postData);
