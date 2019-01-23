@@ -54,6 +54,7 @@ class HttpServer implements HttpServerInterface
     {
         /**
          * 获取 request
+         * @var \CloverSwoole\CloverSwoole\Facade\Http\Request $request
          */
         $request = $this -> container -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw);
         /**
@@ -62,6 +63,7 @@ class HttpServer implements HttpServerInterface
         $request -> setAsGlobal();
         /**
          * 获取 response
+         * @var \CloverSwoole\CloverSwoole\Facade\Http\Response $response
          */
         $response = $this -> container -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw);
         /**
