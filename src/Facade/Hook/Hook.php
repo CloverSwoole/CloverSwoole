@@ -97,5 +97,6 @@ class Hook
                 }
             }
         }
+        if($is_clear){$this -> hook_lists[$name] = [];}
     }
 }
