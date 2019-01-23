@@ -164,6 +164,9 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
             return ;
         }
         foreach ($this -> response_cookies as $cookie_item){
+            /**
+             * @var CookieItem $cookie_item
+             */
             $this -> getRawResponse() -> cookie($cookie_item -> getName(),$cookie_item -> getValue(),$cookie_item -> getExpire(),$cookie_item -> getPath(),$cookie_item -> getDemain(),$cookie_item -> getSecure(),$cookie_item -> getHttpoly());
         }
     }
