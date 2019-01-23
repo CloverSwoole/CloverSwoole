@@ -1,5 +1,7 @@
 <?php
 namespace CloverSwoole\CloverSwoole;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\ServerManage;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\ServerManageInterface;
 use Illuminate\Container\Container;
 use CloverSwoole\CloverSwoole\Facade\Databases\Database;
 use CloverSwoole\CloverSwoole\Facade\Databases\DatabaseInterface;
@@ -124,6 +126,10 @@ class Bootstrap
          * 注入异常处理组件
          */
         $container -> bind(WhoopsInterface::class,Whoops::class);
+        /**
+         * Server 管理
+         */
+        $container -> bind(ServerManageInterface::class,ServerManage::class);
         /**
          * 返回容器
          */
