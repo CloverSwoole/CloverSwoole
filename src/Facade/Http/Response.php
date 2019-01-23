@@ -157,6 +157,9 @@ abstract class Response
      */
     public static function dump($var, ...$moreVars)
     {
+        if(!(Response::getInterface() instanceof \swoole_http_response)){
+            return dump(...func_get_args());
+        }
         $old_var_dump_foramt_value = isset($_SERVER['VAR_DUMPER_FORMAT'])?$_SERVER['VAR_DUMPER_FORMAT']:null;
         $_SERVER['VAR_DUMPER_FORMAT'] = 'html';
         ob_start();
