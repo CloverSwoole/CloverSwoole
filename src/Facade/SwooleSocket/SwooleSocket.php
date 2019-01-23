@@ -96,7 +96,9 @@ class SwooleSocket
         /**
          * 监听请求到达 事件
          */
-        $http -> on('request',[$socket_event,'onRequest']);
+        $http->on("request", function(\swoole_http_request $request_raw, \swoole_http_response $response_raw)use($socket_event,$http){
+            $socket_event -> onRequest($request_raw,$response_raw,$http);
+        });
         /**
          * 监听连接到达 事件
          */
