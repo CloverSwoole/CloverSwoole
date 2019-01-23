@@ -14,29 +14,29 @@ abstract class Request
      * 请求头部信息
      * @var null | array
      */
-    protected $headers = null;
+    protected $headers = [];
     /**
      * 请求的cookie
      * @var null | array
      */
-    protected $cookies = null;
+    protected $cookies = [];
     /**
      * POST 参数
      * @var null | array
      */
-    protected $post = null;
+    protected $post = [];
     /**
      * GET 参数
      * @var null |array
      */
-    protected $get = null;
+    protected $get = [];
     /**
      * 请求方法
      * @var null | string
      */
-    protected $request_method = null;
+    protected $request_method = 'GET';
     /**
-     * @var null |mixed
+     * @var null |mixed|\swoole_http_request
      */
     protected $request = null;
     /**
@@ -84,13 +84,41 @@ abstract class Request
     }
 
     /**
+     * XML To Array
+     * @param $xml
+     * @return mixed
+     */
+    protected function xmlToArray($xml)
+    {
+        //禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+        $values = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+        return $values;
+    }
+    /**
      * 获取POST 参数
      * @return POST|mixed|null
      */
     public function getPostParam()
     {
         if(!($this -> post instanceof POST)){
-            $this -> post = Framework::getContainerInterface() -> make(POST::class) -> boot(is_array($this -> getRawRequest() -> post)?$this -> getRawRequest() -> post:[]);
+            /**
+             * 定义基础post 数据
+             */
+            if(is_array($this -> getRawRequest() -> post)){
+                $postData = $this -> getRawRequest() -> post;
+            }else{
+                $postData = [];
+            }
+            /**
+             * 根据协议头进行数据合并
+             */
+            if($this -> request -> header['content-type'] == 'application/json'){
+                $postData = array_merge($postData,json_decode($this -> request -> rawcontent(),1));
+            }else if($this -> request -> header['content-type'] == 'application/xml'){
+                $postData = array_merge($postData,$this -> xmlToArray($this -> request -> rawcontent()));
+            }
+            $this -> post = Framework::getContainerInterface() -> make(POST::class) -> boot($postData);
         }
         return $this -> post;
     }
