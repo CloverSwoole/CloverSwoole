@@ -86,15 +86,16 @@ class Hook
      */
     public function listen(string $name,array $param,bool $is_clear = false)
     {
-        if(isset($this -> hook_lists[$name])){
-            foreach ($this -> hook_lists[$name] as $item){
-                if(isset($item['type']) && $item['type'] == 'ordinary'){
+        if(!isset($this -> hook_lists[$name])){
+            return ;
+        }
+        foreach ($this -> hook_lists[$name] as $item){
+            if(isset($item['type']) && $item['type'] == 'ordinary'){
+                $item['callback'](...$param);
+            }else if(isset($item['type']) && $item['type'] == 'coroutine'){
+                \go(function()use($item,$param){
                     $item['callback'](...$param);
-                }else if(isset($item['type']) && $item['type'] == 'coroutine'){
-                    \go(function()use($item,$param){
-                        $item['callback'](...$param);
-                    });
-                }
+                });
             }
         }
         if($is_clear){$this -> hook_lists[$name] = [];}
