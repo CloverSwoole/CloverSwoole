@@ -31,9 +31,10 @@ interface ServerEventInterface
      * 请求到达
      * @param \swoole_http_request $request
      * @param \swoole_http_response $response
+     * @param \swoole_websocket_server $server
      * @return mixed
      */
-    public function onRequest(\swoole_http_request $request,\swoole_http_response $response);
+    public function onRequest(\swoole_http_request $request,\swoole_http_response $response,\swoole_websocket_server $server);
 
     /**
      * 消息到达
