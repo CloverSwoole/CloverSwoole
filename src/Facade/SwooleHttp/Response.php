@@ -152,6 +152,9 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
             return ;
         }
         foreach ($this -> response_headers as $header_item){
+            /**
+             * @var HeaderItem $header_item
+             */
             $this -> getRawResponse() -> header($header_item -> getName(),$header_item -> getValue());
         }
     }
