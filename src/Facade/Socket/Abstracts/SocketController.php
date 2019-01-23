@@ -2,6 +2,7 @@
 namespace CloverSwoole\CloverSwoole\Facade\Socket\Abstracts;
 
 use CloverSwoole\CloverSwoole\Facade\Route\RouteInterface;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\ServerManage;
 use CloverSwoole\CloverSwoole\Facade\SwooleSocket\SocketFrame;
 use CloverSwoole\CloverSwoole\Facade\SwooleSocket\SocketServer;
 
@@ -25,7 +26,7 @@ abstract class SocketController
      */
     protected $actionName = 'index';
     /**
-     * @var null| SocketServer
+     * @var null| ServerManage
      */
     protected $server = null;
     /**
@@ -36,7 +37,7 @@ abstract class SocketController
      * 初始化
      * Controller constructor.
      */
-    public function __construct(SocketServer $server,SocketFrame $frame)
+    public function __construct(ServerManage $server,SocketFrame $frame)
     {
         $this -> server = $server;
         $this -> frame = $frame;
@@ -101,7 +102,7 @@ abstract class SocketController
         /**
          * 响应数据
          */
-        SocketServer::getInterface()->push(SocketFrame::getInterface() -> getFd(),json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        ServerManage::getInterface()->push(SocketFrame::getInterface() -> getFd(),json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
     }
     protected function __actionNotFound($actionName)
     {
