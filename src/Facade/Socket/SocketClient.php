@@ -1,8 +1,6 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Socket;
 
-use Illuminate\Container\Container;
-
 /**
  * Class SocketClient
  * @package CloverSwoole\CloverSwoole\Facade\Socket

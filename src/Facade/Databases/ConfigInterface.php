@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Databases;
-use Illuminate\Container\Container;
 
 /**
  * Interface ConfigInterface
@@ -9,8 +8,7 @@ use Illuminate\Container\Container;
 interface ConfigInterface
 {
     /**
-     * @param Container|null $container
      * @return mixed
      */
-    public function boot(?Container $container = null);
+    public function boot();
 }

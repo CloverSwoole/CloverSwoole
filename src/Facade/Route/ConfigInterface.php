@@ -1,8 +1,6 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Route;
 
-use Illuminate\Container\Container;
-
 /**
  * 路由配置
  * Interface ConfigInterface
@@ -11,8 +9,7 @@ use Illuminate\Container\Container;
 interface ConfigInterface
 {
     /**
-     * @param Container|null $container
      * @return mixed
      */
-    public function boot(?Container $container = null);
+    public function boot();
 }

@@ -1,8 +1,6 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Route;
 
-use Illuminate\Container\Container;
-
 /**
  * 路由配置
  * Class Config
@@ -24,15 +22,11 @@ class Config implements ConfigInterface
     CONST ROUTE_TYPE_STATIC = 1;
 
     /**
-     * @param Container|null $container
      * @return mixed|void
      */
-    public function boot(?Container $container = null)
+    public function boot()
     {
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
-        $container['config']['route'] = [
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['route'] = [
             // 路由类型
             'routeType'=>self::ROUTE_TYPE_STATIC_AND_DYNAMIC,
             // 动态路由表

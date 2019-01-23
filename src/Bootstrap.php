@@ -2,7 +2,6 @@
 namespace CloverSwoole\CloverSwoole;
 use CloverSwoole\CloverSwoole\Facade\SwooleHttp\ServerManage;
 use CloverSwoole\CloverSwoole\Facade\SwooleHttp\ServerManageInterface;
-use Illuminate\Container\Container;
 use CloverSwoole\CloverSwoole\Facade\Databases\Database;
 use CloverSwoole\CloverSwoole\Facade\Databases\DatabaseInterface;
 use CloverSwoole\CloverSwoole\Facade\Environment\Environment;
@@ -39,100 +38,88 @@ class Bootstrap
 
     /**
      * 初始化框架
-     * @param Container|null $container
-     * @return Container|null
      */
-    public function init(?Container $container = null)
+    public function init()
     {
-        /**
-         * 判断是否传入了服务容器
-         */
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
         /**
          * 初始化配置
          */
-        $container -> instance('config',new \Illuminate\Support\Fluent());
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> instance('config',new \Illuminate\Support\Fluent());
         /**
          * 数据库组件
          */
-        $container -> bind(DatabaseInterface::class,Database::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(DatabaseInterface::class,Database::class);
         /**
          * 设置别名
          */
-        $container -> alias(DatabaseInterface::class,'db');
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> alias(DatabaseInterface::class,'db');
         /**
          * 绑定默认的环境自适应
          */
-        $container -> bind(EnvironmentInsterface::class,Environment::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(EnvironmentInsterface::class,Environment::class);
         /**
          * 环境自适应
          */
-        $container -> alias(EnvironmentInsterface::class,'environment');
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> alias(EnvironmentInsterface::class,'environment');
         /**
          * swoole http
          */
-        $container -> bind(SwooleHttpInterface::class,SwooleHttp::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(SwooleHttpInterface::class,SwooleHttp::class);
         /**
          * 设置别名
          */
-        $container -> alias(SwooleHttpInterface::class,'swoole_http');
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> alias(SwooleHttpInterface::class,'swoole_http');
         /**
          * swoole socket
          */
-        $container -> bind(SwooleSocketInterface::class,SwooleSocket::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(SwooleSocketInterface::class,SwooleSocket::class);
         /**
          * 设置别名
          */
-        $container -> alias(SwooleSocketInterface::class,'swoole_socket');
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> alias(SwooleSocketInterface::class,'swoole_socket');
         /**
          * 注入框架入口
          */
-        $container -> bind(Framework::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(Framework::class);
         /**
          * 设置别名
          */
-        $container -> alias(Framework::class,'framework');
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> alias(Framework::class,'framework');
         /**
          * 注入路由配置
          */
-        $container -> bind(ConfigInterface::class,Config::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(ConfigInterface::class,Config::class);
         /**
          * HttpServer 启动器注入
          */
-        $container -> bind(HttpServerInterface::class,HttpServer::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(HttpServerInterface::class,HttpServer::class);
         /**
          * 注入静态路由处理方法
          */
-        $container -> bind(StaticInterface::class,Statics::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(StaticInterface::class,Statics::class);
         /**
          * 注入动态路由处理方法
          */
-        $container -> bind(DynamicInterface::class,Dynamic::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(DynamicInterface::class,Dynamic::class);
         /**
          * 注入请求依赖
          */
-        $container -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Request::class,Request::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Request::class,Request::class);
         /**
          * 注入响应依赖
          */
-        $container -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class,Response::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class,Response::class);
         /**
          * 注入路由组件
          */
-        $container -> bind(RouteInterface::class,Route::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(RouteInterface::class,Route::class);
         /**
          * 注入异常处理组件
          */
-        $container -> bind(WhoopsInterface::class,Whoops::class);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(WhoopsInterface::class,Whoops::class);
         /**
          * Server 管理
          */
-        $container -> bind(ServerManageInterface::class,ServerManage::class);
-        /**
-         * 返回容器
-         */
-        return $container;
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> bind(ServerManageInterface::class,ServerManage::class);
     }
 }

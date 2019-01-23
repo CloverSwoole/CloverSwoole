@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleSocket;
-use Illuminate\Container\Container;
 
 /**
  * SWOOLE Socket 接口
@@ -10,8 +9,7 @@ use Illuminate\Container\Container;
 interface SwooleSocketInterface
 {
     /**
-     * @param Container|null $container
      * @return mixed
      */
-    public function boot(?Container $container = null);
+    public function boot();
 }

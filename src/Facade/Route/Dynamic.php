@@ -25,11 +25,11 @@ class Dynamic implements DynamicInterface
         /**
          * 获取控制器基础命名空间
          */
-        $controllerNameSpace = $route -> getContainer()['config']['route']['controllerNameSpace'];
+        $controllerNameSpace = \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['route']['controllerNameSpace'];
         /**
          * 动态路由表
          */
-        if(!($route -> getContainer()['config']['route']['routeType'] == Config::ROUTE_TYPE_DYNAMIC || $route -> getContainer()['config']['route']['routeType'] == Config::ROUTE_TYPE_STATIC_AND_DYNAMIC)){
+        if(!(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['route']['routeType'] == Config::ROUTE_TYPE_DYNAMIC || \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['route']['routeType'] == Config::ROUTE_TYPE_STATIC_AND_DYNAMIC)){
             return ;
         }
 

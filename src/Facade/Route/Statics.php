@@ -29,7 +29,7 @@ class Statics implements StaticInterface
      */
     protected function getControllerBaseNameSpace()
     {
-        return $this -> route -> getContainer()['config']['route']['controllerNameSpace'];
+        return \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['route']['controllerNameSpace'];
     }
     /**
      * 获取默认控制器的名称
@@ -37,7 +37,7 @@ class Statics implements StaticInterface
      */
     protected function getDefaultControllerName()
     {
-        return $this -> route -> getContainer()['config']['route']['defaultControllerName'];
+        return \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['route']['defaultControllerName'];
     }
     /**
      * 获取默认操作的名称
@@ -45,7 +45,7 @@ class Statics implements StaticInterface
      */
     protected function getDefaultActionName()
     {
-        return $this -> route -> getContainer()['config']['route']['defaultActionName'];
+        return \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['route']['defaultActionName'];
     }
     /**
      * 开始处理静态路由
@@ -57,7 +57,7 @@ class Statics implements StaticInterface
         /**
          * 静态(隐式)路由
          */
-        if(!($route -> getContainer()['config']['route']['routeType'] == Config::ROUTE_TYPE_STATIC || $route -> getContainer()['config']['route']['routeType'] == Config::ROUTE_TYPE_STATIC_AND_DYNAMIC)){
+        if(!(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['route']['routeType'] == Config::ROUTE_TYPE_STATIC || \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['route']['routeType'] == Config::ROUTE_TYPE_STATIC_AND_DYNAMIC)){
             return ;
         }
         /**

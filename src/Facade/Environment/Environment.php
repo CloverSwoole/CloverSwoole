@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Environment;
-use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -11,16 +10,12 @@ use Illuminate\Filesystem\Filesystem;
 class Environment implements EnvironmentInsterface
 {
     /**
-     * @param Container|null $container
      * @param string|null $base_dir
      * @return mixed|void
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function boot(?Container $container = null,$base_dir = null)
+    public function boot($base_dir = null)
     {
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
         if(!is_dir($base_dir)){
             return ;
         }

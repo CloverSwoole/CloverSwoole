@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
-use Illuminate\Container\Container;
 
 /**
  * Swoole Http 组件门面
@@ -10,8 +9,7 @@ use Illuminate\Container\Container;
 interface SwooleHttpInterface
 {
     /**
-     * @param Container|null $container
      * @return mixed
      */
-    public function boot(?Container $container = null);
+    public function boot();
 }

@@ -35,12 +35,6 @@ interface RouteInterface
      * 启动组件
      * @param Request $request
      * @param Response $response
-     * @param Container|null $container
      */
-    public function boot(Request $request,Response $response,?Container $container);
-    /**
-     * 获取容器
-     * @return Container|null
-     */
-    public function getContainer();
+    public function boot(Request $request,Response $response);
 }

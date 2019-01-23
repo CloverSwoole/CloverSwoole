@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
-use Illuminate\Container\Container;
 use CloverSwoole\CloverSwoole\Facade\Whoops\WhoopsInterface;
 use CloverSwoole\CloverSwoole\Framework;
 /**
@@ -10,26 +9,13 @@ use CloverSwoole\CloverSwoole\Framework;
  */
 class ServerEvent implements ServerEventInterface
 {
-    /**
-     * 服务容器
-     * @var null|Container
-     */
-    protected $container = null;
 
     /**
      * 获取容器
-     * @param Container|null $container
      * @return $this
      */
-    public function boot(?Container $container = null)
+    public function boot()
     {
-        /**
-         * 判断容器是否有效
-         */
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
-        $this -> container = $container;
         return $this;
     }
     /**
@@ -53,7 +39,7 @@ class ServerEvent implements ServerEventInterface
             /**
              * 实例化WebServer
              */
-            $http_service = $this -> container -> make(HttpServerInterface::class) -> boot($this -> container);
+            $http_service = \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(HttpServerInterface::class) -> boot();
             /**
              * 请求到达
              */
@@ -62,15 +48,15 @@ class ServerEvent implements ServerEventInterface
             /**
              * 获取 request
              */
-            $request = $this -> container -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw);
+            $request = \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw);
             /**
              * 获取 response
              */
-            $response = $this -> container -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw);
+            $response = \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw);
             /**
              * 处理异常
              */
-            $this -> container -> make(WhoopsInterface::class) -> swooleOnRequestException($exception,$request,$response);
+            \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(WhoopsInterface::class) -> swooleOnRequestException($exception,$request,$response);
         }
     }
 

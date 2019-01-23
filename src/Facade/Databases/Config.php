@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Databases;
-use Illuminate\Container\Container;
 
 /**
  * Class Config
@@ -9,15 +8,11 @@ use Illuminate\Container\Container;
 class Config implements ConfigInterface
 {
     /**
-     * @param Container|null $container
      * @return mixed|void
      */
-    public function boot(?Container $container = null)
+    public function boot()
     {
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
-        $container['config']['database'] = [
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['database'] = [
             'driver'=>'mysql',
             'host'=>'localhost',
             'database'=>'test',

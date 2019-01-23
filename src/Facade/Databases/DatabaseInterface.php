@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Databases;
-use Illuminate\Container\Container;
 
 /**
  * 数据库服务
@@ -9,5 +8,5 @@ use Illuminate\Container\Container;
  */
 interface DatabaseInterface
 {
-    public function boot(?Container $container = null);
+    public function boot();
 }

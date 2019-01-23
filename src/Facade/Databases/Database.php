@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Databases;
-use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
 
 /**
@@ -12,25 +11,21 @@ class Database implements DatabaseInterface
 {
     /**
      * 启动服务
-     * @param Container|null $container
      */
-    public function boot(?Container $container = null)
+    public function boot()
     {
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
         /**
          * 获取配置
          */
-        $container -> make(\CloverSwoole\CloverSwoole\Facade\Databases\ConfigInterface::class) -> boot($container);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Databases\ConfigInterface::class) -> boot();
         /**
          * 实例化组件
          */
-        $Manager = new Manager($container);
+        $Manager = new Manager(\CloverSwoole\CloverSwoole\Framework::getContainerInterface());
         /**
          * 注入配置
          */
-        $Manager -> addConnection($container['config']['database']);
+        $Manager -> addConnection(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['database']);
         /**
          * 设置全局访问
          */

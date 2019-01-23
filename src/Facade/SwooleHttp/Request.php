@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
-use Illuminate\Container\Container;
 use CloverSwoole\CloverSwoole\Facade\Http\Cookies;
 use CloverSwoole\CloverSwoole\Facade\Http\GET;
 use CloverSwoole\CloverSwoole\Facade\Http\HeaderItem;

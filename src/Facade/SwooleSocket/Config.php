@@ -1,20 +1,15 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleSocket;
 
-use Illuminate\Container\Container;
-
 /**
  * Class Config
  * @package CloverSwoole\CloverSwoole\Facade\SwooleSocket
  */
 class Config implements SwooleSocketInterface
 {
-    public function boot(?Container $container = null)
+    public function boot()
     {
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
-        $container['config']['swoole_socket'] = [
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['swoole_socket'] = [
             'port'=>5200,
             'host'=>'0.0.0.0',
             'server'=>[

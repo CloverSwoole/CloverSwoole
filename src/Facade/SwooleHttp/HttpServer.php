@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
-use Illuminate\Container\Container;
 use CloverSwoole\CloverSwoole\Facade\Route\Route;
 use CloverSwoole\CloverSwoole\Facade\Route\RouteInterface;
 use CloverSwoole\CloverSwoole\Facade\Route\UrlParser;
@@ -16,11 +15,6 @@ use Whoops\Handler\PrettyPageHandler;
  */
 class HttpServer implements HttpServerInterface
 {
-    /**
-     * 容器
-     * @var null | Container
-     */
-    protected $container = null;
 
     /**
      * 构造器
@@ -34,14 +28,9 @@ class HttpServer implements HttpServerInterface
 
     /**
      * 启动HttpServer
-     * @param Container|null $container
      */
-    public function boot(?Container $container = null)
+    public function boot()
     {
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
-        $this -> container = $container;
         return $this;
     }
 
@@ -56,7 +45,7 @@ class HttpServer implements HttpServerInterface
          * 获取 request
          * @var \CloverSwoole\CloverSwoole\Facade\Http\Request $request
          */
-        $request = $this -> container -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw);
+        $request = \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw);
         /**
          * 设置全局访问
          */
@@ -65,7 +54,7 @@ class HttpServer implements HttpServerInterface
          * 获取 response
          * @var \CloverSwoole\CloverSwoole\Facade\Http\Response $response
          */
-        $response = $this -> container -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw);
+        $response = \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw);
         /**
          * 设置全局访问
          */
@@ -77,7 +66,7 @@ class HttpServer implements HttpServerInterface
         /**
          * 启动路由组件
          */
-        $this -> container -> make(RouteInterface::class) -> boot($request,$response,$this -> container);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(RouteInterface::class) -> boot($request,$response);
         /**
          * 如果没有结束响应则 后置结束
          */
@@ -92,6 +81,6 @@ class HttpServer implements HttpServerInterface
      */
     protected function onRequestException(\Throwable $throwable,\CloverSwoole\CloverSwoole\Facade\Http\Request $request,\CloverSwoole\CloverSwoole\Facade\Http\Response $response)
     {
-        $this -> container -> make(WhoopsInterface::class) -> onRequestException($throwable,$request,$response);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(WhoopsInterface::class) -> onRequestException($throwable,$request,$response);
     }
 }

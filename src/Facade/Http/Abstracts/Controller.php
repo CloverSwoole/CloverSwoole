@@ -168,7 +168,7 @@ abstract class Controller
      */
     public function __getContainer()
     {
-        return $this -> route -> getContainer();
+        return \CloverSwoole\CloverSwoole\Framework::getContainerInterface();
     }
     /**
      * 获取请求实例

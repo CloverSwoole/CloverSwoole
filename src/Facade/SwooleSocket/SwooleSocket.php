@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleSocket;
-use Illuminate\Container\Container;
 use CloverSwoole\CloverSwoole\Facade\Command\Command;
 
 /**
@@ -11,34 +10,14 @@ use CloverSwoole\CloverSwoole\Facade\Command\Command;
 class SwooleSocket
 {
     /**
-     * 应用容器
-     * @var null|Container
-     */
-    protected $container = null;
-    /**
      * 启动服务
-     * @param Container|null $container
      */
-    public function boot(?Container $container = null)
+    public function boot()
     {
-        /**
-         * 检查容器
-         */
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
-        /**
-         * 获取容器
-         */
-        $this -> container = $container;
-        /**
-         * 获取配置
-         */
-        $this -> container -> make(ConfigInterface::class) -> boot($this -> container);
         /**
          * 初始化组件配置
          */
-        $this -> container -> make(ConfigInterface::class) -> boot($this -> container);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(ConfigInterface::class) -> boot();
         /**
          * 解析命令
          */
@@ -79,20 +58,20 @@ class SwooleSocket
         /**
          * 获取server
          */
-        $http = new \Swoole\WebSocket\Server($this -> container['config']['swoole_socket']['host'], $this -> container['config']['swoole_socket']['port']);
+        $http = new \Swoole\WebSocket\Server(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['host'], \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['port']);
         /**
          * 判断参数是否存在
          */
-        if(is_array($this -> container['config']['swoole_socket']['server']) && count($this -> container['config']['swoole_socket']['server']) > 0){
+        if(is_array(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']) && count(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']) > 0){
             /**
              * 设置参数
              */
-            $http->set($this -> container['config']['swoole_socket']['server']);
+            $http->set(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']);
         }
         /**
          * 获取socket 事件模型
          */
-        $socket_event = $this -> container -> make(ServerEventInterface::class) -> boot($this -> container);
+        $socket_event = \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(ServerEventInterface::class) -> boot();
         /**
          * 监听请求到达 事件
          */
@@ -128,11 +107,11 @@ class SwooleSocket
      */
     protected function stop($options)
     {
-        if((!isset($this -> container['config']['swoole_socket']['server']['pid_file'])) || (!file_exists($this -> container['config']['swoole_socket']['server']['pid_file']))){
+        if((!isset(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file'])) || (!file_exists(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file']))){
             echo "pid files no exists\n";
             return ;
         }
-        $pid = file_get_contents($this -> container['config']['swoole_socket']['server']['pid_file']);
+        $pid = file_get_contents(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file']);
         if (!\Swoole\Process::kill($pid, 0)) {
             echo "PID :{$pid} not exist \n";
             return false;
@@ -163,11 +142,11 @@ class SwooleSocket
      */
     public function reload($options)
     {
-        if((!isset($this -> container['config']['swoole_socket']['server']['pid_file'])) || (!file_exists($this -> container['config']['swoole_socket']['server']['pid_file']))){
+        if((!isset(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file'])) || (!file_exists(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file']))){
             echo "pid files no exists\n";
             return ;
         }
-        $pid = file_get_contents($this -> container['config']['swoole_socket']['server']['pid_file']);
+        $pid = file_get_contents(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file']);
         \Swoole\Process::kill($pid,SIGUSR1);
     }
 

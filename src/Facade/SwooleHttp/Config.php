@@ -1,6 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
-use Illuminate\Container\Container;
 
 /**
  * 默认配置实例
@@ -10,12 +9,9 @@ use Illuminate\Container\Container;
 class Config implements ConfigInterface
 {
 
-    public function boot(?Container $container = null)
+    public function boot()
     {
-        if(!($container instanceof Container)){
-            $container = new Container();
-        }
-        $container['config']['swoole_http'] = [
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http'] = [
             'port'=>5200,
             'host'=>'0.0.0.0',
             'server'=>[

@@ -1,7 +1,5 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Route;
-
-use Illuminate\Container\Container;
 use CloverSwoole\CloverSwoole\Facade\Http\Request;
 use CloverSwoole\CloverSwoole\Facade\Http\Response;
 use CloverSwoole\CloverSwoole\Facade\Route\Exception\NotFoundRequest;
@@ -23,11 +21,6 @@ class Route implements RouteInterface
      * @var string
      */
     protected $method = '';
-    /**
-     * 服务容器
-     * @var null |Container
-     */
-    protected $container = null;
     /**
      * @var null |Request
      */
@@ -89,17 +82,9 @@ class Route implements RouteInterface
      * 启动组件
      * @param Request $request
      * @param Response $response
-     * @param Container|null $container
      */
-    public function boot(Request $request,Response $response,?Container $container)
+    public function boot(Request $request,Response $response)
     {
-        if(!($container instanceof Container) ){
-            $container = new Container();
-        }
-        /**
-         * 注入容器
-         */
-        $this -> container = $container;
         /**
          * 注入请求
          */
@@ -111,11 +96,11 @@ class Route implements RouteInterface
         /**
          * 获取路由配置
          */
-        $this -> container -> make(ConfigInterface::class) -> boot($this -> container);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(ConfigInterface::class) -> boot();
         /**
          * 获取动态路由
          */
-        $this -> container -> make(DynamicInterface::class) -> boot($this);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(DynamicInterface::class) -> boot($this);
         /**
          * 判断路由是否已经结束
          */
@@ -125,20 +110,12 @@ class Route implements RouteInterface
         /**
          * 静态路由
          */
-        $this -> container -> make(StaticInterface::class) -> boot($this);
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(StaticInterface::class) -> boot($this);
         /**
          * 判断路由是否找到了
          */
         if(!$this -> routeIsEnd()){
             throw new NotFoundRequest('找不到指定路由',404,null,$this -> request,$this -> response);
         }
-    }
-    /**
-     * 获取容器
-     * @return Container|null
-     */
-    public function getContainer()
-    {
-        return $this -> container;
     }
 }
