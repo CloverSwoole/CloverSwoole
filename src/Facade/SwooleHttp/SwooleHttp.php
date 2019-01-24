@@ -3,6 +3,7 @@ namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
 use CloverSwoole\CloverSwoole\Facade\Command\Command;
 use CloverSwoole\CloverSwoole\Facade\Route\HttpServer;
 use CloverSwoole\CloverSwoole\Facade\SwooleHttp\EasySwoole\WebService;
+use CloverSwoole\CloverSwoole\Framework;
 
 /**
  * Swoole Http 组件
@@ -115,6 +116,10 @@ class SwooleHttp implements SwooleHttpInterface
             return false;
         }
         /**
+         * 清空容器
+         */
+        Framework::clearContainerInterface();
+        /**
          * 判断是否为强制杀掉
          */
         if (in_array('-f', $options)) {
@@ -144,7 +149,17 @@ class SwooleHttp implements SwooleHttpInterface
             echo "pid files no exists\n";
             return ;
         }
+        /**
+         * 获取pid
+         */
         $pid = file_get_contents(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']['pid_file']);
+        /**
+         * 清空容器
+         */
+        Framework::clearContainerInterface();
+        /**
+         * 重启进程
+         */
         \Swoole\Process::kill($pid,SIGUSR1);
     }
 
