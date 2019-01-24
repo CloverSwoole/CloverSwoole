@@ -1,5 +1,6 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
+use CloverSwoole\CloverSwoole\Facade\Hook\Hook;
 use EasySwoole\Http\Message\Stream;
 use CloverSwoole\CloverSwoole\Facade\Http\CookieItem;
 use CloverSwoole\CloverSwoole\Facade\Http\Cookies;
@@ -111,7 +112,11 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
         /**
          * 结束请求
          */
-        return $this -> getRawResponse() -> end();
+        $this -> getRawResponse() -> end();
+        /**
+         * 结束请求的钩子
+         */
+        Hook::getInterface() -> listen('response_end',[],true);
     }
 
     /**
