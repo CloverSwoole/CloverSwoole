@@ -83,6 +83,14 @@ class SwooleSocket
          */
         $http -> on('open',[$socket_event,'onOpen']);
         /**
+         * 异步投递任务
+         */
+        $http->on("Task", [$socket_event,'onTask']);
+        /**
+         * 异步任务完成
+         */
+        $http->on("Finish", [$socket_event,'onFinish']);
+        /**
          * 消息到达 事件
          */
         $http -> on('message',[$socket_event,'onMessage']);

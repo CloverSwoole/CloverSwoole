@@ -79,6 +79,14 @@ class SwooleHttp implements SwooleHttpInterface
          */
         $http->on("start", [$socket_event,'onStart']);
         /**
+         * 异步投递任务
+         */
+        $http->on("Task", [$socket_event,'onTask']);
+        /**
+         * 异步任务完成
+         */
+        $http->on("Finish", [$socket_event,'onFinish']);
+        /**
          * 监听服务 启动事件
          */
         $http->on("request", function(\swoole_http_request $request_raw, \swoole_http_response $response_raw)use($socket_event,$http){
