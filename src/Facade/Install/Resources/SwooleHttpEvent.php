@@ -1,14 +1,18 @@
 <?php
-namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
+namespace App\Event;
 use CloverSwoole\CloverSwoole\Facade\SuperClosure\SuperClosure;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\ServerEvent;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\ServerManageInterface;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\HttpServerInterface;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\SwooleHttpInterface;
 use CloverSwoole\CloverSwoole\Facade\Whoops\WhoopsInterface;
-use CloverSwoole\CloverSwoole\Framework;
+
 /**
  * 服务事件模型
- * Class ServerEvent
+ * Class SwooleHttpEvent
  * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
  */
-class ServerEvent implements ServerEventInterface
+class SwooleHttpEvent extends ServerEvent implements SwooleHttpInterface
 {
 
     /**
@@ -27,7 +31,26 @@ class ServerEvent implements ServerEventInterface
     public function onStart(\Swoole\Http\Server $server)
     {
         echo "WebServerOnStarted\n";
+        /**
+         * 获取全局Server 实例
+         */
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(ServerManageInterface::class) -> boot($server) -> setAsGlobal(true);
     }
+    public function onTask(\swoole_http_server $server, int $taskId, int $fromWorkerId,$data)
+    {
+        if($data instanceof SuperClosure){
+            try{
+                return $data($server,$taskId,$fromWorkerId);
+            }catch (\Throwable $throwable){
+                dump($throwable);
+            }
+        }
+    }
+    public function onFinish(\swoole_http_server $serv, int $task_id, string $data)
+    {
+        dump($data);
+    }
+
     /**
      * 请求到达事件
      * @param \swoole_http_request $request_raw
@@ -66,31 +89,16 @@ class ServerEvent implements ServerEventInterface
     }
 
     /**
-     * 异步投递
-     * @param \swoole_http_server $server
-     * @param int $taskId
-     * @param int $fromWorkerId
-     * @param $data
-     * @return mixed|null
-     */
-    public function onTask(\swoole_http_server $server, int $taskId, int $fromWorkerId,$data)
-    {
-        if($data instanceof SuperClosure){
-            try{
-                return $data($server,$taskId,$fromWorkerId);
-            }catch (\Throwable $throwable){
-                dump($throwable);
-            }
-        }
-    }
-
-    /**
      * 服务关闭
      * @param \Swoole\Http\Server $server
      * @return mixed|void
      */
     public function onShutdown(\Swoole\Http\Server $server)
     {
+        /**
+         * 获取全局Server 实例
+         */
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(ServerManageInterface::class) -> boot($server) -> setAsGlobal(true);
         echo "WebServerOnShutdownEd\n";
     }
     /**
@@ -101,6 +109,10 @@ class ServerEvent implements ServerEventInterface
      */
     public function onClose(\Swoole\Http\Server $server,$fd)
     {
+        /**
+         * 获取全局Server 实例
+         */
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(ServerManageInterface::class) -> boot($server) -> setAsGlobal(true);
         echo "WebServer Closed\n";
     }
 
@@ -112,6 +124,10 @@ class ServerEvent implements ServerEventInterface
      */
     public function onOpen(\Swoole\Http\Server $server, \Swoole\Http\Server $request)
     {
+        /**
+         * 获取全局Server 实例
+         */
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(ServerManageInterface::class) -> boot($server) -> setAsGlobal(true);
         echo "WebServerOpOpened\n";
     }
 }

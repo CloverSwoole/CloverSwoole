@@ -1,0 +1,13 @@
+{
+  "name":"demo/framework-demo",
+  "require": {
+    "php": ">=7.1.0",
+    "clover-swoole/clover-swoole":"dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Config\\":"config/",
+      "App\\":"app/"
+    }
+  }
+}
