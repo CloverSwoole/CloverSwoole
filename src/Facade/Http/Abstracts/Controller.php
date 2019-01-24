@@ -38,8 +38,14 @@ abstract class Controller
      */
     public function __construct(RouteInterface $route)
     {
+        /**
+         * 打开缓冲区
+         */
+        ob_start();
         $this -> route = $route;
-        //支持在子类控制器中以private，protected来修饰某个方法不可见
+        /**
+         * 支持在子类控制器中以private，protected来修饰某个方法不可见
+         */
         $list = [];
         $ref = new \ReflectionClass(static::class);
         $public = $ref->getMethods(\ReflectionMethod::IS_PUBLIC);
@@ -62,11 +68,15 @@ abstract class Controller
                 '__set_state','__clone','__debugInfo'
             ]
         );
-        //获取，生成属性默认值
+        /**
+         * 获取，生成属性默认值
+         */
         $ref = new \ReflectionClass(static::class);
         $properties = $ref->getProperties();
         foreach ($properties as $property){
-            //不重置静态变量
+            /**
+             * 不重置静态变量
+             */
             if(($property->isPublic() || $property->isProtected()) && !$property->isStatic()){
                 $name = $property->getName();
                 $this->defaultProperties[$name] = $this->{$name};

@@ -104,11 +104,19 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
          */
         $this -> is_end = true;
         /**
+         * 获取缓存区内的内容 并且清空缓存区
+         */
+        $this -> response_contents .= ob_get_clean();
+        /**
          * 响应内容
          */
         if(strlen(strval($this -> response_contents)) > 0){
             $this -> getRawResponse() -> write(strval($this -> response_contents));
         }
+        /**
+         * 结束上下文输出拦截
+         */
+        ob_end_flush();
         /**
          * 结束请求
          */
