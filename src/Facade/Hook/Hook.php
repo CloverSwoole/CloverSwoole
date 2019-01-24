@@ -1,6 +1,9 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Hook;
 
+use CloverSwoole\CloverSwoole\Facade\SuperClosure\SuperClosure;
+use CloverSwoole\CloverSwoole\Facade\SwooleHttp\ServerManage;
+
 /**
  * Class Hook
  * @package CloverSwoole\CloverSwoole\Facade\Hook
@@ -27,7 +30,7 @@ class Hook
      * Hook constructor.
      * @param $name
      */
-    public function __construct($name)
+    public function __construct($name = null)
     {
         $this -> hook_name = $name;
     }
@@ -96,8 +99,32 @@ class Hook
                 \go(function()use($item,$param){
                     $item['callback'](...$param);
                 });
+            }else if(isset($item['type']) && $item['type'] == 'async'){
+                /**
+                 * 如果在worker内 使用task
+                 */
+                if(ServerManage::getInterface() instanceof ServerManage){
+                    self::async($item['callback'],null,-1);
+                }else{
+                    \go(function()use($item,$param){
+                        $item['callback'](...$param);
+                    });
+                }
             }
         }
         if($is_clear){$this -> hook_lists[$name] = [];}
+    }
+    public static function async($task,$finishCallback = null,$taskWorkerId = -1)
+    {
+        if($task instanceof \Closure){
+            try{
+                $task = new SuperClosure($task);
+            }catch (\Throwable $throwable){
+                dump($throwable);
+                // 日志服务 TODO
+                return false;
+            }
+        }
+        return ServerManage::getInterface()->getRawServer()->task($task,$taskWorkerId,$finishCallback);
     }
 }
