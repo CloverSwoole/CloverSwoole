@@ -13,6 +13,9 @@ class Install
         self::make_app_dir();
         self::make_config_dir();
         self::write_composer_json();
+        self::make_bin_dir_and_script();
+        self::make_temp_dir();
+        self::make_env_file();
     }
 
     /**
@@ -62,6 +65,26 @@ class Install
         mkdir(getcwd().DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR);
         file_put_contents(getcwd().DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR.'web_server.sh',file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'web_server.sh'));
         file_put_contents(getcwd().DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR.'web_and_socket_server.sh',file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'web_and_socket_server.sh'));
+    }
+    /**
+     * 创建临时目录
+     */
+    public static function make_temp_dir()
+    {
+        mkdir(getcwd().DIRECTORY_SEPARATOR.'Temp'.DIRECTORY_SEPARATOR);
+        file_put_contents(getcwd().DIRECTORY_SEPARATOR.'Temp'.DIRECTORY_SEPARATOR.'.gitignore',"*\n!.gitignore");
+    }
+
+    /**
+     * 创建环境配置
+     */
+    public static function make_env_file()
+    {
+        file_put_contents(getcwd().DIRECTORY_SEPARATOR.'.env','local');
+        file_put_contents(getcwd().DIRECTORY_SEPARATOR.'.env.example','local');
+        file_put_contents(getcwd().DIRECTORY_SEPARATOR.'.local.env',"db_name='test'\ndb_host='127.0.0.1'\ndb_user='root'\ndb_pass='123456'");
+        file_put_contents(getcwd().DIRECTORY_SEPARATOR.'.gitignore',"vendor\ncompose\n.lock\n.env\n.idea
+");
     }
 }
 
