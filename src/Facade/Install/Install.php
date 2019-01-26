@@ -29,7 +29,7 @@ class Install
         file_put_contents(getcwd().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Event'.DIRECTORY_SEPARATOR.'SwooleSocketEvent.php',file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'SwooleSocketEvent.php'));
         mkdir(getcwd().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR);
         mkdir(getcwd().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Controller'.DIRECTORY_SEPARATOR);
-        file_put_contents(getcwd().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Controller'.DIRECTORY_SEPARATOR.'Index.php',__DIR__.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'Index.php');
+        file_put_contents(getcwd().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Controller'.DIRECTORY_SEPARATOR.'Index.php',file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'Index.php'));
         mkdir(getcwd().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Models'.DIRECTORY_SEPARATOR);
         file_put_contents(getcwd().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Models'.DIRECTORY_SEPARATOR.'Users.php',file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'Users.php'));
         mkdir(getcwd().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Socket'.DIRECTORY_SEPARATOR);
