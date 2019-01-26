@@ -11,7 +11,7 @@ class Install
     public static function install()
     {
         self::make_app_dir();
-        self::make_config_dir();
+        self::make_config_dir_and_file();
         self::write_composer_json();
         self::make_bin_dir_and_script();
         self::make_temp_dir();
