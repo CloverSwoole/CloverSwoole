@@ -64,6 +64,12 @@ class SwooleSocket
          */
         if(is_array(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']) && count(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']) > 0){
             /**
+             * 判断是否要以守护进程运行
+             */
+            if(count($options) && isset($options['d'])){
+                \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['daemonize'] = true;
+            }
+            /**
              * 设置参数
              */
             $http->set(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']);
