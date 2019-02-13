@@ -139,6 +139,12 @@ class SwooleSocket
      */
     protected function stop($options)
     {
+        /**
+         * 判断是否要自定义pid进程号存储id
+         */
+        if(isset($options['pid']) && file_exists($options['pid'])){
+            \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']['pid_file'] = $options['pid'];
+        }
         if((!isset(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file'])) || (!file_exists(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file']))){
             echo "pid files no exists\n";
             return ;
@@ -174,6 +180,12 @@ class SwooleSocket
      */
     public function reload($options)
     {
+        /**
+         * 判断是否要自定义pid进程号存储id
+         */
+        if(isset($options['pid']) && file_exists($options['pid'])){
+            \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']['pid_file'] = $options['pid'];
+        }
         if((!isset(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file'])) || (!file_exists(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file']))){
             echo "pid files no exists\n";
             return ;
