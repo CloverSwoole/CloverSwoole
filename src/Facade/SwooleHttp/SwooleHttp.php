@@ -59,6 +59,12 @@ class SwooleHttp implements SwooleHttpInterface
     protected function start($options)
     {
         /**
+         * 判断是否自定义端口
+         */
+        if(isset($options['p']) && $options['p']>0){
+            \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['port'] = $options['p'];
+        }
+        /**
          * 获取server
          */
         $http = new \Swoole\Http\Server(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['host'], \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['port']);

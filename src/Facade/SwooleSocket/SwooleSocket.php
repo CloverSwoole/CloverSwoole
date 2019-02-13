@@ -56,6 +56,12 @@ class SwooleSocket
     public function start($options)
     {
         /**
+         * 判断是否自定义端口
+         */
+        if(isset($options['p']) && $options['p']>0){
+            \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['port'] = $options['p'];
+        }
+        /**
          * 获取server
          */
         $http = new \Swoole\WebSocket\Server(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['host'], \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['port']);
