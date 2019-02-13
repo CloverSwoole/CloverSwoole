@@ -144,10 +144,6 @@ class SwooleSocket
             return false;
         }
         /**
-         * 清空容器
-         */
-        Framework::clearContainerInterface();
-        /**
          * 判断是否为强制杀掉
          */
         if (in_array('-f', $options)) {
@@ -178,10 +174,6 @@ class SwooleSocket
             return ;
         }
         $pid = file_get_contents(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file']);
-        /**
-         * 清空容器
-         */
-        Framework::clearContainerInterface();
         \Swoole\Process::kill($pid,SIGUSR1);
     }
 

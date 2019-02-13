@@ -135,10 +135,6 @@ class SwooleHttp implements SwooleHttpInterface
             return false;
         }
         /**
-         * 清空容器
-         */
-        Framework::clearContainerInterface();
-        /**
          * 判断是否为强制杀掉
          */
         if (in_array('-f', $options)) {
@@ -172,10 +168,6 @@ class SwooleHttp implements SwooleHttpInterface
          * 获取pid
          */
         $pid = file_get_contents(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']['pid_file']);
-        /**
-         * 清空容器
-         */
-        Framework::clearContainerInterface();
         /**
          * 重启进程
          */
