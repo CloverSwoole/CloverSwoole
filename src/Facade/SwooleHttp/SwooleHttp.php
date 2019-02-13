@@ -79,6 +79,13 @@ class SwooleHttp implements SwooleHttpInterface
                 \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']['daemonize'] = true;
             }
             /**
+             * 判断是否要自定义pid进程号存储id
+             */
+            if(isset($options['pid']) && file_exists($options['pid'])){
+                \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']['pid_file'] = $options['pid'];
+
+            }
+            /**
              * 设置参数
              */
             $http->set(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']);
