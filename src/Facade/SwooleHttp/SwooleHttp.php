@@ -65,6 +65,12 @@ class SwooleHttp implements SwooleHttpInterface
             \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['port'] = $options['p'];
         }
         /**
+         * 判断是否需要自定义监听ip
+         */
+        if(isset($options['h']) && $options['h']>0){
+            \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['host'] = $options['h'];
+        }
+        /**
          * 获取server
          */
         $http = new \Swoole\Http\Server(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['host'], \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['port']);
@@ -83,7 +89,6 @@ class SwooleHttp implements SwooleHttpInterface
              */
             if(isset($options['pid']) && file_exists($options['pid'])){
                 \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']['pid_file'] = $options['pid'];
-
             }
             /**
              * 设置参数

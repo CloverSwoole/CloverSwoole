@@ -62,6 +62,12 @@ class SwooleSocket
             \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['port'] = $options['p'];
         }
         /**
+         * 判断是否需要自定义监听ip
+         */
+        if(isset($options['h']) && $options['h']>0){
+            \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['host'] = $options['h'];
+        }
+        /**
          * 获取server
          */
         $http = new \Swoole\WebSocket\Server(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['host'], \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_socket']['port']);
@@ -80,7 +86,6 @@ class SwooleSocket
              */
             if(isset($options['pid']) && file_exists($options['pid'])){
                 \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']['pid_file'] = $options['pid'];
-
             }
             /**
              * 设置参数
