@@ -59,41 +59,49 @@ class SwooleHttp implements SwooleHttpInterface
     protected function start($options)
     {
         /**
+         * 获取swoole_http 配置
+         */
+        $swoole_http = \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http'];
+        /**
          * 判断是否自定义端口
          */
         if(isset($options['p']) && $options['p']>0){
-            \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['port'] = $options['p'];
+            $swoole_http['port'] = $options['p'];
         }
         /**
          * 判断是否需要自定义监听ip
          */
         if(isset($options['h']) && $options['h']>0){
-            \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['host'] = $options['h'];
+            $swoole_http['host'] = $options['h'];
         }
         /**
          * 获取server
          */
-        $http = new \Swoole\Http\Server(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['host'], \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['port']);
+        $http = new \Swoole\Http\Server($swoole_http['host'], $swoole_http['port']);
         /**
          * 判断参数是否存在
          */
-        if(is_array(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']) && count(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']) > 0){
+        if(is_array($swoole_http['server']) && count($swoole_http['server']) > 0){
+            /**
+             * 获取http server 配置项
+             */
+            $http_server = $swoole_http['server'];
             /**
              * 判断是否要以守护进程运行
              */
             if(count($options) && isset($options['d'])){
-                \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']['daemonize'] = true;
+                $http_server['daemonize'] = true;
             }
             /**
              * 判断是否要自定义pid进程号存储id
              */
             if(isset($options['pid']) && file_exists($options['pid'])){
-                \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']['pid_file'] = $options['pid'];
+                $http_server['pid_file'] = $options['pid'];
             }
             /**
              * 设置参数
              */
-            $http->set(\CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['swoole_http']['server']);
+            $http->set($http_server);
         }
         /**
          * 获取socket 事件模型
