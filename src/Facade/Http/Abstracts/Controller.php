@@ -1,13 +1,10 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Http\Abstracts;
-use Illuminate\Container\Container;
+use CloverSwoole\CloverSwoole\Facade\Hook\Hook;
 use CloverSwoole\CloverSwoole\Facade\Http\HeaderItem;
-use CloverSwoole\CloverSwoole\Facade\Http\Headers;
 use CloverSwoole\CloverSwoole\Facade\Http\Request;
 use CloverSwoole\CloverSwoole\Facade\Http\Response;
 use CloverSwoole\CloverSwoole\Facade\Http\Status;
-use CloverSwoole\CloverSwoole\Facade\Route\Route;
-use CloverSwoole\CloverSwoole\Facade\Route\RouteInterface;
 
 /**
  * 控制器基础类
@@ -29,20 +26,12 @@ abstract class Controller
      */
     protected $defaultProperties = [];
     /**
-     * @var null | RouteInterface|Route
-     */
-    protected $route = null;
-    /**
      * 初始化
      * Controller constructor.
+     * @throws \ReflectionException
      */
-    public function __construct(RouteInterface $route)
+    public function __construct()
     {
-        /**
-         * 打开缓冲区
-         */
-        ob_start();
-        $this -> route = $route;
         /**
          * 支持在子类控制器中以private，protected来修饰某个方法不可见
          */
@@ -83,20 +72,41 @@ abstract class Controller
             }
         }
     }
+
     /**
      * 系统钩子
      * @param $actionName
+     * @throws \Throwable
      */
     public function __hook($actionName)
     {
+        /**
+         * 记录操作名称
+         */
         $this -> actionName = $actionName;
+        /**
+         * 打开缓冲区
+         */
+        ob_start();
         try{
+            /**
+             * 判断操作是否被禁止访问
+             */
             if(in_array($this -> actionName,$this->allowMethods)){
+                /**
+                 * 调用操作
+                 */
                 $this->$actionName();
             }else{
+                /**
+                 * 404
+                 */
                 $this->__actionNotFound($actionName);
             }
         }catch (\Throwable $throwable){
+            /**
+             * 异常处理
+             */
             $this -> __onException($throwable);
         }
     }
@@ -108,11 +118,27 @@ abstract class Controller
         $this -> __getResponse() -> writeContent('找不到操作:'.$this -> actionName);
     }
     /**
+     * 获取请求的参数
+     * @param null | string $key
+     * @return array|mixed|null
+     */
+    protected function __getRequestParam($key = null)
+    {
+        if($key === null){
+            return array_merge($this -> __getRequest() -> getPostParam() -> getPosts(),$this -> __getRequest() -> getGetParam() -> getGets());
+        }
+        $res = $this -> __getRequest() -> getPostParam() -> getPost($key);
+        if($res != null){
+            return $res;
+        }
+        return $this -> __getRequest() -> getGetParam() -> getGet($key);
+    }
+    /**
      * 返回JSON数据
      * @param $data
      * @param bool $is_end
      */
-    protected function returnJosn($data,$is_end = false)
+    protected function __returnJosn($data,$is_end = false)
     {
         /**
          * 判断请求是否已经结束
@@ -145,7 +171,7 @@ abstract class Controller
         /**
          * 判断是否要结束请求
          */
-        if($is_end){$this -> __getResponse() -> endResponse();}
+        if($is_end){$this -> __endResponse();}
     }
 
     /**
@@ -155,26 +181,12 @@ abstract class Controller
      */
     protected function __onException(\Throwable $throwable)
     {
-        /**
-         * 异常消息
-         */
-        $this -> __getResponse() -> writeContent('异常:'.$throwable -> getMessage()."<br />\n");
-        /**
-         * 抛出文件
-         */
-        $this -> __getResponse() -> writeContent('文件:'.$throwable -> getFile()."<br />\n");
-        /**
-         * 抛出位置
-         */
-        $this -> __getResponse() -> writeContent('位置:'.$throwable -> getLine()."<br />\n");
-        /**
-         * 结束请求
-         */
-        $this -> __getResponse() -> endResponse();
+        throw $throwable;
     }
+
     /**
      * 注入容器
-     * @param Container $container
+     * @return Container|null
      */
     public function __getContainer()
     {
@@ -186,7 +198,7 @@ abstract class Controller
      */
     public function __getRequest()
     {
-        return $this -> route -> getRequest();
+        return Request::getInterface();
     }
     /**
      * 获取响应
@@ -194,7 +206,23 @@ abstract class Controller
      */
     public function __getResponse()
     {
-        return $this -> route -> getResponse();
+        return Response::getInterface();
+    }
+    /**
+     * 结束请求
+     */
+    protected function __endResponse()
+    {
+        /**
+         * 判断请求是否已经结束
+         */
+        if($this -> __getResponse() -> ResponseIsEnd()){
+            return ;
+        }
+        /**
+         * 处理钩子
+         */
+        Hook::getInterface() -> listen('onResponseEnd',[]);
     }
     /**
      * 析构方法
@@ -211,7 +239,7 @@ abstract class Controller
         /**
          * 结束请求
          */
-        $this -> __getResponse() -> endResponse();
+        $this -> __endResponse();
         /**
          * 恢复默认值
          */
