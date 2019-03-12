@@ -1,10 +1,11 @@
 <?php
-namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
+namespace CloverSwoole\CloverSwoole\Facade\SwooleSocket;
 use CloverSwoole\CloverSwoole\Facade\Utility\FindVar;
+
 /**
- * HttpSwoole 请求实例类
+ * SokcetSwoole 请求实例类
  * Class Request
- * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleSocket
  */
 class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
 {
@@ -183,7 +184,7 @@ class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
             case 'application/xml':
                 $returnData = xmlToArray($this -> request -> getData());
                 break;
-                // TODO 更多格式的兼容及拓展
+            // TODO 更多格式的兼容及拓展
             default:
                 $returnData = [];
         }
