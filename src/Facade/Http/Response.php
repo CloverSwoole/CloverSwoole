@@ -1,5 +1,6 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Http;
+use CloverSwoole\CloverSwoole\Facade\Hook\Hook;
 use CloverSwoole\CloverSwoole\Facade\VarDumper\HtmlDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 
@@ -133,6 +134,10 @@ abstract class Response implements \CloverSwoole\CloverSwoole\Facade\Http\Abstra
          * 标记响应已经结束
          */
         $this -> is_end = true;
+        /**
+         * 监听请求接口Hook
+         */
+        Hook::getInterface() -> listen('onResponseEnd');
     }
     /**
      * @param int $code
