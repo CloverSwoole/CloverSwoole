@@ -1,6 +1,8 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
 use CloverSwoole\CloverSwoole\Facade\Utility\FindVar;
+use CloverSwoole\CloverSwoole\Facade\Utility\Xml;
+
 /**
  * HttpSwoole 请求实例类
  * Class Request
@@ -19,7 +21,7 @@ class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
      */
     protected $post = null;
     /**
-     * @var null |
+     * @var null | \Swoole\Http\Request
      */
     protected $request = null;
     /**
@@ -97,7 +99,7 @@ class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
     public function getQuerys()
     {
         if($this -> query === null || (!is_array($this -> query))){
-            $this -> query = parse_str(isset($this -> request -> server['query_string'])?$this -> request -> server['query_string']:'',$this -> query);
+            parse_str(isset($this -> request -> server['query_string'])?$this -> request -> server['query_string']:'',$this -> query);
         }
         return $this -> query;
     }
@@ -109,7 +111,7 @@ class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
     public function getQuery($name = null)
     {
         if($this -> query === null || (!is_array($this -> query))){
-            $this -> query = parse_str(isset($this -> request -> server['query_string'])?$this -> request -> server['query_string']:'',$this -> query);
+            parse_str(isset($this -> request -> server['query_string'])?$this -> request -> server['query_string']:'',$this -> query);
         }
         return FindVar::findVarByExpression($name,$this -> getQuerys());
     }
@@ -119,7 +121,7 @@ class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
      */
     public function getServers()
     {
-        $this -> request -> server;
+        return $this -> request -> server;
     }
     /**
      * 获取指定服务信息
@@ -128,7 +130,7 @@ class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
      */
     public function getServer($name = null)
     {
-        return FindVar::findVarByExpression($name,$this -> request -> server);
+        return FindVar::findVarByExpression($name,$this -> getServers());
     }
     /**
      * 获取所有的 GET 参数
@@ -181,24 +183,12 @@ class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
                 $returnData = json_decode($this -> request -> getData(),1);
                 break;
             case 'application/xml':
-                $returnData = xmlToArray($this -> request -> getData());
+                $returnData = Xml::arrayToXml($this -> request -> getData());
                 break;
                 // TODO 更多格式的兼容及拓展
             default:
                 $returnData = [];
         }
         return is_array($returnData)?$returnData:[];
-    }
-    /**
-     * XML To Array
-     * @param $xml
-     * @return mixed
-     */
-    protected function xmlToArray($xml)
-    {
-        //禁止引用外部xml实体
-        libxml_disable_entity_loader(true);
-        $values = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
-        return $values;
     }
 }

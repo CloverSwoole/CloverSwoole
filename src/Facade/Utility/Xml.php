@@ -6,6 +6,21 @@ namespace CloverSwoole\CloverSwoole\Facade\Utility;
  */
 class Xml
 {
+
+    /**
+     * XML To Array
+     * @param $xml
+     * @return mixed
+     */
+    protected function xmlToArray($xml)
+    {
+        /**
+         * 禁止引用外部xml实体
+         */
+        libxml_disable_entity_loader(true);
+        $values = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+        return $values;
+    }
     /**
      * 数组转xml字符
      * @param $data
