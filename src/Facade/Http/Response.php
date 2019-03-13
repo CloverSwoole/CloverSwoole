@@ -81,6 +81,14 @@ abstract class Response implements \CloverSwoole\CloverSwoole\Facade\Http\Abstra
         return $this -> is_end;
     }
     /**
+     * 写入内容
+     * @param string $content
+     */
+    public function withContent($content = '')
+    {
+        $this -> response_contents .= $content;
+    }
+    /**
      * 响应头
      * @param $name
      * @param $value
