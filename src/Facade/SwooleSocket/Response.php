@@ -1,10 +1,9 @@
 <?php
-namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
-
+namespace CloverSwoole\CloverSwoole\Facade\SwooleSocket;
 /**
  * Response 响应类
  * Class Response
- * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
+ * @package CloverSwoole\CloverSwoole\Facade\SwooleSocket
  */
 class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
 {

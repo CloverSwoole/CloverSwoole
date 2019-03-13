@@ -2,19 +2,14 @@
 namespace CloverSwoole\CloverSwoole\Facade\Http;
 use CloverSwoole\CloverSwoole\Facade\VarDumper\HtmlDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Http 响应基类
  * Class Response
  * @package CloverSwoole\CloverSwoole\Facade\Http
  */
-abstract class Response
+abstract class Response implements \CloverSwoole\CloverSwoole\Facade\Http\Abstracts\Response
 {
-    /**
-     * @var null|mixed
-     */
-    protected $response = null;
     /**
      * 响应头
      * @var null|array
@@ -42,7 +37,15 @@ abstract class Response
     /**
      * @var null | Response
      */
-    protected static $global_response = null;
+    protected static $interface = null;
+    /**
+     * 获取响应句柄
+     * @return Response|null
+     */
+    public static function getInterface()
+    {
+        return static::$interface;
+    }
     /**
      * 设置全局访问
      * @param $bool
@@ -50,67 +53,79 @@ abstract class Response
     public function setAsGlobal($bool = true)
     {
         if($bool){
-            static::$global_response = $this;
+            static::$interface = $this;
         }else{
-            static::$global_response = null;
+            static::$interface = null;
         }
     }
     /**
-     * 获取响应句柄
-     * @return Response|null
-     */
-    public static function getInterface()
-    {
-        return static::$global_response;
-    }
-    /**
      * 注入 Cookie
-     * @param $cookie
-     * @return mixed|void
+     * @param string $key
+     * @param string $value
+     * @param int $expire
+     * @param string $path
+     * @param string $domain
+     * @param bool $secure
+     * @param bool $httponly
      */
-    public function withCookie(CookieItem $cookies)
+    public function withCookie(string $key, string $value = '', int $expire = 0 , string $path = '/', string $domain  = '', bool $secure = false , bool $httponly = false)
     {
-        $this -> response_cookies = $cookies;
-    }
-    /**
-     * 获取原生的响应句柄
-     * @return null|\swoole_http_response|mixed
-     */
-    public function getRawResponse(){
-        return $this -> response;
+        $this -> response_cookies[] = func_get_args();
     }
     /**
      * 请求是否已经结束
      * @return bool|mixed
      */
-    public function ResponseIsEnd()
+    public function responseIsEnd()
     {
         return $this -> is_end;
     }
     /**
      * 响应头
-     * @param HeaderItem $headers
+     * @param $name
+     * @param $value
+     */
+    public function withHeader($name,$value)
+    {
+        $this -> response_headers[] = func_get_args();
+    }
+
+    /**
+     * 响应重定向
+     * @param string $url
+     * @param int $http_code
      * @return mixed|void
      */
-    public function withHeader(HeaderItem $headers)
+    public function redirect(string $url,int $http_code = 302)
     {
-        $this -> response_headers[] = $headers;
+        $this -> endResponse();
+        return $this -> sendRedirect(...func_get_args());
     }
+
     /**
-     * 响应重定向 302
-     * @param $url
-     * @return mixed
+     * 结束响应
      */
-    public function redirect($url)
+    public function endResponse()
     {
+        if(is_array($this -> response_cookies) && count($this -> response_cookies)){
+            foreach ($this -> response_cookies as $item){
+                $this -> sendCookie(...$item);
+            }
+        }
+        if(is_array($this -> response_headers) && count($this -> response_headers)){
+            foreach ($this -> response_headers as $item){
+                $this -> sendCookie(...$item);
+            }
+        }
+        /**
+         * 发送状态码
+         */
+        $this -> sendStatusCode($this -> response_http_code);
+        /**
+         * 标记响应已经结束
+         */
         $this -> is_end = true;
     }
-    /**
-     * 向客户端写入内容
-     * @param $content
-     * @return mixed
-     */
-    abstract public function writeContent($content);
     /**
      * @param int $code
      * @param string $reasonPhrase
@@ -119,34 +134,6 @@ abstract class Response
     public function withStatus($code, $reasonPhrase = '')
     {
         $this -> response_http_code = $code;
-    }
-    /**
-     * 结束请求
-     * @return mixed
-     */
-    abstract public function endResponse();
-    /**
-     * 发送文件
-     * @return mixed
-     */
-    public function sendFile($filename,$offset = 0,$length = 0)
-    {
-        /**
-         * 标识响应已经结束
-         */
-        $this -> is_end = true;
-        /**
-         * 发送协议头
-         */
-        $this -> sendHeaders();
-        /**
-         * 发送Cookie
-         */
-        $this -> sendCookie();
-        /**
-         * 响应状态码
-         */
-        $this -> getRawResponse() -> status($this -> response_http_code);
     }
 
     /**
@@ -157,7 +144,7 @@ abstract class Response
      */
     public static function dump($var, ...$moreVars)
     {
-        if(!(Response::getInterface() instanceof Response)){
+        if(!(static::getInterface() instanceof \CloverSwoole\CloverSwoole\Facade\Http\Abstracts\Response)){
             return dump(...func_get_args());
         }
         $old_var_dump_foramt_value = isset($_SERVER['VAR_DUMPER_FORMAT'])?$_SERVER['VAR_DUMPER_FORMAT']:null;
