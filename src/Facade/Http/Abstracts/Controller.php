@@ -1,7 +1,7 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Http\Abstracts;
 use CloverSwoole\CloverSwoole\Facade\Hook\Hook;
-use CloverSwoole\CloverSwoole\Facade\Http\HeaderItem;
+use CloverSwoole\CloverSwoole\Facade\Http\Exception\ResponseBase;
 use CloverSwoole\CloverSwoole\Facade\Http\Request;
 use CloverSwoole\CloverSwoole\Facade\Http\Response;
 use CloverSwoole\CloverSwoole\Facade\Http\Status;
@@ -181,7 +181,24 @@ abstract class Controller
      */
     protected function __onException(\Throwable $throwable)
     {
-        throw $throwable;
+        /**
+         * 判断是否是响应类型的抛出
+         */
+        if($throwable instanceof ResponseBase){
+            Response::getInterface() -> withContent($throwable -> getData());
+            if(is_array($throwable -> getHeaders()) && count($throwable -> getHeaders()) >= 1){
+                foreach ($throwable -> getHeaders() as $item){
+                    Response::getInterface() -> withHeader(...$item);
+                }
+            }
+            if(is_array($throwable -> getCookies()) && count($throwable -> getCookies()) >= 1){
+                foreach ($throwable -> getCookies() as $item){
+                    Response::getInterface() -> withCookie(...$item);
+                }
+            }
+        }else{
+            throw $throwable;
+        }
     }
 
     /**
