@@ -147,19 +147,19 @@ abstract class Controller
         /**
          * 内容类型
          */
-        $this -> __getResponse() -> withHeader(new HeaderItem('Content-Type','application/json;charset=utf-8'));
+        $this -> __getResponse() -> withHeader('Content-Type','application/json;charset=utf-8');
         /**
          * 允许跨域访问的来源域名
          */
-        $this -> __getResponse() -> withHeader(new HeaderItem('Access-Control-Allow-Origin','*'));
+        $this -> __getResponse() -> withHeader('Access-Control-Allow-Origin','*');
         /**
          * 允许跨域的方法
          */
-        $this -> __getResponse() -> withHeader(new HeaderItem('Access-Control-Allow-Method','POST'));
+        $this -> __getResponse() -> withHeader('Access-Control-Allow-Method','POST');
         /**
          * 允许修改的协议头
          */
-        $this -> __getResponse() -> withHeader(new HeaderItem('Access-Control-Allow-Headers','accept, content-type'));
+        $this -> __getResponse() -> withHeader('Access-Control-Allow-Headers','accept, content-type');
         /**
          * 响应码
          */
