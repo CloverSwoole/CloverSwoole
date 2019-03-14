@@ -17,7 +17,7 @@ abstract class SocketController
      */
     protected $route = null;
     /**
-     * @var null|arry
+     * @var null|array
      */
     protected $defaultProperties = null;
     /**

@@ -22,9 +22,9 @@ abstract class Controller
      */
     protected $allowMethods = [];
     /**
-     * @var array
+     * @var array|null
      */
-    protected $defaultProperties = [];
+    protected $defaultProperties = null;
     /**
      * 初始化
      * Controller constructor.
