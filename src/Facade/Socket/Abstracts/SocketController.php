@@ -1,10 +1,10 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Socket\Abstracts;
 
+use CloverSwoole\CloverSwoole\Facade\Http\Exception\ResponseBase;
 use CloverSwoole\CloverSwoole\Facade\Route\RouteInterface;
 use CloverSwoole\CloverSwoole\Facade\SwooleHttp\ServerManage;
 use CloverSwoole\CloverSwoole\Facade\SwooleSocket\SocketFrame;
-use CloverSwoole\CloverSwoole\Facade\SwooleSocket\SocketServer;
 
 /**
  * Socket Controller
@@ -110,6 +110,16 @@ abstract class SocketController
     }
     protected function __onException($throwable)
     {
-
+        /**
+         * 判断是否是响应类型的抛出
+         */
+        if($throwable instanceof ResponseBase){
+            /**
+             * 响应数据
+             */
+            ServerManage::getInterface()->push(SocketFrame::getInterface() -> getFd(),json_encode($throwable -> getData(),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        }else{
+            throw $throwable;
+        }
     }
 }
