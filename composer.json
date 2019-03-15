@@ -12,7 +12,8 @@
     "vlucas/phpdotenv": "^2.5",
     "illuminate/filesystem": "^5.7",
     "filp/whoops": "^2.3",
-    "jeremeamia/superclosure": "^2.3"
+    "jeremeamia/superclosure": "^2.3",
+    "doctrine/collections": "^1.5"
   },
   "authors": [
     {
