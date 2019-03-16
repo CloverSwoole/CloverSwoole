@@ -32,15 +32,15 @@ class Whoops implements WhoopsInterface
             /**
              * 异常消息
              */
-            $response -> writeContent('异常:'.$throwable -> getMessage()."<br />\n");
+            $response -> withContent('异常:'.$throwable -> getMessage()."<br />\n");
             /**
              * 抛出文件
              */
-            $response -> writeContent('文件:'.$throwable -> getFile()."<br />\n");
+            $response -> withContent('文件:'.$throwable -> getFile()."<br />\n");
             /**
              * 抛出位置
              */
-            $response -> writeContent('位置:'.$throwable -> getLine()."<br />\n");
+            $response -> withContent('位置:'.$throwable -> getLine()."<br />\n");
             /**
              * 结束请求
              */
