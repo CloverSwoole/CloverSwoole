@@ -50,7 +50,7 @@ class Hook
     /**
      * 新增普通任务
      * @param $name
-     * @param null $callback
+     * @param null|\Closure $callback
      */
     public function add_ordinary(string $name,\Closure $callback = null)
     {
@@ -61,7 +61,7 @@ class Hook
     /**
      * 新增异步任务
      * @param $name
-     * @param null $callback
+     * @param null|\Closure $callback
      */
     public function add_async(string $name,\Closure $callback = null)
     {
@@ -72,7 +72,7 @@ class Hook
     /**
      * 新增异步任务
      * @param $name
-     * @param null $callback
+     * @param null|\Closure $callback
      */
     public function add_coroutine(string $name,\Closure $callback = null)
     {
