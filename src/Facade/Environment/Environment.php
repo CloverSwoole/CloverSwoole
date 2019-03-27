@@ -1,5 +1,7 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Environment;
+use Dotenv\Environment\DotenvFactory;
+use Dotenv\Loader;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -21,13 +23,12 @@ class Environment implements EnvironmentInsterface
         }
         $fileSystem = new Filesystem();
         $base_dir = rtrim(rtrim($base_dir,'/'),'\\').DIRECTORY_SEPARATOR;
-        $environment = '';
         $environmentPath =  $base_dir. '.env';
         if ($fileSystem->isFile($environmentPath)) {
             $environment = trim($fileSystem->get($environmentPath));
             $envFile = $base_dir . '.' . $environment;
             if ($fileSystem->isFile($envFile . '.env')) {
-                $dotEnv = new \Dotenv\Dotenv($base_dir, '.' . $environment . '.env');
+                $dotEnv = new \Dotenv\Dotenv(new Loader([$base_dir. '.' . $environment . '.env'],new DotenvFactory()));
                 $dotEnv->load();
             }
         }
