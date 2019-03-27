@@ -58,6 +58,10 @@ abstract class Controller
             ]
         );
         /**
+         * 开启缓存区
+         */
+        ob_start();
+        /**
          * 获取，生成属性默认值
          */
         $ref = new \ReflectionClass(static::class);
@@ -84,10 +88,6 @@ abstract class Controller
          * 记录操作名称
          */
         $this -> actionName = $actionName;
-        /**
-         * 打开缓冲区
-         */
-        ob_start();
         try{
             /**
              * 判断操作是否被禁止访问
@@ -96,7 +96,7 @@ abstract class Controller
                 /**
                  * 调用操作
                  */
-                $this->$actionName();
+                 $this->{$actionName}();
             }else{
                 /**
                  * 404
@@ -115,7 +115,7 @@ abstract class Controller
      */
     protected function __actionNotFound()
     {
-        $this -> __getResponse() -> writeContent('找不到操作:'.$this -> actionName);
+        $this -> __getResponse() -> withContent('找不到操作:'.$this -> actionName);
     }
     /**
      * 获取请求的参数
@@ -167,7 +167,7 @@ abstract class Controller
         /**
          * 响应数据
          */
-        $this->__getResponse()->writeContent(json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        $this->__getResponse()->withContent(json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
         /**
          * 判断是否要结束请求
          */
@@ -181,6 +181,8 @@ abstract class Controller
      */
     protected function __onException(\Throwable $throwable)
     {
+        dump($throwable);
+        return ;
         /**
          * 判断是否是响应类型的抛出
          */
@@ -236,6 +238,7 @@ abstract class Controller
         if($this -> __getResponse() -> ResponseIsEnd()){
             return ;
         }
+        $this -> __getResponse() -> endResponse();
         /**
          * 处理钩子
          */
@@ -260,8 +263,10 @@ abstract class Controller
         /**
          * 恢复默认值
          */
-        foreach ($this->defaultProperties as $property => $value){
-            $this->{$property} = $value;
+        if(is_array($this->defaultProperties)){
+            foreach ($this->defaultProperties as $property => $value){
+                $this->{$property} = $value;
+            }
         }
     }
 }

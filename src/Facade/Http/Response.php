@@ -123,8 +123,28 @@ abstract class Response implements \CloverSwoole\CloverSwoole\Facade\Http\Abstra
         }
         if(is_array($this -> response_headers) && count($this -> response_headers)){
             foreach ($this -> response_headers as $item){
-                $this -> sendCookie(...$item);
+                $this -> sendHeader(...$item);
             }
+        }
+        /**
+         * 获取缓存区内容
+         */
+        $content = ob_get_contents();
+        /**
+         * 关闭缓存区
+         */
+        ob_clean();
+        /**
+         * 判断缓存区内容是否有内容
+         */
+        if(strlen($content) >= 1){
+            $this -> withContent($content);
+        }
+        /**
+         * 结束响应时发送响应内容
+         */
+        if(strlen($this -> response_contents) > 0){
+            $this -> sendContent($this -> response_contents);
         }
         /**
          * 发送状态码
@@ -134,6 +154,10 @@ abstract class Response implements \CloverSwoole\CloverSwoole\Facade\Http\Abstra
          * 标记响应已经结束
          */
         $this -> is_end = true;
+        /**
+         * 发送结束请求
+         */
+        $this -> sendEndResponse();
         /**
          * 监听请求接口Hook
          */
