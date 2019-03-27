@@ -1,5 +1,6 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\Databases;
+use CloverSwoole\CloverSwoole\Framework;
 use Illuminate\Database\Capsule\Manager;
 
 /**
@@ -14,6 +15,9 @@ class Database implements DatabaseInterface
      */
     public function boot()
     {
+        if(!Framework::exists_bind(\CloverSwoole\CloverSwoole\Facade\Databases\ConfigInterface::class)){
+            Framework::getContainerInterface() -> bind(\CloverSwoole\CloverSwoole\Facade\Databases\ConfigInterface::class,Config::class);
+        }
         /**
          * 获取配置
          */
