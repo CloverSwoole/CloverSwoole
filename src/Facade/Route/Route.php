@@ -3,6 +3,7 @@ namespace CloverSwoole\CloverSwoole\Facade\Route;
 use CloverSwoole\CloverSwoole\Facade\Http\Request;
 use CloverSwoole\CloverSwoole\Facade\Http\Response;
 use CloverSwoole\CloverSwoole\Facade\Route\Exception\NotFoundRequest;
+use CloverSwoole\CloverSwoole\Framework;
 
 /**
  * 路由组件实例
@@ -78,21 +79,40 @@ class Route implements RouteInterface
     {
         return $this -> is_end;
     }
+
     /**
      * 启动组件
-     * @param Request $request
-     * @param Response $response
+     * @throws NotFoundRequest
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function boot(Request $request,Response $response)
+    public function boot()
     {
         /**
          * 注入请求
          */
-        $this -> request = $request;
+        $this -> request = Request::getInterface();
         /**
          * 注入响应
          */
-        $this -> response = $response;
+        $this -> response = Response::getInterface();
+        /**
+         * 判断是否已经预置了路由配置
+         */
+        if(!Framework::exists_bind(ConfigInterface::class)){
+            Framework::getContainerInterface() -> bind(ConfigInterface::class,Config::class);
+        }
+        /**
+         * 判断是否已经预置了动态路由器
+         */
+        if(!Framework::exists_bind(DynamicInterface::class)){
+            Framework::getContainerInterface() -> bind(DynamicInterface::class,Dynamic::class);
+        }
+        /**
+         * 判断是否已经预置了静态路由器
+         */
+        if(!Framework::exists_bind(StaticInterface::class)){
+            Framework::getContainerInterface() -> bind(StaticInterface::class,Statics::class);
+        }
         /**
          * 获取路由配置
          */

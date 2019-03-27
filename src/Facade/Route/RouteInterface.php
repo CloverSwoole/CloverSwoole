@@ -36,5 +36,5 @@ interface RouteInterface
      * @param Request $request
      * @param Response $response
      */
-    public function boot(Request $request,Response $response);
+    public function boot();
 }
