@@ -33,10 +33,10 @@ interface ServerEventInterface
      * 请求到达
      * @param \Swoole\Http\Request $request_raw
      * @param \Swoole\Http\Response $response_raw
-     * @param \Swoole\Http\Server $server
+     * @param \Swoole\Websocket\Server $server
      * @return mixed
      */
-    public function onRequest(\Swoole\Http\Request $request_raw, \Swoole\Http\Response $response_raw,\Swoole\Http\Server $server);
+    public function onRequest(\Swoole\Http\Request $request_raw, \Swoole\Http\Response $response_raw,\Swoole\Websocket\Server $server);
 
     /**
      * 消息到达

@@ -101,7 +101,7 @@ class ServerEvent implements ServerEventInterface
      * @param \Swoole\Http\Server $server
      * @return mixed|void
      */
-    public function onRequest(\Swoole\Http\Request $request_raw, \Swoole\Http\Response $response_raw,\Swoole\Http\Server $server)
+    public function onRequest(\Swoole\Http\Request $request_raw, \Swoole\Http\Response $response_raw,\Swoole\Websocket\Server $server)
     {
         try{
             /**
