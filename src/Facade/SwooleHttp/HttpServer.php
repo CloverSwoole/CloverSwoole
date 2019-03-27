@@ -4,6 +4,7 @@ use CloverSwoole\CloverSwoole\Facade\Route\Route;
 use CloverSwoole\CloverSwoole\Facade\Route\RouteInterface;
 use CloverSwoole\CloverSwoole\Facade\Route\UrlParser;
 use CloverSwoole\CloverSwoole\Facade\Whoops\WhoopsInterface;
+use CloverSwoole\CloverSwoole\Framework;
 use Swoole\Http\Response;
 use Swoole\Http\Request;
 use Whoops\Handler\PrettyPageHandler;
@@ -38,9 +39,20 @@ class HttpServer implements HttpServerInterface
      * 请求到达时
      * @param Request $request_raw
      * @param Response $response_raw
+     * @return mixed|void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function onRequest(Request $request_raw, Response $response_raw)
     {
+        if(!Framework::exists_bind(\CloverSwoole\CloverSwoole\Facade\SwooleHttp\Request::class)){
+            Framework::getContainerInterface()->bind(\CloverSwoole\CloverSwoole\Facade\Http\Request::class,\CloverSwoole\CloverSwoole\Facade\SwooleHttp\Request::class);
+        }
+        if(!Framework::exists_bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class)){
+            Framework::getContainerInterface()->bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class,\CloverSwoole\CloverSwoole\Facade\SwooleHttp\Response::class);
+        }
+        if(!Framework::exists_bind(RouteInterface::class)){
+            Framework::getContainerInterface()->bind(RouteInterface::class,\CloverSwoole\CloverSwoole\Facade\Route\Route::class);
+        }
         /**
          * 获取 request
          * @var \CloverSwoole\CloverSwoole\Facade\Http\Request $request
@@ -60,10 +72,6 @@ class HttpServer implements HttpServerInterface
          */
         $response -> setAsGlobal();
         /**
-         * 解析Url
-         */
-        $path = UrlParser::pathInfo($request -> getUri());
-        /**
          * 启动路由组件
          */
         \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(RouteInterface::class) -> boot($request,$response);
@@ -73,14 +81,5 @@ class HttpServer implements HttpServerInterface
         if(!$response->ResponseIsEnd()){
             $response->endResponse();
         }
-    }
-
-    /**
-     * 处理请求异常
-     * @param \Throwable $throwable
-     */
-    protected function onRequestException(\Throwable $throwable,\CloverSwoole\CloverSwoole\Facade\Http\Request $request,\CloverSwoole\CloverSwoole\Facade\Http\Response $response)
-    {
-        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(WhoopsInterface::class) -> onRequestException($throwable,$request,$response);
     }
 }

@@ -10,25 +10,39 @@ use Illuminate\Container\Container;
 class Framework
 {
     /**
-     * @var null|Container
+     * @var null|array|Container
      */
     protected static $container = null;
+
     /**
-     * @return Container|null
+     * 获取容器
+     * @param string $name
+     * @return mixed|Container
      */
-    public static function getContainerInterface()
+    public static function getContainerInterface($name = '')
     {
-        if(!(self::$container instanceof Container)){
-            self::$container = new Container;
+        if(!(self::$container[$name] instanceof Container)){
+            self::$container[$name] = new Container;
         }
-        return self::$container;
+        return self::$container[$name];
+    }
+
+    /**
+     * @param $interface
+     * @param string $container_name
+     * @return bool
+     */
+    public static function exists_bind($interface,$container_name = '')
+    {
+        return (isset(static::getContainerInterface($container_name) -> getBindings()[$interface]) && static::getContainerInterface($container_name) -> getBindings()[$interface] != null);
     }
 
     /**
      * 清空容器
+     * @param string $container_name
      */
-    public static function clearContainerInterface()
+    public static function clearContainerInterface($container_name = '')
     {
-        self::$container = new Container;
+        self::$container[$container_name] = new Container;
     }
 }

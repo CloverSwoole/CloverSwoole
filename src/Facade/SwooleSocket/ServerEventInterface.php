@@ -9,46 +9,64 @@ interface ServerEventInterface
 {
     /**
      * 当服务关闭时
-     * @param \swoole_websocket_server $server
+     * @param \Swoole\Websocket\Server $server
      * @return mixed
      */
-    public function onShutdown(\swoole_websocket_server $server);
+    public function onShutdown(\Swoole\Websocket\Server $server);
+
     /**
      * 服务启动
-     * @param \swoole_websocket_server $server
+     * @param \Swoole\Websocket\Server $server
      * @return mixed
      */
-    public function onStart(\swoole_websocket_server $server);
+    public function onStart(\Swoole\Websocket\Server $server);
+
     /**
      * 连接到达
-     * @param \swoole_websocket_server $server
-     * @param \swoole_http_request $request
+     * @param \Swoole\Websocket\Server $server
+     * @param \Swoole\Http\Request $request
      * @return mixed
      */
-    public function onOpen(\swoole_websocket_server $server, \swoole_http_request $request);
+    public function onOpen(\Swoole\Websocket\Server $server, \Swoole\Http\Request $request);
 
     /**
      * 请求到达
-     * @param \swoole_http_request $request
-     * @param \swoole_http_response $response
-     * @param \swoole_websocket_server $server
+     * @param \Swoole\Http\Request $request_raw
+     * @param \Swoole\Http\Response $response_raw
+     * @param \Swoole\Http\Server $server
      * @return mixed
      */
-    public function onRequest(\swoole_http_request $request,\swoole_http_response $response,\swoole_websocket_server $server);
+    public function onRequest(\Swoole\Http\Request $request_raw, \Swoole\Http\Response $response_raw,\Swoole\Http\Server $server);
 
     /**
      * 消息到达
-     * @param \swoole_websocket_server $server
-     * @param \swoole_websocket_frame $frame
+     * @param \Swoole\Websocket\Server $server
+     * @param \Swoole\Websocket\Frame $frame
      * @return mixed
      */
-    public function onMessage(\swoole_websocket_server  $server, \swoole_websocket_frame $frame);
+    public function onMessage(\Swoole\Websocket\Server $server, \Swoole\Websocket\Frame $frame);
 
     /**
+     * @param \Swoole\Websocket\Server $serv
+     * @param int $task_id
+     * @param string $data
+     * @return mixed
+     */
+    public function onFinish(\Swoole\Websocket\Server $serv, int $task_id, string $data);
+
+    /**
+     * @param \Swoole\WebSocket\Server $server
+     * @param int $taskId
+     * @param int $fromWorkerId
+     * @param $data
+     * @return mixed
+     */
+    public function onTask(\Swoole\WebSocket\Server $server, int $taskId, int $fromWorkerId,$data);
+    /**
      * 连接关闭
-     * @param $server
+     * @param \Swoole\WebSocket\Server $server
      * @param $fd
      * @return mixed
      */
-    public function onClose($server,$fd);
+    public function onClose(\Swoole\WebSocket\Server $server,$fd);
 }

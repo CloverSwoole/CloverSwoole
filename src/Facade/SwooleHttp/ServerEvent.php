@@ -1,8 +1,10 @@
 <?php
 namespace CloverSwoole\CloverSwoole\Facade\SwooleHttp;
+use CloverSwoole\CloverSwoole\Facade\Route\RouteInterface;
 use CloverSwoole\CloverSwoole\Facade\SuperClosure\SuperClosure;
 use CloverSwoole\CloverSwoole\Facade\Whoops\WhoopsInterface;
 use CloverSwoole\CloverSwoole\Framework;
+
 /**
  * 服务事件模型
  * Class ServerEvent
@@ -28,52 +30,81 @@ class ServerEvent implements ServerEventInterface
     {
         echo "WebServerOnStarted\n";
     }
+
     /**
-     * 请求到达事件
-     * @param \swoole_http_request $request_raw
-     * @param \swoole_http_response $response_raw
-     * @param \swoole_http_server $server
+     *
+     * @param \Swoole\Http\Request $request_raw
+     * @param \Swoole\Http\Response $response_raw
+     * @param \Swoole\Http\Server $server
+     * @return mixed|void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function onRequest(\swoole_http_request $request_raw, \swoole_http_response $response_raw,\swoole_http_server $server)
+    public function onRequest(\Swoole\Http\Request $request_raw, \Swoole\Http\Response $response_raw,\Swoole\Http\Server $server)
     {
         try{
             /**
+             * 判断是否预置了 ServerManage
+             */
+            if(!Framework::exists_bind(ServerManageInterface::class)){
+                Framework::getContainerInterface() -> bind(ServerManageInterface::class,ServerManage::class);
+            }
+            /**
              * 获取全局Server 实例
              */
-            \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(ServerManageInterface::class) -> boot($server) -> setAsGlobal(true);
+            Framework::getContainerInterface() -> make(ServerManageInterface::class) -> boot($server) -> setAsGlobal(true);
             /**
-             * 实例化WebServer
+             * 判断是否预置了 Request 主控类
              */
-            $http_service = \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(HttpServerInterface::class) -> boot();
+            if(!Framework::exists_bind(\CloverSwoole\CloverSwoole\Facade\Http\Request::class)){
+                Framework::getContainerInterface() -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Request::class,Request::class);
+            }
             /**
-             * 请求到达
+             * 实例化 Request
              */
-            $http_service -> onRequest($request_raw,$response_raw);
+            \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw) -> setAsGlobal();
+            /**
+             * 判断是否预置了 Response 主控类
+             */
+            if(!Framework::exists_bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class)){
+                Framework::getContainerInterface() -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class,Response::class);
+            }
+            /**
+             * 实例化 Response
+             */
+            \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw) -> setAsGlobal();
+            /**
+             * 判断路由是否已经预置
+             */
+            if(!Framework::exists_bind(RouteInterface::class)){
+                Framework::getContainerInterface()->bind(RouteInterface::class,\CloverSwoole\CloverSwoole\Facade\Route\Route::class);
+            }
+            /**
+             * 启动路由组件
+             */
+            Framework::getContainerInterface() -> make(RouteInterface::class) -> boot();
+            /**
+             * 如果没有结束响应则 后置结束
+             */
+            if(!Response::getInterface()->ResponseIsEnd()){
+                Response::getInterface()->endResponse();
+            }
         }catch (\Throwable $exception){
+            dump($exception);
             /**
-             * 获取 request
+             * 处理异常 TODO
              */
-            $request = \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw);
-            /**
-             * 获取 response
-             */
-            $response = \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw);
-            /**
-             * 处理异常
-             */
-            \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(WhoopsInterface::class) -> swooleOnRequestException($exception,$request,$response);
         }
     }
 
     /**
      * 异步投递
-     * @param \swoole_http_server $server
+     * @param \Swoole\Http\Server $server
      * @param int $taskId
      * @param int $fromWorkerId
      * @param $data
      * @return mixed|null
      */
-    public function onTask(\swoole_http_server $server, int $taskId, int $fromWorkerId,$data)
+    public function onTask(\Swoole\Http\Server $server, int $taskId, int $fromWorkerId,$data)
     {
         if($data instanceof SuperClosure){
             try{
@@ -82,6 +113,18 @@ class ServerEvent implements ServerEventInterface
                 dump($throwable);
             }
         }
+    }
+
+    /**
+     * 任务完成
+     * @param \Swoole\Http\Server $serv
+     * @param int $task_id
+     * @param string $data
+     * @return mixed|void
+     */
+    public function onFinish(\Swoole\Http\Server $serv, int $task_id, string $data)
+    {
+        dump($data);
     }
 
     /**

@@ -16,8 +16,7 @@ class Config implements ConfigInterface
             'host'=>'0.0.0.0',
             'server'=>[
                 'worker_num'=>50,
-                'daemonize'=>false,
-                'pid_file'=>'',
+                'daemonize'=>false
             ],
         ];
     }

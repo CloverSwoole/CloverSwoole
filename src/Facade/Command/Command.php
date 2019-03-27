@@ -8,18 +8,27 @@ namespace CloverSwoole\CloverSwoole\Facade\Command;
  */
 class Command
 {
-    static function commandHandler()
-    {
-        return self::commandParser();
-    }
-
+//    static function commandHandler()
+//    {
+//        return self::commandParser();
+//    }
+//
+    /**
+     * 命令解析
+     * @return array
+     */
     protected static function commandParser()
     {
         global $argv;
-        $command = '';
+        $command = [];
         $options = array();
-        if (isset($argv[1])) {
-            $command = $argv[1];
+        foreach ($argv as $key=>$item){
+            if($key == 0){continue;}
+            if ((!strstr($item,'--')) && (!strstr($item,'-'))) {
+                $command[] = $item;
+            }else{
+                break;
+            }
         }
         foreach ($argv as $item) {
             if (substr($item, 0, 2) === '--') {
@@ -30,5 +39,10 @@ class Command
             }
         }
         return array($command, $options);
+    }
+
+    protected static function loading()
+    {
+        self::commandParser();
     }
 }

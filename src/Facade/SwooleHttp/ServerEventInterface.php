@@ -16,12 +16,12 @@ interface ServerEventInterface
 
     /**
      * 请求到达
-     * @param \swoole_http_request $request
-     * @param \swoole_http_response $response
-     * @param \swoole_http_server $server
+     * @param \Swoole\Http\Request $request
+     * @param \Swoole\Http\Response $response
+     * @param \Swoole\Http\Server $server
      * @return mixed
      */
-    public function onRequest(\swoole_http_request $request, \swoole_http_response $response,\swoole_http_server $server);
+    public function onRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response,\Swoole\Http\Server $server);
 
     /**
      * 服务关闭
@@ -39,7 +39,26 @@ interface ServerEventInterface
     public function onClose(\Swoole\Http\Server $server,$fd);
 
     /**
-     * 服务打开
+     * 处理任务
+     * @param \Swoole\Http\Server $server
+     * @param int $taskId
+     * @param int $fromWorkerId
+     * @param $data
+     * @return mixed
+     */
+    public function onTask(\Swoole\Http\Server $server, int $taskId, int $fromWorkerId,$data);
+
+    /**
+     * 任务完成
+     * @param \Swoole\Http\Server $serv
+     * @param int $task_id
+     * @param string $data
+     * @return mixed
+     */
+    public function onFinish(\Swoole\Http\Server $serv, int $task_id, string $data);
+
+    /**
+     * 打开连接
      * @param \Swoole\Http\Server $server
      * @param \Swoole\Http\Server $request
      * @return mixed
