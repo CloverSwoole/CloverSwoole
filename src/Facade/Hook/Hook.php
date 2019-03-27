@@ -87,7 +87,7 @@ class Hook
      * @param array $param
      * @param bool $is_clear
      */
-    public function listen(string $name,array $param,bool $is_clear = false)
+    public function listen(string $name,array $param = [],bool $is_clear = false)
     {
         if(!isset($this -> hook_lists[$name])){
             return ;
