@@ -105,11 +105,12 @@ class Command
              * 运行命令
              */
             (new $class()) -> run($command);
+        }else{
+            /**
+             * 输出所有命令
+             */
+            dump($this -> command_lists);
         }
-        /**
-         * 输出所有命令
-         */
-        dump($this -> command_lists);
     }
     /**
      * 载入所有命令
