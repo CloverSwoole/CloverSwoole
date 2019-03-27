@@ -106,6 +106,10 @@ class Command
              */
             (new $class()) -> run($command);
         }
+        /**
+         * 输出所有命令
+         */
+        dump($this -> command_lists);
     }
     /**
      * 载入所有命令
