@@ -152,7 +152,7 @@ class Command extends \CloverSwoole\CloverSwoole\Facade\Command\Abstracts\Comman
         /**
          * 监听服务 启动事件
          */
-        $http->on("request", function(\swoole_socket_request $request_raw, \swoole_socket_response $response_raw)use($socket_event,$http){
+        $http->on("request", function(\Swoole\Socket\Request $request_raw, \Swoole\Socket\Response $response_raw)use($socket_event,$http){
             $socket_event -> onRequest($request_raw,$response_raw,$http);
         });
         /**
