@@ -223,8 +223,8 @@ class Command extends \CloverSwoole\CloverSwoole\Facade\Command\Abstracts\Comman
      */
     protected function restart()
     {
-        $this -> stop($this -> options);
-        $this -> start($this -> options);
+        $this -> stop();
+        $this -> start();
     }
 
     /**
