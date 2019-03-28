@@ -180,10 +180,10 @@ class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
     {
         switch($this -> getContentType()){
             case 'application/json':
-                $returnData = json_decode($this -> request -> getData(),1);
+                $returnData = json_decode($this -> request -> rawcontent(),1);
                 break;
             case 'application/xml':
-                $returnData = Xml::arrayToXml($this -> request -> getData());
+                $returnData = Xml::arrayToXml($this -> request -> rawcontent());
                 break;
             // TODO 更多格式的兼容及拓展
             default:
