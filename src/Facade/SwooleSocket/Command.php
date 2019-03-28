@@ -150,6 +150,10 @@ class Command extends \CloverSwoole\CloverSwoole\Facade\Command\Abstracts\Comman
          */
         $http -> on('close',[$socket_event,'onClose']);
         /**
+         * 链接到达事件
+         */
+        $http -> on('open',[$socket_event,'onOpen']);
+        /**
          * 监听服务 启动事件
          */
         $http->on("request", function(\Swoole\Http\Request $request_raw, \Swoole\Http\Response $response_raw)use($socket_event,$http){
