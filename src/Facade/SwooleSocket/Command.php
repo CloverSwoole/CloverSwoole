@@ -160,18 +160,18 @@ class Command extends \CloverSwoole\CloverSwoole\Facade\Command\Abstracts\Comman
          */
         $http->start();
     }
+
     /**
      * 停止服务
-     * @param $options
      * @return bool|void
      */
-    protected function stop($options)
+    protected function stop()
     {
         /**
          * 判断是否要自定义pid进程号存储id
          */
-        if(isset($options['pid']) && file_exists($options['pid'])){
-            Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file'] = $options['pid'];
+        if(isset($this -> options['pid']) && file_exists($this -> options['pid'])){
+            Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file'] = $this -> options['pid'];
         }
         if((!isset(Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file'])) || (!file_exists(Framework::getContainerInterface()['config']['swoole_socket']['server']['pid_file']))){
             echo "pid files no exists\n";
@@ -185,7 +185,7 @@ class Command extends \CloverSwoole\CloverSwoole\Facade\Command\Abstracts\Comman
         /**
          * 判断是否为强制杀掉
          */
-        if (in_array('-f', $options)) {
+        if (in_array('-f', $this -> options)) {
             \Swoole\Process::kill($pid, SIGKILL);
         } else {
             \Swoole\Process::kill($pid);
@@ -194,15 +194,14 @@ class Command extends \CloverSwoole\CloverSwoole\Facade\Command\Abstracts\Comman
 
     /**
      * 重载服务
-     * @param $options
      */
-    protected function reload($options)
+    protected function reload()
     {
         /**
          * 判断是否要自定义pid进程号存储id
          */
-        if(isset($options['pid']) && file_exists($options['pid'])){
-            $this -> config['server']['pid_file'] = $options['pid'];
+        if(isset($this -> options['pid']) && file_exists($this -> options['pid'])){
+            $this -> config['server']['pid_file'] = $this -> options['pid'];
         }
         if(!file_exists($this -> config['server']['pid_file'])){
             echo "pid files no exists\n";
@@ -220,13 +219,12 @@ class Command extends \CloverSwoole\CloverSwoole\Facade\Command\Abstracts\Comman
 
     /**
      * 重启服务
-     * @param $options
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    protected function restart($options)
+    protected function restart()
     {
-        $this -> stop($options);
-        $this -> start($options);
+        $this -> stop($this -> options);
+        $this -> start($this -> options);
     }
 
     /**
