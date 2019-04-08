@@ -54,7 +54,7 @@ class Route implements RouteInterface
      */
     public function getResponse()
     {
-        return $this -> response;
+        return Response::getInterface();
     }
     /**
      * 获取请求
@@ -62,7 +62,7 @@ class Route implements RouteInterface
      */
     public function getRequest()
     {
-        return $this -> request;
+        return Request::getInterface();
     }
     /**
      * 结束路由处理
@@ -87,14 +87,6 @@ class Route implements RouteInterface
      */
     public function boot()
     {
-        /**
-         * 注入请求
-         */
-        $this -> request = Request::getInterface();
-        /**
-         * 注入响应
-         */
-        $this -> response = Response::getInterface();
         /**
          * 判断是否已经预置了路由配置
          */
