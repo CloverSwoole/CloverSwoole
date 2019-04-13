@@ -47,9 +47,11 @@ class Statics implements StaticInterface
     {
         return \CloverSwoole\CloverSwoole\Framework::getContainerInterface()['config']['route']['defaultActionName'];
     }
+
     /**
      * 开始处理静态路由
      * @param Route $route
+     * @throws \Throwable
      */
     public function boot(Route $route)
     {
@@ -87,9 +89,11 @@ class Statics implements StaticInterface
         }
         return $action_name;
     }
+
     /**
      * 获取控制器名称
      * @return string
+     * @throws NotFoundController
      */
     protected function getControllerClass()
     {
@@ -105,17 +109,16 @@ class Statics implements StaticInterface
          * 判断控制器是否存在
          */
         if(!class_exists($controller_name)){
-            $controller_name = rtrim($controller_name,'\\').'\\'.$this -> getDefaultControllerName();
-            if(!class_exists($controller_name)){
-                // 抛出异常
-                throw new NotFoundController("找不到:{$controller_name} 控制器。");
-            }
+            // 抛出异常
+            throw new NotFoundController("找不到:{$controller_name} 控制器。");
         }
         return $controller_name;
     }
+
     /**
      * 创建控制器
-     * @return mixed|Controller
+     * @return mixed
+     * @throws NotFoundController
      */
     protected function makeController()
     {
@@ -129,6 +132,9 @@ class Statics implements StaticInterface
      */
     protected function getControllerName($path)
     {
+        if(pathinfo($path)['dirname'] == '/' || pathinfo($path)['dirname'] == ''){
+            return $this -> getDefaultControllerName();
+        }
         return ltrim(str_replace('/','\\',pathinfo($path)['dirname']),'\\');
     }
 }
