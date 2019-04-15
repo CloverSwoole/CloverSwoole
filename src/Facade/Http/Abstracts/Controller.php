@@ -76,6 +76,22 @@ abstract class Controller
             }
         }
     }
+    /**
+     * 获取请求的参数
+     * @param null | string $key
+     * @return array|mixed|null
+     */
+    public function getRequestParam($key = null)
+    {
+        if($key === null){
+            return array_merge(is_array($this -> __getRequest() -> getPostParam())?$this -> __getRequest() -> getPostParam():[],is_array($this -> __getRequest() -> getGetParam())?$this -> __getRequest() -> getGetParam():[]);
+        }
+        $res = $this -> __getRequest() -> getPostParam($key);
+        if($res != null){
+            return $res;
+        }
+        return $this -> __getRequest() -> getGetParam($key);
+    }
 
     /**
      * 系统钩子
