@@ -124,7 +124,7 @@ class ServerEvent implements ServerEventInterface
      */
     public function onFinish(\Swoole\Http\Server $serv, int $task_id, string $data)
     {
-        dump($data);
+//        dump($data);
     }
 
     /**
