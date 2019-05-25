@@ -81,22 +81,28 @@ abstract class Response implements \CloverSwoole\CloverSwoole\Facade\Http\Abstra
     {
         return $this -> is_end;
     }
+
     /**
      * 写入内容
      * @param string $content
+     * @return $this
      */
     public function withContent($content = '')
     {
         $this -> response_contents .= $content;
+        return $this;
     }
+
     /**
-     * 响应头
+     * 置入响应头
      * @param $name
      * @param $value
+     * @return $this
      */
     public function withHeader($name,$value)
     {
         $this -> response_headers[] = func_get_args();
+        return $this;
     }
 
     /**
@@ -116,6 +122,9 @@ abstract class Response implements \CloverSwoole\CloverSwoole\Facade\Http\Abstra
      */
     public function endResponse()
     {
+        if($this -> is_end){
+            return;
+        }
         if(is_array($this -> response_cookies) && count($this -> response_cookies)){
             foreach ($this -> response_cookies as $item){
                 $this -> sendCookie(...$item);
@@ -133,7 +142,7 @@ abstract class Response implements \CloverSwoole\CloverSwoole\Facade\Http\Abstra
         /**
          * 关闭缓存区
          */
-        ob_clean();
+        if($content) ob_end_clean();
         /**
          * 判断缓存区内容是否有内容
          */
@@ -163,6 +172,17 @@ abstract class Response implements \CloverSwoole\CloverSwoole\Facade\Http\Abstra
          */
         Hook::getInterface() -> listen('onResponseEnd');
     }
+
+    /**
+     * 被动结束响应
+     */
+    public function __destruct()
+    {
+        if(!$this -> is_end){
+            $this -> endResponse();
+        }
+    }
+
     /**
      * @param int $code
      * @param string $reasonPhrase
@@ -172,7 +192,6 @@ abstract class Response implements \CloverSwoole\CloverSwoole\Facade\Http\Abstra
     {
         $this -> response_http_code = $code;
     }
-
     /**
      * 打印内容
      * @param $var
