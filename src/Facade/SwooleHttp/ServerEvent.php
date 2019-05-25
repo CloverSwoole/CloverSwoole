@@ -41,58 +41,51 @@ class ServerEvent implements ServerEventInterface
      */
     public function onRequest(\Swoole\Http\Request $request_raw, \Swoole\Http\Response $response_raw,\Swoole\Http\Server $server)
     {
-        try{
-            /**
-             * 判断是否预置了 ServerManage
-             */
-            if(!Framework::exists_bind(ServerManageInterface::class)){
-                Framework::getContainerInterface() -> bind(ServerManageInterface::class,ServerManage::class);
-            }
-            /**
-             * 获取全局Server 实例
-             */
-            Framework::getContainerInterface() -> make(ServerManageInterface::class) -> boot($server) -> setAsGlobal(true);
-            /**
-             * 判断是否预置了 Request 主控类
-             */
-            if(!Framework::exists_bind(\CloverSwoole\CloverSwoole\Facade\Http\Request::class)){
-                Framework::getContainerInterface() -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Request::class,Request::class);
-            }
-            /**
-             * 实例化 Request
-             */
-            \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw) -> setAsGlobal();
-            /**
-             * 判断是否预置了 Response 主控类
-             */
-            if(!Framework::exists_bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class)){
-                Framework::getContainerInterface() -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class,Response::class);
-            }
-            /**
-             * 实例化 Response
-             */
-            \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw) -> setAsGlobal();
-            /**
-             * 判断路由是否已经预置
-             */
-            if(!Framework::exists_bind(RouteInterface::class)){
-                Framework::getContainerInterface()->bind(RouteInterface::class,\CloverSwoole\CloverSwoole\Facade\Route\Route::class);
-            }
-            /**
-             * 启动路由组件
-             */
-            Framework::getContainerInterface() -> make(RouteInterface::class) -> boot();
-            /**
-             * 如果没有结束响应则 后置结束
-             */
-            if(!Response::getInterface()->ResponseIsEnd()){
-                Response::getInterface()->endResponse();
-            }
-        }catch (\Throwable $exception){
-            dump($exception);
-            /**
-             * 处理异常 TODO
-             */
+        /**
+         * 判断是否预置了 ServerManage
+         */
+        if(!Framework::exists_bind(ServerManageInterface::class)){
+            Framework::getContainerInterface() -> bind(ServerManageInterface::class,ServerManage::class);
+        }
+        /**
+         * 获取全局Server 实例
+         */
+        Framework::getContainerInterface() -> make(ServerManageInterface::class) -> boot($server) -> setAsGlobal(true);
+        /**
+         * 判断是否预置了 Request 主控类
+         */
+        if(!Framework::exists_bind(\CloverSwoole\CloverSwoole\Facade\Http\Request::class)){
+            Framework::getContainerInterface() -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Request::class,Request::class);
+        }
+        /**
+         * 实例化 Request
+         */
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Request::class) -> boot($request_raw) -> setAsGlobal();
+        /**
+         * 判断是否预置了 Response 主控类
+         */
+        if(!Framework::exists_bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class)){
+            Framework::getContainerInterface() -> bind(\CloverSwoole\CloverSwoole\Facade\Http\Response::class,Response::class);
+        }
+        /**
+         * 实例化 Response
+         */
+        \CloverSwoole\CloverSwoole\Framework::getContainerInterface() -> make(\CloverSwoole\CloverSwoole\Facade\Http\Response::class) -> boot($response_raw) -> setAsGlobal();
+        /**
+         * 判断路由是否已经预置
+         */
+        if(!Framework::exists_bind(RouteInterface::class)){
+            Framework::getContainerInterface()->bind(RouteInterface::class,\CloverSwoole\CloverSwoole\Facade\Route\Route::class);
+        }
+        /**
+         * 启动路由组件
+         */
+        Framework::getContainerInterface() -> make(RouteInterface::class) -> boot();
+        /**
+         * 如果没有结束响应则 后置结束
+         */
+        if(!Response::getInterface()->ResponseIsEnd()){
+            Response::getInterface()->endResponse();
         }
     }
 
@@ -107,11 +100,7 @@ class ServerEvent implements ServerEventInterface
     public function onTask(\Swoole\Http\Server $server, int $taskId, int $fromWorkerId,$data)
     {
         if($data instanceof SuperClosure){
-            try{
-                return $data($server,$taskId,$fromWorkerId);
-            }catch (\Throwable $throwable){
-                dump($throwable);
-            }
+            return $data($server,$taskId,$fromWorkerId);
         }
     }
 
