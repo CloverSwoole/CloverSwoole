@@ -67,22 +67,6 @@ abstract class ServerCommand extends \CloverSwoole\Command\Abstracts\Command
     public function __construct(string $name = '')
     {
         parent::__construct($name);
-        /**
-         * 初始化配置
-         */
-        $this->config = SwooleServerConfig::getInterface()->getConfig();
-        /**
-         * 判断是否自定义端口
-         */
-        if (isset($this->options['p']) && $this->options['p'] > 0) {
-            $this->config['port'] = $this->options['p'];
-        }
-        /**
-         * 判断是否需要自定义监听ip
-         */
-        if (isset($this->options['h']) && $this->options['h'] > 0) {
-            $this->config['host'] = $this->options['h'];
-        }
     }
 
     /**
@@ -230,6 +214,22 @@ abstract class ServerCommand extends \CloverSwoole\Command\Abstracts\Command
      */
     protected function execute()
     {
+        /**
+         * 初始化配置
+         */
+        $this->config = SwooleServerConfig::getInterface()->getConfig();
+        /**
+         * 判断是否自定义端口
+         */
+        if (isset($this->options['p']) && $this->options['p'] > 0) {
+            $this->config['port'] = $this->options['p'];
+        }
+        /**
+         * 判断是否需要自定义监听ip
+         */
+        if (isset($this->options['h']) && $this->options['h'] > 0) {
+            $this->config['host'] = $this->options['h'];
+        }
         /**
          * 执行命令
          */
