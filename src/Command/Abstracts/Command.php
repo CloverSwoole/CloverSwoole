@@ -83,16 +83,6 @@ abstract class Command
 
     }
 
-
-    /**
-     * 载入命令
-     * @param \CloverSwoole\Command $command
-     */
-    public function load(\CloverSwoole\Command $command)
-    {
-        $command -> addCommand($this -> name,static::class);
-    }
-
     /**
      * 默认的帮助方法
      */
