@@ -218,19 +218,7 @@ class SwooleServerEventRegister
                         /**
                          * 投递异步任务
                          */
-                        TaskManager::async(function () use ($item) {
-                            try {
-                                /**
-                                 * 执行任务
-                                 */
-                                $item['callback']();
-                            } catch (\Throwable $throwable) {
-                                /**
-                                 * 异常处理
-                                 */
-                                ExceptionHandler::getInterface()->catchTimer($throwable);
-                            }
-                        }, $item['success_callback']);
+                        TaskManager::async($item['callback'],$item['success_callback']);
                     });
                 }
             }
