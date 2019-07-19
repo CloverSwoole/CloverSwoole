@@ -1,8 +1,8 @@
 <?php
-namespace CloverSwoole\Facade\Utility;
+namespace CloverSwoole\Utility;
 /**
  * Class Xml
- * @package CloverSwoole\Facade\Utility
+ * @package CloverSwoole\Utility
  */
 class Xml
 {

@@ -88,13 +88,13 @@ abstract class Controller
     public function getRequestParam($key = null)
     {
         if($key === null){
-            return array_merge(is_array($this -> __getRequest() -> getPostParam())?$this -> __getRequest() -> getPostParam():[],is_array($this -> __getRequest() -> getGetParam())?$this -> __getRequest() -> getGetParam():[]);
+            return array_merge(is_array(Request::getInterface() -> getPostParam())?Request::getInterface() -> getPostParam():[],is_array(Request::getInterface() -> getGetParam())?Request::getInterface() -> getGetParam():[]);
         }
-        $res = $this -> __getRequest() -> getPostParam($key);
+        $res = Request::getInterface() -> getPostParam($key);
         if($res != null){
             return $res;
         }
-        return $this -> __getRequest() -> getGetParam($key);
+        return Request::getInterface() -> getGetParam($key);
     }
 
     /**
@@ -140,60 +140,44 @@ abstract class Controller
         throw new \Exception('找不到操作:'.$this -> actionName);
     }
     /**
-     * 获取请求的参数
-     * @param null | string $key
-     * @return array|mixed|null
-     */
-    protected function __getRequestParam($key = null)
-    {
-        if($key === null){
-            return array_merge(Request::getInterface() -> getPostParam(),Request::getInterface() -> getGetParam());
-        }
-        $res = Request::getInterface() -> getPostParam($key);
-        if($res != null){
-            return $res;
-        }
-        return Request::getInterface() -> getGetParam($key);
-    }
-    /**
      * 返回JSON数据
      * @param $data
      * @param bool $is_end
      */
-    protected function __returnJosn($data,$is_end = false)
+    protected function returnJson($data,$is_end = false)
     {
         /**
          * 判断请求是否已经结束
          */
-        if($this -> __getResponse() -> ResponseIsEnd()){return ;}
+        if(Response::getInterface() -> ResponseIsEnd()){return ;}
         /**
          * 内容类型
          */
-        $this -> __getResponse() -> withHeader('Content-Type','application/json;charset=utf-8');
+        Response::getInterface() -> withHeader('Content-Type','application/json;charset=utf-8');
         /**
          * 允许跨域访问的来源域名
          */
-        $this -> __getResponse() -> withHeader('Access-Control-Allow-Origin','*');
+        Response::getInterface() -> withHeader('Access-Control-Allow-Origin',Request::getInterface() -> getOriginLocation());
         /**
          * 允许跨域的方法
          */
-        $this -> __getResponse() -> withHeader('Access-Control-Allow-Method','POST');
+        Response::getInterface() -> withHeader('Access-Control-Allow-Method','POST');
         /**
          * 允许修改的协议头
          */
-        $this -> __getResponse() -> withHeader('Access-Control-Allow-Headers','accept, content-type');
+        Response::getInterface() -> withHeader('Access-Control-Allow-Headers','accept, content-type');
         /**
          * 响应码
          */
-        $this->__getResponse()->withStatus(200);
+        Response::getInterface()->withStatus(200);
         /**
          * 响应数据
          */
-        $this->__getResponse()->withContent(json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        Response::getInterface()->withContent(json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
         /**
          * 判断是否要结束请求
          */
-        if($is_end){$this -> __endResponse();}
+        if($is_end){Response::getInterface() -> endResponse();}
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
-namespace CloverSwoole\Facade\Utility;
+namespace CloverSwoole\Utility;
 
 /**
  * Class Random
- * @package CloverSwoole\Facade\Utility
+ * @package CloverSwoole\Utility
  */
 class Random
 {

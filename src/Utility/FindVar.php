@@ -1,9 +1,9 @@
 <?php
-namespace CloverSwoole\Facade\Utility;
+namespace CloverSwoole\Utility;
 /**
  * 查询并解决处理表达式
  * Class FindVar
- * @package CloverSwoole\Facade\Utility
+ * @package CloverSwoole\Utility
  */
 class FindVar
 {

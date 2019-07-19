@@ -1,14 +1,14 @@
 <?php
-namespace CloverSwoole\CloverSwoole\Facade\FastCgiServer;
-use CloverSwoole\CloverSwoole\Facade\Utility\FindVar;
-use CloverSwoole\CloverSwoole\Facade\Utility\Xml;
+namespace CloverSwoole\FastCgiServer;
+use CloverSwoole\Utility\FindVar;
+use CloverSwoole\Utility\Xml;
 
 /**
  * FastCgiServer 请求实例类
  * Class Request
- * @package CloverSwoole\CloverSwoole\Facade\FastCgiServer
+ * @package CloverSwoole\FastCgiServer
  */
-class Request extends \CloverSwoole\CloverSwoole\Facade\Http\Request
+class Request extends \CloverSwoole\Http\Request
 {
     /**
      * 查询参数

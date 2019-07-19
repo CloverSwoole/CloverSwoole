@@ -1,7 +1,7 @@
 <?php
 namespace CloverSwoole\Swoole;
-use CloverSwoole\Facade\Utility\FindVar;
-use CloverSwoole\Facade\Utility\Xml;
+use CloverSwoole\Utility\FindVar;
+use CloverSwoole\Utility\Xml;
 
 /**
  * Swoole 请求实例类
