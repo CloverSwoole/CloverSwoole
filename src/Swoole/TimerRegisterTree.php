@@ -65,14 +65,12 @@ class TimerRegisterTree
          * 完成回调
          */
         if($success_callback == null && (!$success_callback instanceof \Closure)){
-            throw new \Exception('未设置任务');
             $success_callback = function(){};
         }
         /**
          * 任务内容
          */
         if(!($callback instanceof \Closure)){
-            throw new \Exception('未设置任务完成回调');
             $callback = function(){};
         }
         $this -> timer[] = ['ms'=>$ms,'callback'=>$callback,'success_callback'=>$success_callback];
