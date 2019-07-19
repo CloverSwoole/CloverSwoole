@@ -209,6 +209,6 @@ abstract class Response implements \CloverSwoole\Http\Abstracts\Response
         $content = ob_get_contents();
         ob_clean();
         $_SERVER['VAR_DUMPER_FORMAT'] = $old_var_dump_foramt_value;
-        Response::getInterface() -> writeContent($content);
+        Response::getInterface() -> sendContent($content);
     }
 }
