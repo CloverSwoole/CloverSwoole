@@ -1,6 +1,7 @@
 <?php
 namespace CloverSwoole\Swoole\SwooleSocket;
 use CloverSwoole\Swoole\Abstrats\ServerCommand;
+use CloverSwoole\Swoole\ServerManager;
 use Swoole\WebSocket\Server;
 
 /**
@@ -29,5 +30,9 @@ class Command extends ServerCommand
          * 实例化server
          */
         $this->server = new Server($this->config['host'], $this->config['port']);
+        /**
+         * 放置全局Server
+         */
+        ServerManager::getInterface($this->server) ->setAsGlobal();
     }
 }
