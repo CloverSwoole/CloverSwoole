@@ -3,6 +3,7 @@
 namespace CloverSwoole\Swoole;
 
 use CloverSwoole\Exception\ExceptionHandler;
+use CloverSwoole\Swoole\SwooleSocket\SocketFrameManager;
 use CloverSwoole\Swoole\SwooleSocket\SocketHandler;
 use CloverSwoole\Swoole\Task\AbstractAsyncTask;
 use CloverSwoole\Swoole\Task\QuickTaskInterface;
@@ -99,7 +100,7 @@ class SwooleServerEventRegister
                 /**
                  * 捕获路由异常
                  */
-                ExceptionHandler::getInterface() -> catchRoute($throwable);
+                ExceptionHandler::getInterface()->catchRoute($throwable);
             }
         });
         /**
@@ -168,7 +169,7 @@ class SwooleServerEventRegister
         /**
          * TaskFinish
          */
-        $this -> addEvent(self::onFinish,function(Server $serv, int $task_id,$data){
+        $this->addEvent(self::onFinish, function (Server $serv, int $task_id, $data) {
             return $data;
         });
         /**
@@ -179,6 +180,10 @@ class SwooleServerEventRegister
              * 放置Server
              */
             (new ServerManager($server))->setAsGlobal(true);
+            /**
+             * 放置全局Frame
+             */
+            (new SocketFrameManager($frame))->setAsGlobal(true);
             /**
              * 路由处理
              */
