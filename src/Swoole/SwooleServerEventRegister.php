@@ -223,6 +223,23 @@ class SwooleServerEventRegister
                 }
             }
         });
+        /**
+         * 设置WorkStart事件
+         */
+        $this -> addEvent(self::onWorkerStart,function(\Swoole\Server $server,int $workerId){
+            /**
+             * 苹果系统不修改Worker 名称
+             */
+            if(PHP_OS != 'Darwin'){
+                $name = SwooleServerConfig::getInterface() -> getServerName();
+                if( ($workerId < SwooleServerConfig::getInterface() -> getWorkerNum()) && $workerId >= 0){
+                    $type = 'Worker';
+                }else{
+                    $type = 'TaskWorker';
+                }
+                cli_set_process_title("{$name}.{$type}.{$workerId}");
+            }
+        });
     }
 
     /**

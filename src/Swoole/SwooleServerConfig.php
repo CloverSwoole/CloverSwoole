@@ -18,6 +18,7 @@ class SwooleServerConfig
      * @var array
      */
     protected $config = [
+        'serverName'=>'CloverSwoole',
         'host'=>'0.0.0.0',
         'port'=>9501,
         'server'=>[
@@ -28,6 +29,37 @@ class SwooleServerConfig
             'max_wait_time'=>3
         ]
     ];
+
+    /**
+     * 设置ServerName
+     * @param string $name
+     * @return $this
+     */
+    public function setServerName(string $name)
+    {
+        if(strlen($name) > 0){
+            $this -> config['serverName'] = $name;
+        }
+        return $this;
+    }
+
+    /**
+     * 获取WorkerNum
+     * @return mixed|null
+     */
+    public function getWorkerNum()
+    {
+        return $this -> config['worker_num']>0?$this -> config['worker_num']:null;
+    }
+
+    /**
+     * 获取Server名称
+     * @return mixed
+     */
+    public function getServerName()
+    {
+        return $this -> config['serverName'];
+    }
 
     /**
      * 获取实例

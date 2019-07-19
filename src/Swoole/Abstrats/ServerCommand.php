@@ -138,6 +138,12 @@ abstract class ServerCommand extends \CloverSwoole\Command\Abstracts\Command
          */
         $this->setServeConfig();
         /**
+         * 判断是否是苹果系统
+         */
+        if(PHP_OS != 'Darwin'){
+            cli_set_process_title($this -> config['serverName']);
+        }
+        /**
          * 启动服务
          */
         $this->server->start();
