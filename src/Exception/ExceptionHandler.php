@@ -47,4 +47,12 @@ class ExceptionHandler
         Response::getInterface() -> withContent('异常:'.$throwable -> getMessage());
         Response::getInterface() -> endResponse();
     }
+    public function catchTimer(\Throwable $throwable)
+    {
+        echo("定时器异常:".$throwable -> getMessage()."\n");
+    }
+    public function catchTask(\Throwable $throwable)
+    {
+        echo("任务异常:".$throwable -> getMessage()."\n");
+    }
 }
