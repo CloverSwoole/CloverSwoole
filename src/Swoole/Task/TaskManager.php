@@ -8,15 +8,15 @@ class TaskManager
 {
     public static function async($task,$finishCallback = null,$taskWorkerId = -1)
     {
-//        if($task instanceof \Closure){
-//            try{
-//                $task = new SuperClosure($task);
-//            }catch (\Throwable $throwable){
-//                ExceptionHandler::getInterface() ->catchTask($throwable);
-//                return false;
-//            }
-//        }
-        return ServerManager::getInterface()->getSwooleRawServer()->task('aaa',$taskWorkerId,$finishCallback);
+        if($task instanceof \Closure){
+            try{
+                $task = new SuperClosure($task);
+            }catch (\Throwable $throwable){
+                ExceptionHandler::getInterface() ->catchTask($throwable);
+                return false;
+            }
+        }
+        return ServerManager::getInterface()->getSwooleRawServer()->task($task,$taskWorkerId,$finishCallback);
     }
 
     public static function processAsync($task)
