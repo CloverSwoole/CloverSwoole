@@ -1,29 +1,38 @@
 <?php
-namespace CloverSwoole\CloverSwoole\Facade\Swoole;
+namespace CloverSwoole\Swoole;
 use Swoole\Websocket\Server;
 
 /**
  * Server 管理器
- * Class ServerManage
+ * Class ServerManager
  * @package CloverSwoole\CloverSwoole\Facade\Swoole
  */
-class ServerManage
+class ServerManager
 {
     /**
      * 静态全局实例
-     * @var null | ServerManage
+     * @var null | ServerManager
      */
     protected static $interface = null;
     /**
      * @var null | Server
      */
     protected $server = null;
+    public function __construct($server)
+    {
+        $this -> server = $server;
+    }
+
     /**
      * 获取接口
-     * @return static|null
+     * @param \Swoole\Server $server
+     * @return ServerManager|null
      */
-    public static function getInterface()
+    public static function getInterface(?\Swoole\Server $server = null)
     {
+        if(self::$interface == null){
+            return new static(...func_get_args());
+        }
         return self::$interface;
     }
     /**
