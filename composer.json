@@ -7,7 +7,7 @@
     "php": ">=7.1.0",
     "illuminate/database": "^5.8",
     "symfony/var-dumper": "^4.2",
-    "jeremeamia/superclosure": "^2.3"
+    "jeremeamia/superclosure": "^2.4"
   },
   "authors": [
     {
