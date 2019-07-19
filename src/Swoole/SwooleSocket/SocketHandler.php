@@ -63,7 +63,7 @@ class SocketHandler
             $closure = self::$handler['onMessage'];
             return $closure(...func_get_args());
         }
-        echo "Socket连接:{$frame -> fd},消息到达:{$frame -> data} 建立成功\n";
+        echo "Socket连接:{$frame -> fd},消息到达:{$frame -> data}\n";
     }
 
     /**
@@ -99,6 +99,6 @@ class SocketHandler
             $closure = self::$handler['onClose'];
             return $closure(...func_get_args());
         }
-        echo "Socket连接:{$fd} 断开连接\n";
+        echo "Socket断开连接:{$fd}\n";
     }
 }
