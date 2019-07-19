@@ -1,14 +1,17 @@
 <?php
-namespace CloverSwoole\CloverSwoole\Facade\Swoole\SwooleSocket;
+namespace CloverSwoole\Swoole\SwooleSocket;
+use Swoole\WebSocket\Frame;
+
 /**
- * Class SocketFrame
- * @package CloverSwoole\CloverSwoole\Facade\Swoole\SwooleSocket
+ * Frame管理器
+ * Class SocketFrameManager
+ * @package CloverSwoole\Swoole\SwooleSocket
  */
-class SocketFrame
+class SocketFrameManager
 {
     /**
      * 静态全局实例
-     * @var null | SocketFrame
+     * @var null | SocketFrameManager
      */
     protected static $interface = null;
     /**
@@ -17,7 +20,7 @@ class SocketFrame
     protected $frame = null;
     /**
      * 获取接口
-     * @return SocketFrame|null
+     * @return SocketFrameManager|null
      */
     public static function getInterface()
     {
@@ -70,13 +73,14 @@ class SocketFrame
             static::$interface = null;
         }
     }
+
     /**
-     * Socket Server 实例
-     * @param \swoole_websocket_frame $frame
+     * 构造器
+     * SocketFrameManager constructor.
+     * @param Frame $frame
      */
-    public function boot(\swoole_websocket_frame $frame)
+    public function __construct(Frame $frame)
     {
         $this -> frame = $frame;
-        return $this;
     }
 }
