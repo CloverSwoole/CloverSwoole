@@ -3,7 +3,7 @@
 namespace CloverSwoole\Swoole;
 
 use CloverSwoole\Exception\ExceptionHandler;
-use CloverSwoole\Route\Socket;
+use CloverSwoole\Swoole\SwooleSocket\SocketHandler;
 use CloverSwoole\Swoole\Task\AbstractAsyncTask;
 use CloverSwoole\Swoole\Task\QuickTaskInterface;
 use CloverSwoole\Swoole\Task\SuperClosure;
@@ -111,9 +111,13 @@ class SwooleServerEventRegister
              */
             (new ServerManager($server))->setAsGlobal(true);
             /**
+             * 放置全局Request
+             */
+            (new Request($request))->setAsGlobal();
+            /**
              * 存储连接
              */
-            Socket::onOpen($server, $request);
+            SocketHandler::onOpen($server, $request);
         });
         /**
          * 任务投递处理
@@ -178,7 +182,7 @@ class SwooleServerEventRegister
             /**
              * 路由处理
              */
-            Socket::onMessage($server, $frame);
+            SocketHandler::onMessage($server, $frame);
         });
         /**
          * 定义默认的onWorkerStart
