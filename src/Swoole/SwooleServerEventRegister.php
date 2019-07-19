@@ -97,10 +97,9 @@ class SwooleServerEventRegister
                 \CloverSwoole\Route\Route::getInterface();
             } catch (\Throwable $throwable) {
                 /**
-                 * 捕获路由异常 TODO
+                 * 捕获路由异常
                  */
-                $response->write("路由异常:" . $throwable->getMessage());
-                $response->end();
+                ExceptionHandler::getInterface() -> catchRoute($throwable);
             }
         });
         /**
