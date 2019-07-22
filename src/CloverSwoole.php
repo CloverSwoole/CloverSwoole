@@ -20,6 +20,10 @@ class CloverSwoole
     public static function runSwooleHttpServer()
     {
         /**
+         * 定义Server运行方式
+         */
+        define('SERVER_TYPE','SWOOLE_HTTP_SERVER');
+        /**
          * 运行命令
          */
         SwooleHttpCommand::getInterface()->run(Command::commandParser());
@@ -31,6 +35,10 @@ class CloverSwoole
     public static function runSwooleSocketServer()
     {
         /**
+         * 定义Server运行方式
+         */
+        define('SERVER_TYPE','SWOOLE_HTTP_AND_SERVER');
+        /**
          * 运行命令
          */
         SwooleScoketCommand::getInterface()->run(Command::commandParser());
@@ -41,6 +49,10 @@ class CloverSwoole
      */
     public static function runFastCgiServer()
     {
+        /**
+         * 定义Server运行方式
+         */
+        define('SERVER_TYPE','FAST_CGI_HTTP_SERVER');
         /**
          * 运行命令
          */
