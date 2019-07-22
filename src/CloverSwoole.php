@@ -1,8 +1,10 @@
 <?php
+
 namespace CloverSwoole;
+
+use CloverSwoole\FastCgiServer\Command as FastCgiServerCommand;
 use CloverSwoole\Swoole\SwooleHttp\Command as SwooleHttpCommand;
 use CloverSwoole\Swoole\SwooleSocket\Command as SwooleScoketCommand;
-use CloverSwoole\Swoole\FastCgiServer\Command as FastCgiServerCommand;
 use CloverSwoole\Utility\Command;
 
 /**
@@ -20,7 +22,7 @@ class CloverSwoole
         /**
          * 运行命令
          */
-        SwooleHttpCommand::getInterface() -> run(Command::commandParser());
+        SwooleHttpCommand::getInterface()->run(Command::commandParser());
     }
 
     /**
@@ -31,7 +33,7 @@ class CloverSwoole
         /**
          * 运行命令
          */
-        SwooleScoketCommand::getInterface() -> run(Command::commandParser());
+        SwooleScoketCommand::getInterface()->run(Command::commandParser());
     }
 
     /**
@@ -42,6 +44,6 @@ class CloverSwoole
         /**
          * 运行命令
          */
-        FastCgiServerCommand::getInterface() -> run();
+        FastCgiServerCommand::getInterface()->run();
     }
 }

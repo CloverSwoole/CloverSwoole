@@ -1,33 +1,33 @@
 <?php
-namespace CloverSwoole\CloverSwoole\Facade\FastCgiServer;
+
+namespace CloverSwoole\FastCgiServer;
 
 /**
  * FastCgiServer 响应实例类
  * Class Response
  * @package CloverSwoole\CloverSwoole\Facade\SwooleHttp
  */
-class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
+class Response extends \CloverSwoole\Http\Response
 {
     /**
      * @var null|mixed
      */
     protected $response = null;
+
     /**
      * 启动组件
-     * @param $response
-     * @return $this
+     * Response constructor.
      */
-    public function boot($response)
+    public function __construct()
     {
-        $this -> response = $response;
         /**
          * 默认Server 名称
          */
-        $this -> withHeader('Server','CloverSwoole');
+        $this->withHeader('Server', 'CloverSwoole');
         /**
          * 默认页面内容类型及编码
          */
-        $this -> withHeader('Content-Type','text/html;charset=utf-8');
+        $this->withHeader('Content-Type', 'text/html;charset=utf-8');
         return $this;
     }
 
@@ -39,6 +39,7 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
     {
         exit();
     }
+
     /**
      * 发送状态码
      * @param $code
@@ -46,8 +47,9 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
      */
     public function sendStatusCode($code)
     {
-        return $this -> send_http_status($code);
+        return $this->send_http_status($code);
     }
+
     /**
      * 发送内容到客户端
      * @param $content
@@ -57,6 +59,7 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
     {
         echo $content;
     }
+
     /**
      * 设置Cookie
      * @param string $key
@@ -68,7 +71,7 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
      * @param bool $httponly
      * @return mixed|void
      */
-    public function sendCookie(string $key, string $value = '', int $expire = 0 , string $path = '/', string $domain  = '', bool $secure = false , bool $httponly = false)
+    public function sendCookie(string $key, string $value = '', int $expire = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = false)
     {
         return setcookie(...func_get_args());
     }
@@ -79,7 +82,7 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
      * @param $value
      * @return mixed
      */
-    public function sendHeader(string $key,$value)
+    public function sendHeader(string $key, $value)
     {
         return header(...func_get_args());
     }
@@ -90,13 +93,14 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
      * @param int $http_code
      * @return mixed|void
      */
-    public function sendRedirect(string $url,int $http_code = 302)
+    public function sendRedirect(string $url, int $http_code = 302)
     {
         /**
          * Swoole 重定向
          */
-        header('Location: '.$url);
+        header('Location: ' . $url);
     }
+
     /**
      * 发送文件
      * @param $filename
@@ -104,25 +108,26 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
      * @param int $length
      * @return mixed|void
      */
-    public function sendFile($filename,$offset = 0,$length = 0)
+    public function sendFile($filename, $offset = 0, $length = 0)
     {
         /**
          * 响应句柄内部处理
          */
-        if($offset == 0 && $length == 0){
+        if ($offset == 0 && $length == 0) {
             parent::endResponse();
         }
         /**
          * 发送文件到客户端
          */
-        $this -> withContent(file_get_contents($filename));
+        $this->withContent(file_get_contents($filename));
     }
 
     /**
      * 对http协议的状态设定，跳转页面中需要经常使用的函数
      * @param $code
      */
-    protected function send_http_status($code) {
+    protected function send_http_status($code)
+    {
 
         static $_status = array(
 
@@ -224,8 +229,8 @@ class Response extends \CloverSwoole\CloverSwoole\Facade\Http\Response
         /**
          * 判断要发送的状态 是否合法
          */
-        if(array_key_exists($code,$_status)) {
-            header('HTTP/1.1 '.$code.' '.$_status[$code]);
+        if (array_key_exists($code, $_status)) {
+            header('HTTP/1.1 ' . $code . ' ' . $_status[$code]);
         }
     }
 }

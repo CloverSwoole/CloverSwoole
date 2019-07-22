@@ -1,13 +1,20 @@
 {
-  "name":"clover-swoole/clover-swoole",
-  "description":"一个非常简易的PHP框架",
-  "keywords": ["framework","Swoole","PHP","itxiao6"],
+  "name": "clover-swoole/clover-swoole",
+  "description": "一个非常简易的PHP框架",
+  "keywords": [
+    "framework",
+    "Swoole",
+    "PHP",
+    "itxiao6"
+  ],
   "license": "MIT",
   "require": {
     "php": ">=7.1.0",
     "illuminate/database": "^5.8",
     "symfony/var-dumper": "^4.2",
-    "jeremeamia/superclosure": "^2.4"
+    "jeremeamia/superclosure": "^2.4",
+    "illuminate/view": "~5",
+    "illuminate/events": "~5"
   },
   "authors": [
     {
@@ -17,7 +24,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "CloverSwoole\\":"src/"
+      "CloverSwoole\\": "src/"
     }
   },
   "minimum-stability": "dev",

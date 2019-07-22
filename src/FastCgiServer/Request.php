@@ -1,5 +1,7 @@
 <?php
+
 namespace CloverSwoole\FastCgiServer;
+
 use CloverSwoole\Utility\FindVar;
 use CloverSwoole\Utility\Xml;
 
@@ -20,14 +22,12 @@ class Request extends \CloverSwoole\Http\Request
      * @var array|null
      */
     protected $post = null;
-    /**
-     * 创建一个请求实例
-     * @param $request
-     */
-    public function boot($request)
+
+    public function __construct()
     {
 
     }
+
     /**
      * 获取请求所有的头部信息
      * @return array|mixed
@@ -36,6 +36,7 @@ class Request extends \CloverSwoole\Http\Request
     {
         return $_SERVER;
     }
+
     /**
      * 获取指定的请求头部信息
      * @param $name
@@ -43,8 +44,9 @@ class Request extends \CloverSwoole\Http\Request
      */
     public function getHeader($name = null)
     {
-        return FindVar::findVarByExpression($name,$_SERVER);
+        return FindVar::findVarByExpression($name, $_SERVER);
     }
+
     /**
      * 获取请求所有的Cookie
      * @return array|mixed|null
@@ -53,6 +55,7 @@ class Request extends \CloverSwoole\Http\Request
     {
         return $_COOKIE;
     }
+
     /**
      * 获取指定的cookie
      * @param $name
@@ -60,35 +63,39 @@ class Request extends \CloverSwoole\Http\Request
      */
     public function getCookie($name = null)
     {
-        return FindVar::findVarByExpression($name,$_COOKIE);
+        return FindVar::findVarByExpression($name, $_COOKIE);
     }
+
     /**
      * 获取请求方法
      * @return mixed|string
      */
     public function getRequestMethod()
     {
-        return $this -> getServer('REQUEST_METHOD');
+        return $this->getServer('REQUEST_METHOD');
     }
+
     /**
      * 获取请求的路径
      * @return mixed
      */
     public function getUri()
     {
-        return $this -> getServer('REQUEST_URI');
+        return $this->getServer('REQUEST_URI');
     }
+
     /**
      * 获取查询参数
      * @return array|mixed|null
      */
     public function getQuerys()
     {
-        if($this -> query === null || (!is_array($this -> query))){
-            parse_str($this -> getServer('QUERY_STRING'),$this -> query);
+        if ($this->query === null || (!is_array($this->query))) {
+            parse_str($this->getServer('QUERY_STRING'), $this->query);
         }
-        return $this -> query;
+        return $this->query;
     }
+
     /**
      * 获取指定的查询参数
      * @param string $name
@@ -96,11 +103,12 @@ class Request extends \CloverSwoole\Http\Request
      */
     public function getQuery($name = null)
     {
-        if($this -> query === null || (!is_array($this -> query))){
-            parse_str($this -> getServer('QUERY_STRING'),$this -> query);
+        if ($this->query === null || (!is_array($this->query))) {
+            parse_str($this->getServer('QUERY_STRING'), $this->query);
         }
-        return FindVar::findVarByExpression($name,$this -> getQuerys());
+        return FindVar::findVarByExpression($name, $this->getQuerys());
     }
+
     /**
      * 获取服务信息
      * @return array|mixed|void
@@ -109,6 +117,7 @@ class Request extends \CloverSwoole\Http\Request
     {
         return $_SERVER;
     }
+
     /**
      * 获取指定服务信息
      * @param null $name
@@ -116,8 +125,9 @@ class Request extends \CloverSwoole\Http\Request
      */
     public function getServer($name = null)
     {
-        return FindVar::findVarByExpression($name,$this -> getServers());
+        return FindVar::findVarByExpression($name, $this->getServers());
     }
+
     /**
      * 获取所有的 GET 参数
      * @return mixed
@@ -126,6 +136,7 @@ class Request extends \CloverSwoole\Http\Request
     {
         return $_GET;
     }
+
     /**
      * 获取指定的 GET 参数
      * @param null $name
@@ -133,7 +144,7 @@ class Request extends \CloverSwoole\Http\Request
      */
     public function getGetParam($name = null)
     {
-        return FindVar::findVarByExpression($name,$this -> getGetParams());
+        return FindVar::findVarByExpression($name, $this->getGetParams());
     }
 
     /**
@@ -143,7 +154,7 @@ class Request extends \CloverSwoole\Http\Request
      */
     public function getPostParam($name = null)
     {
-        return FindVar::findVarByExpression($name,$this -> getPostParams());
+        return FindVar::findVarByExpression($name, $this->getPostParams());
     }
 
     /**
@@ -152,10 +163,10 @@ class Request extends \CloverSwoole\Http\Request
      */
     public function getPostParams()
     {
-        if($this -> post === null || (!is_array($this -> post))){
-            $this -> post = array_merge(is_array($_POST)?$_POST:[],$this -> getRawPostData());
+        if ($this->post === null || (!is_array($this->post))) {
+            $this->post = array_merge(is_array($_POST) ? $_POST : [], $this->getRawPostData());
         }
-        return $this -> post;
+        return $this->post;
     }
 
     /**
@@ -164,17 +175,17 @@ class Request extends \CloverSwoole\Http\Request
      */
     protected function getRawPostData()
     {
-        switch($this -> getContentType()){
+        switch ($this->getContentType()) {
             case 'application/json':
-                $returnData = json_decode(file_get_contents("php://input"),1);
+                $returnData = json_decode(file_get_contents("php://input"), 1);
                 break;
             case 'application/xml':
                 $returnData = Xml::arrayToXml(file_get_contents("php://input"));
                 break;
-                // TODO 更多格式的兼容及拓展
+            // TODO 更多格式的兼容及拓展
             default:
                 $returnData = [];
         }
-        return is_array($returnData)?$returnData:[];
+        return is_array($returnData) ? $returnData : [];
     }
 }
