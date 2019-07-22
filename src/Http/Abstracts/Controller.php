@@ -6,6 +6,7 @@ use CloverSwoole\Exception\ExceptionHandler;
 use CloverSwoole\Http\Request;
 use CloverSwoole\Http\Response;
 use CloverSwoole\Session\SessionManager;
+use CloverSwoole\View\ViewManager;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -34,6 +35,16 @@ abstract class Controller
      * @var array
      */
     private $session_interface = [];
+    /**
+     * 视图实例
+     * @var null | ViewManager
+     */
+    private $view_manager = null;
+    /**
+     * 视图数据
+     * @var array
+     */
+    private $view_data = [];
 
     /**
      * 初始化
@@ -112,7 +123,7 @@ abstract class Controller
      * @param $actionName
      * @throws \Throwable
      */
-    public function __hook($actionName)
+    protected function __hook($actionName)
     {
         /**
          * 记录操作名称
@@ -201,12 +212,54 @@ abstract class Controller
      * @return SessionManager
      * @throws \Exception
      */
-    public function session($session_id = null)
+    protected function session($session_id = null)
     {
         if (!($this->session_interface instanceof SessionManager)) {
             $this->session_interface = SessionManager::getInterface($session_id)->start();
         }
         return $this->session_interface;
+    }
+
+    /**
+     * 获取View 实例
+     * @return ViewManager|null
+     */
+    protected function view()
+    {
+        if (!($this->view_manager != null && $this->view_manager instanceof ViewManager)) {
+            $this->view_manager = (new ViewManager());
+        }
+        return $this->view_manager;
+    }
+
+    /**
+     * 渲染并且显示view
+     * @param string $name
+     * @param array $data
+     * @return Response|null
+     */
+    protected function display(string $name, $data = [])
+    {
+        /**
+         * 设置协议头
+         */
+        Response::getInterface()->withHeader('Content-Type', 'text/html;charset=utf-8');
+        /**
+         * 渲染并且显示模板
+         */
+        return Response::getInterface()->withContent($this->view()->reader($name, array_merge($this->view_data, $data)));
+    }
+
+    /**
+     * 放置变量到模板引擎
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     */
+    protected function assign(string $name,$value)
+    {
+        $this -> view_data[$name] = $value;
+        return $this;
     }
 
     /**

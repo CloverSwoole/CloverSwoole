@@ -20,10 +20,22 @@ class ExceptionHandler
         'taskExceptionHandler' => null,
         'controllerExceptionHandler' => null
     ];
+    /**
+     * 全局实例
+     * @var null | static
+     */
+    protected static $interface = null;
 
+    /**
+     * 获取实例
+     * @return ExceptionHandler|null
+     */
     public static function getInterface()
     {
-        return (new static());
+        if(self::$interface === null){
+            return (new static());
+        }
+        return self::$interface;
     }
 
     /**
@@ -33,6 +45,16 @@ class ExceptionHandler
     public function setRouteExceptionHandler(\Closure $callback)
     {
         $this->exception_handler['routeExceptionHandler'] = $callback;
+    }
+
+    /**
+     * 设置全局访问
+     * @return $this
+     */
+    public function setAsGlobal()
+    {
+        self::$interface = $this;
+        return $this;
     }
 
     /**
