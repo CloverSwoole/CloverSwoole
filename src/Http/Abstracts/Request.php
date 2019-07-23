@@ -33,6 +33,13 @@ interface Request
      * @return mixed
      */
     public function getUri();
+
+    /**
+     * 获取上传的文件
+     * @param string|null $name
+     * @return mixed
+     */
+    public function getFiles($name = null);
     /**
      * 获取所有的cookie
      * @return mixed

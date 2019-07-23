@@ -158,6 +158,17 @@ class Request extends \CloverSwoole\Http\Request
     }
 
     /**
+     * 获取上传的文件
+     * @param null $name
+     * @return mixed|null|array
+     */
+    public function getFiles($name = null)
+    {
+        if($name===null){return $_FILES;}
+        return FindVar::findVarByExpression($name,$_FILES);
+    }
+
+    /**
      * 获取所有的post 数据
      * @return array|mixed
      */

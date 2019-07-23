@@ -84,6 +84,18 @@ class Request extends \CloverSwoole\Http\Request
     {
         return $this -> request;
     }
+
+    /**
+     * 获取上传的文件
+     * @param null $name
+     * @return mixed|null|array
+     */
+    public function getFiles($name = null)
+    {
+        if($name===null){return $this -> request -> files;}
+        return FindVar::findVarByExpression($name,$this -> request -> files);
+    }
+
     /**
      * 获取请求的路径
      * @return mixed
