@@ -26,10 +26,37 @@ abstract class Controller
      */
     protected $allowMethods = [];
     /**
+     * 禁止访问的
+     * @var array
+     */
+    protected $prohibitMethods = [
+        '__hook',
+        '__actionNotFound',
+        '__container',
+        '__request',
+        '__response',
+        '__gc',
+        '__destruct',
+        '__clone',
+        '__construct',
+        '__call',
+        '__callStatic',
+        '__get',
+        '__set',
+        '__isset',
+        '__unset',
+        '__sleep',
+        '__wakeup',
+        '__toString',
+        '__invoke',
+        '__set_state',
+        '__clone',
+        '__debugInfo'
+    ];
+    /**
      * @var array|null
      */
     protected $defaultProperties = null;
-
     /**
      * session 实例
      * @var array
@@ -56,49 +83,86 @@ abstract class Controller
     public function __construct($actionName)
     {
         /**
-         * 支持在子类控制器中以private，protected来修饰某个方法不可见
+         * 定义公开的方法
          */
-        $list = [];
+        $publicMethods = [];
+        /**
+         * 映射当前控制器
+         */
         $ref = new ReflectionClass(static::class);
-        $public = $ref->getMethods(ReflectionMethod::IS_PUBLIC);
-        foreach ($public as $item) {
-            array_push($list, $item->getName());
+        /**
+         * 获取公开的方法
+         */
+        $publicList = $ref->getMethods(ReflectionMethod::IS_PUBLIC);
+        /**
+         * 循环置入
+         */
+        foreach ($publicList as $item) {
+            array_push($publicMethods, $item->getName());
         }
-        $this->allowMethods = array_diff($list,
-            [
-                '__hook',
-                '__actionNotFound',
-                '__container',
-                '__request',
-                '__response',
-                '__gc',
-                '__destruct',
-                '__clone', '__construct', '__call',
-                '__callStatic', '__get', '__set',
-                '__isset', '__unset', '__sleep',
-                '__wakeup', '__toString', '__invoke',
-                '__set_state', '__clone', '__debugInfo'
-            ]
-        );
         /**
-         * 开启缓存区
+         * 过滤掉禁止访问的方法
          */
-        ob_start();
+        $this->allowMethods = array_diff($publicMethods, $this->prohibitMethods);
         /**
-         * 获取，生成属性默认值
+         * 获取属性
          */
-        $ref = new ReflectionClass(static::class);
         $properties = $ref->getProperties();
+        /**
+         * 循环处理默认属性
+         */
         foreach ($properties as $property) {
             /**
              * 不重置静态变量
              */
             if (($property->isPublic() || $property->isProtected()) && !$property->isStatic()) {
                 $name = $property->getName();
+                /**
+                 * 记录默认值
+                 */
                 $this->defaultProperties[$name] = $this->{$name};
             }
         }
-        $this->__hook($actionName);
+        /**
+         * 开启缓存区
+         */
+        ob_start();
+        /**
+         * 判断访问的方法是否合法
+         */
+        if (in_array($actionName, $this->allowMethods)) {
+            /**
+             * 处理前置操作
+             */
+            if (method_exists($this, 'actionBefore')) {
+                /**
+                 * 执行前置操作
+                 */
+                $this->actionBefore($actionName, function () use ($actionName) {
+                    /**
+                     * 执行操作
+                     */
+                    $this->{$actionName}(Request::getInterface());
+                });
+            } else {
+                /**
+                 * 执行操作
+                 */
+                $this->{$actionName}(Request::getInterface());
+            }
+        } else {
+            $this->__actionNotFound($actionName);
+        }
+    }
+
+    /**
+     * 前置操作拦截
+     * @param $actionName
+     * @param $next
+     */
+    protected function actionBefore($actionName, $next)
+    {
+        $next();
     }
 
     /**
@@ -119,46 +183,13 @@ abstract class Controller
     }
 
     /**
-     * 系统钩子
-     * @param $actionName
-     * @throws \Throwable
-     */
-    protected function __hook($actionName)
-    {
-        /**
-         * 记录操作名称
-         */
-        $this->actionName = $actionName;
-        try {
-            /**
-             * 判断操作是否被禁止访问
-             */
-            if (in_array($this->actionName, $this->allowMethods)) {
-                /**
-                 * 调用操作
-                 */
-                $this->{$actionName}();
-            } else {
-                /**
-                 * 404
-                 */
-                $this->__actionNotFound($actionName);
-            }
-        } catch (\Throwable $throwable) {
-            /**
-             * 异常处理
-             */
-            $this->__onException($throwable);
-        }
-    }
-
-    /**
      * 找不到指定的操作
+     * @param $actionName
      * @throws \Exception
      */
-    protected function __actionNotFound()
+    protected function __actionNotFound($actionName)
     {
-        throw new \Exception('找不到操作:' . $this->actionName);
+        throw new \Exception('找不到操作:' . $actionName);
     }
 
     /**
@@ -256,9 +287,9 @@ abstract class Controller
      * @param mixed $value
      * @return $this
      */
-    protected function assign(string $name,$value)
+    protected function assign(string $name, $value)
     {
-        $this -> view_data[$name] = $value;
+        $this->view_data[$name] = $value;
         return $this;
     }
 
