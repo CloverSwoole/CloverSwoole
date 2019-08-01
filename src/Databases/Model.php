@@ -27,10 +27,14 @@ class Model extends \Illuminate\Database\Eloquent\Model
      * @param string $method
      * @param array $parameters
      * @return mixed
+     * @throws \Throwable
      */
     public static function __callStatic($method, $parameters)
     {
-        DbConfig::getInterface() -> checkDatabsesConnection();
-        return parent::__callStatic($method, $parameters);
+        try{
+            return parent::__callStatic($method, $parameters);
+        }catch (\Throwable $throwable){
+            DbConfig::reconnection($throwable);
+        }
     }
 }

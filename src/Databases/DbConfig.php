@@ -2,6 +2,7 @@
 namespace CloverSwoole\Databases;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
+use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Fluent;
 
 /**
@@ -41,7 +42,7 @@ class DbConfig
     /**
      * 检查数据库链接
      */
-    public function checkDatabsesConnection()
+    public static function checkDatabsesConnection()
     {
         /**
          * 判断数据库是否已经连接
@@ -63,6 +64,29 @@ class DbConfig
              * 修改状态
              */
             self::$connection_status = true;
+        }else{
+            try{
+                @Manager::connection() -> getPdo()->getAttribute(\PDO::ATTR_SERVER_INFO);
+            }catch (\PDOException $throwable){
+                self::reconnection($throwable);
+            }
+            catch (\Throwable $throwable){
+                self::reconnection($throwable);
+            }
+        }
+    }
+
+    /**
+     * @param \Throwable $throwable
+     * @throws \Throwable
+     */
+    public static function reconnection(\Throwable $throwable)
+    {
+        if(in_array($throwable -> getCode(),['2002','HY000'])){
+            self::$connection_status = false;
+            self::checkDatabsesConnection();
+        }else{
+            throw $throwable;
         }
     }
     /**
